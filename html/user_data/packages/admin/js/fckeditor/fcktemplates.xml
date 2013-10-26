@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * FCKeditor - The text editor for Internet - http://www.fckeditor.net
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under the terms of any of the following licenses at your
+ * choice:
+ *
+ *  - GNU General Public License Version 2 or later (the "GPL")
+ *    http://www.gnu.org/licenses/gpl.html
+ *
+ *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+ *    http://www.gnu.org/licenses/lgpl.html
+ *
+ *  - Mozilla Public License Version 1.1 or later (the "MPL")
+ *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *
+ * == END LICENSE ==
+ *
+ * This is the sample templates definitions file. It makes the "templates"
+ * command completely customizable.
+ *
+ * See FCKConfig.TemplatesXmlPath in the configuration file.
+-->
+<Templates imagesBasePath="fck_template/images/">
+	<Template title="&#12452;&#12513;&#12540;&#12472;&#12392;&#12479;&#12452;&#12488;&#12523;&#65288;&#20889;&#30495;&#24038;&#65289;" image="template1.gif">
+		<Description>&#12452;&#12513;&#12540;&#12472;&#12399;&#24038;&#12391;&#12289;&#12479;&#12452;&#12488;&#12523;&#12392;&#12486;&#12461;&#12473;&#12488;&#12364;&#12452;&#12513;&#12540;&#12472;&#12434;&#22238;&#12426;&#36796;&#12415;&#12414;&#12377;&#12290;</Description>
+		<Html>
+			<![CDATA[
+				<img style="margin-right: 10px; margin-bottom: 10px; float: left" width="240" height="180" alt=""/>
+				<h3>&#12371;&#12371;&#12395;&#12399;&#12479;&#12452;&#12488;&#12523;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;</h3>
+				&#12371;&#12371;&#12395;&#12399;&#12486;&#12461;&#12473;&#12488;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;
+			]]>
+		</Html>
+	</Template>
+	<Template title="&#12452;&#12513;&#12540;&#12472;&#12392;&#12479;&#12452;&#12488;&#12523;&#65288;&#20889;&#30495;&#21491;&#65289;" image="template4.gif">
+		<Description>&#12452;&#12513;&#12540;&#12472;&#12399;&#21491;&#12391;&#12289;&#12479;&#12452;&#12488;&#12523;&#12392;&#12486;&#12461;&#12473;&#12488;&#12364;&#12452;&#12513;&#12540;&#12472;&#12434;&#22238;&#12426;&#36796;&#12415;&#12414;&#12377;&#12290;</Description>
+		<Html>
+			<![CDATA[
+<img style="margin-left: 10px; margin-bottom: 10px; float: right" width="240" height="180" alt=""/>
+				<h3>&#12371;&#12371;&#12395;&#12399;&#12479;&#12452;&#12488;&#12523;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;</h3>
+				&#12371;&#12371;&#12395;&#12399;&#12486;&#12461;&#12473;&#12488;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;
+			]]>
+		</Html>
+	</Template>
+	<Template title="2&#12459;&#12521;&#12512;" image="template2.gif">
+		<Description>2&#12459;&#12521;&#12512;&#12398;&#12479;&#12452;&#12488;&#12523;&#12392;&#12486;&#12461;&#12473;&#12488;&#12434;&#21547;&#12417;&#12383;&#12486;&#12531;&#12503;&#12524;&#12540;&#12488;&#12391;&#12377;&#12290;</Description>
+		<Html>
+			<![CDATA[
+				<table cellspacing="0" cellpadding="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td style="width: 50%;">
+							<h3>&#12479;&#12452;&#12488;&#12523;&#24038;</h3>
+							</td>
+							<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+							<td style="width: 50%;">
+							<h3>&#12479;&#12452;&#12488;&#12523;&#21491;</h3>
+							</td>
+						</tr>
+						<tr>
+							<td>&#12486;&#12461;&#12473;&#12488;&#24038;</td>
+							<td>&nbsp;</td>
+							<td>&#12486;&#12461;&#12473;&#12488;&#21491;</td>
+						</tr>
+					</tbody>
+				</table>
+				&#12373;&#12425;&#12395;&#25991;&#31456;&#12364;&#12354;&#12427;&#22580;&#21512;&#12289;&#12371;&#12371;&#12363;&#12425;&#35352;&#20837;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;
+			]]>
+		</Html>
+	</Template>
+	<Template title="&#12486;&#12461;&#12473;&#12488;&#12392;&#34920;" image="template3.gif">
+		<Description>&#12486;&#12461;&#12473;&#12488;&#20013;&#12395;&#34920;&#12434;&#21547;&#12416;&#12486;&#12531;&#12503;&#12524;&#12540;&#12488;&#12391;&#12377;&#12290;</Description>
+		<Html>
+			<![CDATA[
+				<table width="80%" border="0" cellspacing="0" cellpadding="0"><tr><td>
+					<h3>&#12479;&#12452;&#12488;&#12523;</h3>
+					<div>
+					<table style="FLOAT: right" cellspacing="0" cellpadding="0" width="150" border="1">
+						<tbody>
+							<tr>
+								<td align="center" colspan="3"><strong>&#34920;&#12398;&#12479;&#12452;&#12488;&#12523;</strong></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					&#12486;&#12461;&#12473;&#12488;</div>
+				</td></tr></table>
+			]]>
+		</Html>
+	</Template>
+</Templates>

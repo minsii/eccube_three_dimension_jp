@@ -1,0 +1,165 @@
+/* Generic context menu styles */
+.contextMenu {
+	position: absolute;
+	width: 120px;
+	z-index: 99999;
+	border: solid 1px #CCC;
+	background: #EEE;
+	padding: 0px;
+	margin: 0px;
+	display: none;
+}
+
+.contextMenu LI {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.contextMenu A {
+	color: #333;
+	text-decoration: none;
+	display: block;
+	line-height: 20px;
+	height: 20px;
+	background-position: 6px center;
+	background-repeat: no-repeat;
+	outline: none;
+	padding: 1px 5px;
+	padding-left: 28px;
+}
+
+.contextMenu LI.hover A {
+	color: #FFF;
+	background-color: #3399FF;
+}
+
+.contextMenu LI.disabled A {
+	color: #AAA;
+	cursor: default;
+}
+
+.contextMenu LI.hover.disabled A {
+	background-color: transparent;
+}
+
+.contextMenu LI.separator {
+	border-top: solid 1px #CCC;
+}
+
+/*
+	Adding Icons
+	
+	You can add icons to the context menu by adding
+	classes to the respective LI element(s)
+*/
+
+.contextMenu LI.edit A { background-image: url(images/page_white_edit.png); }
+.contextMenu LI.cut A { background-image: url(images/cut.png); }
+.contextMenu LI.copy A { background-image: url(images/page_white_copy.png); }
+.contextMenu LI.paste A { background-image: url(images/page_white_paste.png); }
+.contextMenu LI.delete A { background-image: url(images/page_white_delete.png); }
+.contextMenu LI.quit A { background-image: url(images/door.png); }
+
+
+/* Firefox style */
+
+.contextMenu_firefox {
+	position: absolute;
+	width: 140px;
+	z-index: 99999;
+	margin: 0px;
+	padding: 0px;
+	display: none;
+	background-color: #F4F5EB;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #666;
+	border-bottom: 1px solid #666;
+}
+
+.contextMenu_firefox LI {
+	list-style: none;
+	font-size: 14px;
+	padding: 2px 0px;
+	margin: 0px;
+}
+
+.contextMenu_firefox A {
+	text-decoration: none;
+	display: block;
+	color: #555;
+	padding: 4px 15px;
+	margin: 0 2px;
+}
+
+.contextMenu_firefox LI.hover A {
+	background-color: #006;
+	color: #fff;
+}
+
+.contextMenu_firefox LI.disabled A {
+	color: #bbb;
+	cursor: default;
+}
+
+.contextMenu_firefox LI.hover.disabled A {
+	background-color: #F4F5EB;
+	color: #bbb;
+}
+
+.contextMenu_firefox LI.separator {
+	border-top: 1px solid #CCC;
+}
+
+
+/* Google style */
+
+.contextMenu_google {
+	position: absolute;
+	width: 140px;
+	z-index: 99999;
+	margin: 0px;
+	padding: 0px;
+	display: none;
+	background-color: #fff;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #676767;
+	border-right: 1px solid #676767;
+}
+
+.contextMenu_google LI {
+	list-style: none;
+	padding: 2px 0px;
+	margin: 0px;
+	font-size: 14px;
+}
+
+.contextMenu_google A {
+	text-decoration: none;
+	display: block;
+	margin: 0 2px;
+	padding: 2px 5px;
+	color: #00c;
+	cursor: pointer;
+}
+
+.contextMenu_google LI.hover A {
+	color: #00c;
+	background-color: #D3E3FE;
+}
+
+.contextMenu_google LI.disabled A {
+	color: #bbb;
+	cursor: default;
+}
+
+.contextMenu_google LI.hover.disabled A {
+	background-color: #fff;
+	color: #bbb;
+}
+
+.contextMenu_google LI.separator {
+	border-top: 1px solid #CCC;
+}

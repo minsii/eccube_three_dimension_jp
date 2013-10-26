@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+@import url("./import.css");
+
+.btn_area {
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+}
