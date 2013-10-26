@@ -46,6 +46,7 @@
 <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/admin.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/css.js"></script>
 <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/file_manager.js"></script>
+<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/fckeditor/fckeditor.js"></script>
 <title><!--{$smarty.const.ADMIN_TITLE}--></title>
 <link rel="shortcut icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
 <link rel="icon" type="image/vnd.microsoft.icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />

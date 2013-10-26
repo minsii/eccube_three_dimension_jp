@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -27,6 +27,22 @@
 function fnTargetSelf(){
     document.form_edit.target = "_self";
 }
+
+function fckeditorCreate(){ 
+    var oFCKeditor = new FCKeditor() ;
+    oFCKeditor.BasePath    = '<!--{$TPL_URLPATH}-->js/fckeditor/' ;
+    oFCKeditor.Height='420';
+    oFCKeditor.InstanceName = 'tpl_data';
+    oFCKeditor.ToolbarSet = 'ECCUBEcat';
+    oFCKeditor.ReplaceTextarea() ;
+}
+<!--{* HTMLエディター表示制御 ADD BEGIN *}-->
+function fnDispEditor(){
+  fnTargetSelf();
+  fnFormModeSubmit('form_edit','reload','','');
+  return false;
+}
+<!--{* HTMLエディター表示制御 ADD END *}-->
 //-->
 </script>
 
@@ -67,7 +83,7 @@ function fnTargetSelf(){
                     <!--{$smarty.const.HTTP_URL|h}--><!--{$arrForm[$key].value|h}-->.php
                     <input type="hidden" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" />
                 <!--{else}-->
-                    <!--{$smarty.const.USER_URL|h}--><input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length|h}-->" style="ime-mode: disabled;<!--{$arrErr[$key]|sfGetErrorColor}-->" size="40" class="box40" />.php<span class="attention"> (上限<!--{$arrForm[$key].length|h}-->文字)</span>
+                    <!--{$smarty.const.USER_URL|h}--><input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length|h}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" ime-mode: disabled;" size="40" class="box40" />.php<span class="attention"> (上限<!--{$arrForm[$key].length|h}-->文字)</span>
                 <!--{/if}-->
                 <!--{if $arrErr[$key] != ""}-->
                     <div class="attention">
@@ -80,13 +96,22 @@ function fnTargetSelf(){
             <td colspan="2">
                 <label for="header-chk"><input type="checkbox" name="header_chk" id="header-chk" value="1" <!--{if $arrForm.header_chk.value == "1"}-->checked="checked"<!--{/if}--> />共通のヘッダーを使用する</label>&nbsp;
                 <label for="footer-chk"><input type="checkbox" name="footer_chk" id="footer-chk" value="1" <!--{if $arrForm.footer_chk.value == "1"}-->checked="checked"<!--{/if}--> />共通のフッターを使用する</label>
+                <!--{* HTMLエディター表示制御 ADD BEGIN *}-->
+                <label for="html_editor_chk"><input type="checkbox" name="html_editor_chk" id="html_editor_chk" value="1" onclick="fnDispEditor();" <!--{if $smarty.request.html_editor_chk}-->checked<!--{/if}-->/>HTMLエディターを使用する</label>
+                <!--{* HTMLエディター表示制御 ADD END *}-->
                 <div>
-                    <textarea id="tpl_data" class="top" name="tpl_data" rows=<!--{$text_row}--> style="width: 98%;"><!--{"\n"}--><!--{$arrForm.tpl_data.value|h|smarty:nodefaults}--></textarea>
+                    <textarea id="tpl_data" class="top" name="tpl_data" rows=<!--{$text_row}--> style="width: 98%;"><!--{$arrForm.tpl_data.value|h|smarty:nodefaults}--></textarea>
                     <input type="hidden" name="html_area_row" value="<!--{$text_row}-->" /><br />
                     <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="ChangeSize('#resize-btn', '#tpl_data', 50, 13); return false;"><span>拡大</span></a>
                 </div>
             </td>
         </tr>
+<!--{* HTMLエディター表示制御 MDF BEGIN *}-->
+        <!--{if $smarty.request.html_editor_chk == 1}-->
+        <script>fckeditorCreate();</script>
+        <!--{/if}-->
+<!--{* HTMLエディター表示制御 MDF END *}-->
+
     </table>
 
     <div class="btn-area">

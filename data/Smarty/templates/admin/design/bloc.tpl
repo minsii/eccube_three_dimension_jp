@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,6 +21,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
+
+<!--{* HTMLエディター表示制御 ADD BEGIN *}-->
+<script type="text/javascript">
+<!--
+function fckeditorCreate(){ 
+    var oFCKeditor = new FCKeditor() ;
+    oFCKeditor.BasePath    = '<!--{$TPL_URLPATH}-->js/fckeditor/' ;
+    oFCKeditor.Height='420';
+    oFCKeditor.InstanceName = 'bloc_html';
+    oFCKeditor.ToolbarSet = 'ECCUBEcat';
+    oFCKeditor.ReplaceTextarea() ;
+}
+
+function fnDispEditor(){
+  var frm = document.form_bloc;
+  frm.mode.value="reload";
+  frm.submit();
+}
+//-->
+</script>
+<!--{* HTMLエディター表示制御 ADD END *}-->
 
 <form name="form_bloc" id="form_bloc" method="post" action="?" >
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
@@ -57,8 +78,12 @@
             </tr>
             <tr>
                 <td colspan="2">
+                    <!--{* HTMLエディター表示制御 ADD BEGIN *}-->
+                    <label for="html_editor_chk"><input type="checkbox" name="html_editor_chk" id="html_editor_chk" value="1" onclick="fnDispEditor();" <!--{if $smarty.request.html_editor_chk}-->checked<!--{/if}-->/>HTMLエディターを使用する</label>
+                    <!--{* HTMLエディター表示制御 ADD END *}-->
+
                     <!--{assign var=key value="bloc_html"}-->
-                    <textarea class="top" id="<!--{$key}-->" name="<!--{$key}-->" rows="<!--{$text_row}-->" style="width: 99%;"><!--{"\n"}--><!--{$arrForm[$key].value|smarty:nodefaults|h}--></textarea>
+                    <textarea class="top" id="<!--{$key}-->" name="<!--{$key}-->" rows="<!--{$text_row}-->" style="width: 99%;"><!--{$arrForm[$key].value|smarty:nodefaults|h}--></textarea>
                     <input type="hidden" name="html_area_row" value="<!--{$text_row}-->" />
                     <div>
                         <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="ChangeSize('#resize-btn', '#bloc_html', 50, 13); return false;">拡大</a>
@@ -66,6 +91,11 @@
                 </td>
             </tr>
         </table>
+<!--{* HTMLエディター表示制御 MDF BEGIN *}-->
+        <!--{if $smarty.request.html_editor_chk == 1}-->
+        <script>fckeditorCreate();</script>
+        <!--{/if}-->
+<!--{* HTMLエディター表示制御 MDF END *}-->
         <div class="btn-area">
             <ul>
                 <li><a class="btn-action" href="javascript:;" name='subm' onclick="fnFormModeSubmit('form_bloc','confirm','',''); return false;"><span class="btn-next">登録する</span></a></li>
