@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -38,6 +38,22 @@
 
                     <div id="_<!--{$item.device_type_id}-->_<!--{$item.page_id}-->">
                         <table>
+                            <!--{*## SEO管理 ADD BEGIN ##*}-->
+                            <!--{if $smarty.const.USE_SEO === true}-->
+                            <tr>
+                                <th>ページタイトル</th>
+                                <td>
+                                <span class="attention"><!--{$arrErr[$item.device_type_id][$item.page_id].title}--></span>
+                                <input type="text" name="meta[<!--{$item.device_type_id}-->][<!--{$item.page_id}-->][title]" value="<!--{$item.title|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style='<!--{if $arrErr[$item.page_id].title != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->' /><span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span></td>
+                            </tr>
+                            <tr>
+                                <th>H1テキスト</th>
+                                <td>
+                                <span class="attention"><!--{$arrErr[$item.device_type_id][$item.page_id].keyword}--></span>
+                                <input type="text" name="meta[<!--{$item.device_type_id}-->][<!--{$item.page_id}-->][h1]" value="<!--{$item.h1|h}-->" maxlength="<!--{$smarty.const.SMTEXT_LEN}-->" size="60" class="box60" style='<!--{if $arrErr[$item.page_id].h1 != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->' /><span class="attention"> (上限<!--{$smarty.const.SMTEXT_LEN}-->文字)</span></td>
+                            </tr>
+                            <!--{/if}-->
+                            <!--{*## SEO管理 ADD END ##*}-->
                             <tr>
                                 <th>メタタグ:Author</th>
                                 <td>
