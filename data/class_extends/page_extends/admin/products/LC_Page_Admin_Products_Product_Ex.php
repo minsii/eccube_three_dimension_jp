@@ -45,6 +45,13 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
      */
     function init() {
         parent::init();
+        
+        /*## 配送ランク ADD BEGIN ##*/
+		$masterData = new SC_DB_MasterData();
+		if(USE_DELIV_RANK === true){
+			$this->arrDELIV_RANK= $masterData->getMasterData('mtb_deliv_rank');
+		}
+		/*## 配送ランク ADD END ##*/
     }
 
     /**
@@ -64,9 +71,8 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
     function destroy() {
         parent::destroy();
     }
-
-
-    /**
+    
+   /**
      * パラメーター情報の初期化
      *
      * @param object $objFormParam SC_FormParamインスタンス
@@ -129,7 +135,7 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
 
         $objFormParam->addParam('has_product_class', 'has_product_class', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('product_class_id', 'product_class_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-    	
+
         /*## SEO管理 ADD BEGIN ##*/
         if(constant("USE_SEO") === true){
         	$objFormParam->addParam('ページタイトル', 'title', STEXT_LEN, 'KVa', array("MAX_LENGTH_CHECK"));
@@ -139,6 +145,12 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         }
         /*## SEO管理 ADD END ##*/
         
+        /*## 配送ランク ADD BEGIN ##*/
+        if(USE_DELIV_RANK === true){
+        	$objFormParam->addParam('配送ランク', 'deliv_rank', INT_LEN, 'n', array("EXIST_CHECK", "NUM_CHECK", "MAX_LENGTH_CHECK"));
+        }
+        /*## 配送ランク ADD END ##*/
+ 
         $objFormParam->setParam($arrPost);
         $objFormParam->convParam();
     }
@@ -146,13 +158,13 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
 
     /**
      * DBに商品データを登録する
-     *
+     * 
      * @param object $objUpFile SC_UploadFileインスタンス
      * @param object $objDownFile SC_UploadFileインスタンス
      * @param array $arrList フォーム入力パラメーター配列
      * @return integer 登録商品ID
      */
-function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
+    function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
         $objQuery =& SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
 
@@ -184,10 +196,11 @@ function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
         $arrRet = $objUpFile->getDBFileList();
         $sqlval = array_merge($sqlval, $arrRet);
 
-        for ($cnt = 1; $cnt <= PRODUCTSUB_MAX; $cnt++) {
+        for($cnt = 1; $cnt <= PRODUCTSUB_MAX; $cnt++) {
             $sqlval['sub_title'.$cnt] = $arrList['sub_title'.$cnt];
             $sqlval['sub_comment'.$cnt] = $arrList['sub_comment'.$cnt];
         }
+
         /*## SEO管理 ADD BEGIN ##*/
         if(constant("USE_SEO") === true){
         	$sqlval['title'] = $arrList['title'];
@@ -197,6 +210,12 @@ function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
         }
         /*## SEO管理 ADD END ##*/
         
+        /*## 配送ランク ADD BEGIN ##*/
+        if(USE_DELIV_RANK === true){
+        	$sqlval['deliv_rank'] = $arrList['deliv_rank'];
+        }
+        /*## 配送ランク ADD END ##*/
+
         $objQuery->begin();
 
         // 新規登録(複製時を含む)
@@ -239,7 +258,7 @@ function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
 
                     // 規格データ登録
                     $objQuery =& SC_Query_Ex::getSingletonInstance();
-                    foreach ($arrProductsClass as $arrData) {
+                    foreach($arrProductsClass as $arrData) {
                         $sqlval = $arrData;
                         $sqlval['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
                         $sqlval['deliv_fee'] = $arrList['deliv_fee'];
@@ -303,9 +322,9 @@ function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
         return $product_id;
     }
     
-    /**
+     /**
      * フォーム入力パラメーターのエラーチェック
-     *
+     * 
      * @param object $objFormParam SC_FormParamインスタンス
      * @param object $objUpFile SC_UploadFileインスタンス
      * @param object $objDownFile SC_UploadFileインスタンス
@@ -321,13 +340,13 @@ function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
 
         // アップロードファイル必須チェック
         $arrErr = array_merge((array)$arrErr, (array)$objUpFile->checkExists());
-
+    	
         // HTMLタグ許可チェック
         $objErr->doFunc(array('詳細-メインコメント', 'main_comment', $this->arrAllowedTag), array('HTML_TAG_CHECK'));
         for ($cnt = 1; $cnt <= PRODUCTSUB_MAX; $cnt++) {
             $objErr->doFunc(array('詳細-サブコメント' . $cnt, 'sub_comment' . $cnt, $this->arrAllowedTag), array('HTML_TAG_CHECK'));
         }
-
+        
         // 規格情報がない商品の場合のチェック
         if ($arrForm['has_product_class'] != true) {
             // 在庫必須チェック(在庫無制限ではない場合)
@@ -341,7 +360,7 @@ function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList) {
                 $objErr->doFunc(array('ダウンロード商品ファイル名', 'down_filename'), array('EXIST_CHECK'));
             }
         }
-
+        
         $arrErr = array_merge((array)$arrErr, (array)$objErr->arrErr);
         return $arrErr;
     }

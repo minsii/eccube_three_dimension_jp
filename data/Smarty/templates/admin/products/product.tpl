@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <script type="text/javascript">
 // 表示非表示切り替え
 function lfDispSwitch(id){
@@ -139,6 +138,7 @@ function selectAll(target) {
                 <!--{html_radios name="product_type_id" options=$arrProductType selected=$arrForm.product_type_id separator='&nbsp;&nbsp;'}-->
             </td>
         </tr>
+<!--{if $smarty.const.USE_DOWNLOAD_PRODUCT === true}-->
         <tr>
             <th>ダウンロード商品ファイル名<span class="attention"> *</span></th>
             <td>
@@ -161,6 +161,7 @@ function selectAll(target) {
                     <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); fnModeSubmit('upload_down', 'down_key', '<!--{$key}-->'); return false;">アップロード</a><br />登録可能拡張子：<!--{$smarty.const.DOWNLOAD_EXTENSION}-->　(パラメーター DOWNLOAD_EXTENSION)
             </td>
         </tr>
+<!--{/if}-->
         <tr>
             <th>商品コード<span class="attention"> *</span></th>
             <td>
@@ -212,6 +213,20 @@ function selectAll(target) {
                 <span class="attention"> (半角数字で入力)</span>
             </td>
         </tr>
+        <!--{*# 配送ランク ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_DELIV_RANK === true}-->
+        <tr>
+            <th>配送ランク<span class="attention"> *</span></th>
+            <td>
+                <span class="attention"><!--{$arrErr.deliv_rank}--></span>
+                <select name="deliv_rank" style="<!--{$arrErr.deliv_rank|sfGetErrorColor}-->">
+                    <option value="">選択してください</option>
+                    <!--{html_options options=$arrDELIV_RANK selected=$arrForm.deliv_rank}-->
+                </select>
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*# 配送ランク ADD END #*}-->
         <tr>
             <th>発送日目安</th>
             <td>
@@ -256,6 +271,38 @@ function selectAll(target) {
                 <span class="attention"> (上限<!--{$smarty.const.LLTEXT_LEN}-->文字)</span>
             </td>
         </tr>
+        <!--{*## SEO管理 ADD BEGIN ##*}-->  
+        <!--{if $smarty.const.USE_SEO === true}-->
+        <tr>
+            <th>ページタイトル</th>
+            <td>
+                <span class="attention"><!--{$arrErr.title}--></span>
+                <input type="text" name="title" value="<!--{$arrForm.title|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.title|sfGetErrorColor}-->" /><span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>H1テキスト</th>
+            <td>
+                <span class="attention"><!--{$arrErr.h1}--></span>
+                <input type="text" name="h1" value="<!--{$arrForm.h1|h}-->" maxlength="<!--{$smarty.const.SMTEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.h1|sfGetErrorColor}-->" /><span class="attention"> (上限<!--{$smarty.const.SMTEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>メタタグ:Description</th>
+            <td>
+                <span class="attention"><!--{$arrErr.description}--></span>
+                <input type="text" name="description" value="<!--{$arrForm.description|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.description|sfGetErrorColor}-->" /><span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>メタタグ:Keywords</th>
+            <td>
+                <span class="attention"><!--{$arrErr.keyword}--></span>
+                <input type="text" name="keyword" value="<!--{$arrForm.keyword|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.keyword|sfGetErrorColor}-->" /><span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*## SEO管理 ADD END ##*}-->
         <tr>
             <th>備考欄(SHOP専用)</th>
             <td>
@@ -418,7 +465,7 @@ function selectAll(target) {
                 <a class="btn-normal" href="javascript:;" name="change" onclick="selectAll('category_id'); win03('./product_select.php?no=<!--{$smarty.section.cnt.iteration}-->', 'search', '615', '500'); return false;">変更</a>
                 <!--{assign var=key value="recommend_delete`$smarty.section.cnt.iteration`"}-->
                 <input type="checkbox" name="<!--{$key}-->" value="1" />削除<br />
-                <!--{assign var=key value="recommend_comment`$smarty.section.cnt.iteration`"}-->
+               <!--{assign var=key value="recommend_comment`$smarty.section.cnt.iteration`"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 商品コード:<!--{$arrRecommend[$recommend_no].product_code_min}--><br />
                 商品名:<!--{$arrRecommend[$recommend_no].name|h}--><br />

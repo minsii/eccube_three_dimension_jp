@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
+<script language="JavaScript">
+<!--
+<!--{*# 配送ランク ADD BEGIN #*}-->
+function selectChange() {
+	document.form1.action = './delivery_input.php';
+	document.form1['mode'].value = 'pre_edit';
+	document.form1.submit();
+}
+<!--{*# 配送ランク ADD END #*}-->
+//-->
+</script>
 <form name="form1" id="form1" method="post" action="">
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 <input type="hidden" name="mode" value="edit" />
@@ -50,7 +60,7 @@
             <td colspan="3">
             <!--{assign var=key value="remark"}-->
             <span class="attention"><!--{$arrErr[$key]}--></span>
-            <textarea name="<!--{$arrForm[$key].keyname}-->" cols="60" rows="8" class="area60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->"><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea></td>
+            <textarea name="<!--{$arrForm[$key].keyname}-->" cols="60" rows="8" class="area60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->"><!--{$arrForm[$key].value|h}--></textarea></td>
         </tr>
         <tr>
             <th>伝票No.URL</th>
@@ -68,7 +78,7 @@
             <!--{if $arrErr[$key] != "" || $arrErr[$key_next] != ""}-->
             <tr>
                 <td colspan="4"><span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr[$key_next]}--></span></td>
-            </tr>
+            </tr>        
             <!--{/if}-->
             <tr>
             <th>お届け時間<!--{$keyno}--></th>
@@ -111,8 +121,21 @@
 
     <!--{if $smarty.const.INPUT_DELIV_FEE}-->
     <h2>配送料登録</h2>
-    <div class="btn">※全国一律送料 <input type="text" name="fee_all" class="box10" /> 円に設定する　<a class="btn-normal" href="javascript:;" onclick="fnSetDelivFee(<!--{$smarty.const.DELIVFEE_MAX}-->); return false;"><span>反映</span></a></div>
+    <!--{*# 配送ランク MDF BEGIN #*}-->
     <table>
+        <tr>
+        <td colspan="2">
+          ※全国一律送料 <input type="text" name="fee_all" class="box10" /> 円に設定する　<a class="btn-normal" href="javascript:;" onclick="fnSetDelivFee(<!--{$smarty.const.DELIVFEE_MAX}-->); return false;"><span>反映</span></a>
+        </td>
+        <td colspan="2">
+          <!--{if $smarty.const.USE_DELIV_RANK === true}-->
+          ランク <select name="deliv_rank" id="deliv_rank" onChange="selectChange();">
+              <!--{html_options options=$arrDELIV_RANK selected=$arrForm.deliv_rank.value}-->
+            </select>
+          <!--{/if}-->
+        </td>
+        </tr>
+    <!--{*# 配送ランク MDF END #*}-->
         <!--{section name=cnt loop=$smarty.const.DELIVFEE_MAX}-->
         <!--{assign var=type value="`$smarty.section.cnt.index%2`"}-->
         <!--{assign var=keyno value="`$smarty.section.cnt.iteration`"}-->
@@ -123,12 +146,12 @@
             <!--{if $arrErr[$key] != "" || $arrErr[$key_next] != ""}-->
             <tr>
                 <td colspan="4"><span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr[$key_next]}--></span></td>
-            </tr>
+            </tr>        
             <!--{/if}-->
             <tr>
             <th><!--{$arrPref[$keyno]}--></th>
             <!--{if $smarty.section.cnt.last}-->
-            <!--{assign var=colspan value="3"}-->
+            <!--{assign var=colspan value="3"}-->    
             <!--{else}-->
             <!--{assign var=colspan value="1"}-->
             <!--{/if}-->

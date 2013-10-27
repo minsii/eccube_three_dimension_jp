@@ -86,5 +86,22 @@ ALTER TABLE dtb_order_temp ADD COLUMN order_company_department text;
 /*######## 顧客管理画面にお届け先一覧表示 ########*/
 INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_DELIV_LIST',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '顧客管理画面にお届け先一覧を表示するフラグ|true:表示');
 
+/*######################■配送ランク■######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_DELIV_RANK', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '配送ランクを使用するフラグ|false:使用しない');
+CREATE TABLE mtb_deliv_rank (
+  id serial,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_deliv_rank_pkey PRIMARY KEY (id)
+);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('配送ランクA', 0);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('配送ランクB', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('配送ランクC', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('配送ランクD', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('配送ランクE', 1);
 
+ALTER TABLE dtb_delivfee ADD COLUMN deliv_rank integer DEFAULT 1;
+ALTER TABLE dtb_delivfee DROP CONSTRAINT dtb_delivfee_pkey;
+ALTER TABLE dtb_delivfee ADD CONSTRAINT dtb_delivfee_pkey PRIMARY KEY (deliv_id,fee_id,deliv_rank);
 
+ALTER TABLE dtb_products ADD COLUMN deliv_rank integer DEFAULT 1;

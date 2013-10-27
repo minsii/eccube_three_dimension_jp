@@ -140,6 +140,69 @@ class SC_CartSession_Ex extends SC_CartSession {
             }
         }
     }
+ 
+    /*## 配送ランク ADD BEGIN ##*/
+    /**
+     * 都道府県から配送料金を取得する.
+     *
+     * @param integer|array $pref_id 都道府県ID 又は都道府県IDの配列
+     * @param integer $deliv_id 配送業者ID
+     * @return string 指定の都道府県, 配送業者の配送料金
+     */
+    function sfGetDelivFee($pref_id, $deliv_id = 0) {
+        if(USE_DELIV_RANK !== true){
+			return parent::sfGetDelivFee($pref_id, $deliv_id);
+		}
+		
+		$objQuery =& SC_Query_Ex::getSingletonInstance();
+		if (!is_array($pref_id)) {
+			$pref_id = array($pref_id);
+		}
+		$sql = <<< __EOS__
+			SELECT T1.fee AS fee
+			FROM dtb_delivfee T1
+			JOIN dtb_deliv T2
+			  ON T1.deliv_id = T2.deliv_id
+			JOIN dtb_products T3
+			  ON T1.deliv_rank = T3.deliv_rank
+			JOIN dtb_products_class T4
+			  ON T3.product_id = T4.product_id
+			WHERE T1.pref = ?
+			  AND T1.deliv_id = ?
+			  AND T4.product_class_id = ?
+			  AND T2.del_flg = 0
+__EOS__;
+		$result = 0;
+
+		if ($_SESSION['shipping'] && count($_SESSION['shipping']) > 1){
+			//複数配送
+			foreach ($_SESSION['shipping'] as $shipping){
+				$place_deliv_fee = 0;
+				foreach ($shipping['shipment_item'] as $product_class_id => $shipment_item) {
+					//該当商品の送料
+					$tmp = $objQuery->getOne($sql, array($shipping['shipping_pref'], $deliv_id, $product_class_id));
+					if ($tmp > $place_deliv_fee){
+						//該当配送先の送料を、商品の送料に設定
+						$place_deliv_fee = $tmp;
+					}
+				}
+				$result += $place_deliv_fee;
+			}
+		}else{
+			//複数配送でない
+			$objCartSession = new SC_CartSession_Ex();
+			$cartProductClassIDs = $objCartSession->getAllProductClassID(1);		//実商品
+			for ($i = 0; $i < count($cartProductClassIDs); $i++) {
+				$tmp = $objQuery->getOne($sql, array($pref_id[0], $deliv_id, $cartProductClassIDs[$i]));
+				if ($tmp > $result){
+					//該当配送先の送料を、商品の送料に設定
+					$result = $tmp;
+				}
+			}
+		}
+		return $result;
+    }
+    /*## 配送ランク ADD END ##*/
 }
 
 ?>

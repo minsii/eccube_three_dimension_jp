@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <form name="form1" id="form1" method="post" action="?" enctype="multipart/form-data">
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 <input type="hidden" name="mode" value="complete" />
@@ -89,6 +88,7 @@
                     <!--{$arrProductType[$arrForm.product_type_id]}-->
                 </td>
             </tr>
+<!--{if $smarty.const.USE_DOWNLOAD_PRODUCT === true}-->
             <tr>
                 <th>ダウンロード商品ファイル名</th>
                 <td>
@@ -103,6 +103,7 @@
                     <!--{/if}-->
                 </td>
             </tr>
+<!--{/if}-->
             <tr>
                 <th>商品コード</th>
                 <td>
@@ -145,6 +146,16 @@
                 <!--{if strlen($arrForm.point_rate) >= 1}--><!--{$arrForm.point_rate|h}--> ％<!--{/if}-->
             </td>
         </tr>
+        <!--{*# 配送ランク ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_DELIV_RANK === true}-->
+        <tr>
+            <th>配送ランク</th>
+            <td>
+                <!--{$arrDELIV_RANK[$arrForm.deliv_rank]|h}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*# 配送ランク ADD END #*}-->
         <tr>
             <th>発送日目安</th>
             <td>
@@ -175,6 +186,34 @@
                 <!--{$arrForm.comment3|h}-->
             </td>
         </tr>
+        <!--{*## SEO管理 ADD BEGIN ##*}-->
+        <!--{if $smarty.const.USE_SEO === true}-->
+        <tr>
+            <th>ページタイトル</th>
+            <td>
+                <!--{$arrForm.title|h}-->
+            </td>
+        </tr>
+        <tr>
+            <th>H1テキスト</th>
+            <td>
+                <!--{$arrForm.h1|h}-->
+            </td>
+        </tr>
+        <tr>
+            <th>メタタグ:Description</th>
+            <td>
+                <!--{$arrForm.description|h}-->
+            </td>
+        </tr>
+        <tr>
+            <th>メタタグ:Keywords</th>
+            <td>
+                <!--{$arrForm.keyword|h}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*## SEO管理 ADD END ##*}-->
         <tr>
             <th>備考欄(SHOP専用)</th>
             <td>
