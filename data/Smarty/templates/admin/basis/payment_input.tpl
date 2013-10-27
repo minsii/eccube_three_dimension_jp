@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <form name="form1" id="form1" method="post" action="./payment_input.php" enctype="multipart/form-data">
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 <input type="hidden" name="mode" value="edit" />
@@ -85,6 +84,18 @@
                     <a class="btn-normal" href="javascript:;" name="btn" onclick="fnModeSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
                 </td>
             </tr>
+            <!--{* 支払方法説明 ADD BEGIN *}-->
+            <!--{if $smarty.const.USE_PAYMENT_NOTE === true}-->
+            <tr>
+                <th>説明（タグ可）</th>
+                <td>
+                    <!--{assign var=key value="note"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <textarea type="text" name="<!--{$arrForm[$key].keyname}-->" cols="80" rows="20" class="area80"><!--{$arrForm[$key].value|h}--></textarea>
+                </td>
+            </tr>
+            <!--{/if}-->
+            <!--{* 支払方法説明 ADD END *}-->
         </table>
 
     <div class="btn-area">

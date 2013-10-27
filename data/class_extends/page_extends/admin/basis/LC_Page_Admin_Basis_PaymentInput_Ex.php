@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -31,7 +31,7 @@ require_once CLASS_REALDIR . 'pages/admin/basis/LC_Page_Admin_Basis_PaymentInput
  *
  * @package Page
  * @author LOCKON CO.,LTD.
- * @version $Id: LC_Page_Admin_Basis_PaymentInput_Ex.php 22796 2013-05-02 09:11:36Z h_yoshimoto $
+ * @version $Id: LC_Page_Admin_Basis_PaymentInput_Ex.php 21867 2012-05-30 07:37:01Z nakanishi $
  */
 class LC_Page_Admin_Basis_PaymentInput_Ex extends LC_Page_Admin_Basis_PaymentInput {
 
@@ -64,4 +64,15 @@ class LC_Page_Admin_Basis_PaymentInput_Ex extends LC_Page_Admin_Basis_PaymentInp
     function destroy() {
         parent::destroy();
     }
+    
+    /* パラメーター情報の初期化 */
+    function lfInitParam($mode, &$objFormParam) {
+
+        parent::lfInitParam($mode, $objFormParam);
+        
+        /*## 支払方法説明 ADD BEGIN ##*/
+        if(constant("USE_PAYMENT_NOTE") === true)
+        	$objFormParam->addParam("説明（タグ可）", "note", LLTEXT_LEN, "KVa", array("MAX_LENGTH_CHECK"));
+        /*## 支払方法説明 ADD END ##*/
+    }  
 }

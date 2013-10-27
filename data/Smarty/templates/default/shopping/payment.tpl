@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -49,7 +49,7 @@
                         var payment_tbody = $('#payment tbody');
                         payment_tbody.empty();
                         for (var i in data.arrPayment) {
-                            // ラジオボタン
+                            // ラジオボタン 
                             <!--{* IE7未満対応のため name と id をベタ書きする *}-->
                             var radio = $('<input type="radio" name="payment_id" id="pay_' + i + '" />')
                                 .val(data.arrPayment[i].payment_id);
@@ -63,6 +63,11 @@
                                     .addClass('alignC')
                                     .append(radio))
                                 .append($('<td />').append(label));
+                            
+                            // 支払方法の説明
+                            var note = data.arrPayment[i].note;
+                            if(!note) note = "";
+                            tr.append($('<td/>').html(note));
 
                             // 支払方法の画像が登録されている場合は表示
                             if (data.img_show) {
@@ -183,7 +188,7 @@
                         <tr>
                         <td class="alignC"><input type="radio" id="pay_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key}-->"  value="<!--{$arrPayment[cnt].payment_id}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{$arrPayment[cnt].payment_id|sfGetChecked:$arrForm[$key].value}--> /></td>
                         <td>
-                            <label for="pay_<!--{$smarty.section.cnt.iteration}-->"><!--{$arrPayment[cnt].payment_method|h}--><!--{if $arrPayment[cnt].note != ""}--><!--{/if}--></label>
+                            <label for="pay_<!--{$smarty.section.cnt.iteration}-->"><!--{$arrPayment[cnt].payment_method|h}--><br /><!--{if $arrPayment[cnt].note != ""}--><!--{$arrPayment[cnt].note}--><!--{/if}--></label>
                         </td>
                         <!--{if $img_show}-->
                             <td>
