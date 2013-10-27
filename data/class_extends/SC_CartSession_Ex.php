@@ -35,7 +35,11 @@ class SC_CartSession_Ex extends SC_CartSession {
         for($i = 0; $i <= $max; $i++) {
 
             if($this->cartSession[$productTypeId][$i]['id'] == $product_class_id &&
-            	$this->cartSession[$productTypeId][$max+1]['extra_info'] == $arrExtraInfo) {
+				/*## 追加規格 ADD BEGIN ##*/
+				(USE_EXTRA_CLASS !== true || 
+					$this->cartSession[$productTypeId][$i]['extra_info']['extra_classcategory_id'] == $arrExtraInfo['extra_classcategory_id'])
+				/*## 追加規格 ADD END ##*/
+				) {
                 $val = $this->cartSession[$productTypeId][$i]['quantity'] + $quantity;
                 if(strlen($val) <= INT_LEN) {
                     $this->cartSession[$productTypeId][$i]['quantity'] += $quantity;
@@ -49,7 +53,9 @@ class SC_CartSession_Ex extends SC_CartSession {
             $this->cartSession[$productTypeId][$max+1]['cart_no'] = $this->getNextCartID($productTypeId);
             
             /*## 追加規格 ADD BEGIN ##*/
-            $this->cartSession[$productTypeId][$max+1]['extra_info'] = $arrExtraInfo;
+            if(USE_EXTRA_CLASS === true){
+            	$this->cartSession[$productTypeId][$max+1]['extra_info'] = $arrExtraInfo;
+            }
             /*## 追加規格 ADD END ##*/
         }
     }	
@@ -65,6 +71,15 @@ class SC_CartSession_Ex extends SC_CartSession {
         $objProduct = new SC_Product_Ex();
         $max = $this->getMax($productTypeId);
         $arrRet = array();
+        
+        /*## 追加規格 ADD BEGIN ##*/
+		if(USE_EXTRA_CLASS === true){
+			$objDb = new SC_Helper_DB_Ex();
+    		$arrAllExtraClass = $objDb->lfGetAllExtraClass();
+    		$arrAllExtraClassCat = $objDb->lfGetAllExtraClassCategory();
+		}
+    	/*## 追加規格 ADD END ##*/
+		
         for ($i = 0; $i <= $max; $i++) {
             if (isset($this->cartSession[$productTypeId][$i]['cart_no'])
                 && $this->cartSession[$productTypeId][$i]['cart_no'] != '') {
@@ -85,13 +100,15 @@ class SC_CartSession_Ex extends SC_CartSession {
                 $total = $incTax * $quantity;
                 
                 /*## 追加規格 ADD BEGIN ##*/
-                $extra_classcategory = array();
-                foreach($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"] 
+                if(USE_EXTRA_CLASS === true){
+                	$extra_classcategory = array();
+                	foreach($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"]
                 	as $extcls_id=>$extclscat_id){
-                	$extra_classcategory["extra_class_name$extcls_id"] = $arrAllExtraClass[$extcls_id];
-                	$extra_classcategory["extra_classcategory_name$extcls_id"] = $arrAllExtraClassCat[$extcls_id][$extclscat_id];
+                		$extra_classcategory["extra_class_name$extcls_id"] = $arrAllExtraClass[$extcls_id];
+                		$extra_classcategory["extra_classcategory_name$extcls_id"] = $arrAllExtraClassCat[$extcls_id][$extclscat_id];
+                	}
+                	$this->cartSession[$productTypeId][$i]	["extra_info"]["extra_classcategory"] = $extra_classcategory;
                 }
-                $this->cartSession[$productTypeId][$i]	["extra_info"]["extra_classcategory"] = $extra_classcategory;
                 /*## 追加規格 ADD END ##*/
                 
                 $this->cartSession[$productTypeId][$i]['total_inctax'] = $total;
