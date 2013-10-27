@@ -52,6 +52,18 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
 			$this->arrDELIV_RANK= $masterData->getMasterData('mtb_deliv_rank');
 		}
 		/*## 配送ランク ADD END ##*/
+		
+		/*## 商品支払方法指定 ADD BEGIN ##*/
+		if(USE_PRODUCT_PAYMENT === true){
+			$this->arrPAYMENT = SC_Helper_DB_Ex::sfGetIDValueList("dtb_payment", "payment_id", "payment_method");
+		}
+		/*## 商品支払方法指定 ADD END ##*/
+		
+		/*## 商品配送方法指定 ADD BEGIN ##*/
+		if(USE_PRODUCT_DELIV === true){
+			$this->arrDELIV = SC_Helper_DB_Ex::sfGetIDValueList("dtb_deliv", "deliv_id", "name");
+		}
+		/*## 商品配送方法指定 ADD END ##*/
     }
 
     /**
@@ -151,6 +163,17 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         }
         /*## 配送ランク ADD END ##*/
  
+        /*## 商品支払方法指定 ADD BEGIN ##*/
+		if(USE_PRODUCT_PAYMENT === true){
+        	$objFormParam->addParam("支払方法", "payment_id", INT_LEN, 'n', array("NUM_CHECK", "MAX_LENGTH_CHECK"));
+		}
+		/*## 商品支払方法指定 ADD END ##*/
+		
+		/*## 商品配送方法指定 ADD BEGIN ##*/
+		if(USE_PRODUCT_DELIV === true){
+			$objFormParam->addParam("配送方法", "deliv_id", INT_LEN, 'n', array("NUM_CHECK", "MAX_LENGTH_CHECK"));
+		}
+		/*## 商品配送方法指定 ADD END ##*/
         $objFormParam->setParam($arrPost);
         $objFormParam->convParam();
     }
@@ -215,7 +238,7 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         	$sqlval['deliv_rank'] = $arrList['deliv_rank'];
         }
         /*## 配送ランク ADD END ##*/
-
+        
         $objQuery->begin();
 
         // 新規登録(複製時を含む)
@@ -318,9 +341,82 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         // 関連商品登録
         $this->lfInsertRecommendProducts($objQuery, $arrList, $product_id);
 
+        /*## 商品支払方法指定 ADD BEGIN ##*/
+        if(USE_PRODUCT_PAYMENT === true){
+        	$this->lfInsertPayment($objQuery, $arrList, $product_id);
+        }
+        /*## 商品支払方法指定 ADD END ##*/
+        
+        /*## 商品配送方法指定 ADD BEGIN ##*/
+        if(USE_PRODUCT_DELIV === true){
+        	$this->lfInsertDeliv($objQuery, $arrList, $product_id);
+        }
+        /*## 商品配送方法指定 ADD END ##*/
+        
         $objQuery->commit();
         return $product_id;
     }
+
+    /*## 商品配送方法指定 ADD BEGIN ##*/
+    function lfInsertDeliv($objQuery, $arrList, $product_id){
+    	$delivId = $arrList["deliv_id"];
+		$objQuery->delete("dtb_product_deliv", "product_id = ?", array($product_id));
+            
+		$sqlval = array();
+		$sqlval["product_id"] = $product_id;
+        foreach ($delivId as $did) {
+            if($did == '') continue;
+            $sqlval['deliv_id'] = $did;
+            
+            $objQuery->insert('dtb_product_deliv', $sqlval);
+        }	
+    }
+    /*## 商品配送方法指定 ADD BEGIN ##*/
+    
+	/*## 商品支払方法指定 ADD BEGIN ##*/
+    function lfInsertPayment($objQuery, $arrList, $product_id){
+    	$paymentId = $arrList["payment_id"];
+		$objQuery->delete("dtb_product_payment", "product_id = ?", array($product_id));
+            
+		$sqlval = array();
+		$sqlval["product_id"] = $product_id;
+        foreach ($paymentId as $pid) {
+            if($pid == '') continue;
+            $sqlval['payment_id'] = $pid;
+            
+            $objQuery->insert('dtb_product_payment', $sqlval);
+        }	
+    }
+    /*## 商品支払方法指定 ADD END ##*/
+    
+     /**
+     * DBから商品データを取得する
+     * 
+     * @param integer $product_id 商品ID
+     * @return array 商品データ配列
+     */
+    function lfGetProductData_FromDB($product_id) {
+    	$arrProduct = parent::lfGetProductData_FromDB($product_id);
+    	
+    	/*## 商品支払方法指定 ADD BEGIN ##*/
+        if(USE_PRODUCT_PAYMENT === true){
+        	$objProduct = new SC_Product_Ex();
+        	$arrPayment = $objProduct->getProductPayment(array($product_id));
+        	$arrProduct["payment_id"] = $arrPayment[$product_id];
+        }
+        /*## 商品支払方法指定 ADD END ##*/
+        
+    	/*## 商品配送方法指定 ADD BEGIN ##*/
+        if(USE_PRODUCT_DELIV === true){
+        	$objProduct = new SC_Product_Ex();
+        	$arrDeliv = $objProduct->getProductDeliv(array($product_id));
+        	$arrProduct["deliv_id"] = $arrDeliv[$product_id];
+        }
+        /*## 商品配送方法指定 ADD END ##*/
+        
+        return $arrProduct;
+    }
+    
     
      /**
      * フォーム入力パラメーターのエラーチェック

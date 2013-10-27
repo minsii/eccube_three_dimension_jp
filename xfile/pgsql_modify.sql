@@ -131,3 +131,21 @@ INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('PRODUCT_LIST_MAX', '4
 ALTER TABLE dtb_category ADD COLUMN category_info text;
 ALTER TABLE dtb_category ADD COLUMN category_main_image_alt text;
 ALTER TABLE dtb_category ADD COLUMN category_main_image text;
+
+/*######################■商品支払方法指定■######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_PAYMENT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), '商品の支払方法指定を使用するフラグ|false:使用しない');
+CREATE TABLE dtb_product_payment
+(
+  product_id integer NOT NULL,
+  payment_id integer NOT NULL,
+  CONSTRAINT dtb_product_payment_pkey PRIMARY KEY (product_id, payment_id)
+);
+
+/*######################■商品配送方法指定■######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_DELIV', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '商品の配送方法指定を使用するフラグ|false:使用しない');
+CREATE TABLE dtb_product_deliv
+(
+  product_id integer NOT NULL,
+  deliv_id integer NOT NULL,
+  CONSTRAINT dtb_product_deliv_pkey PRIMARY KEY (product_id, deliv_id)
+);

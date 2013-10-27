@@ -42,6 +42,18 @@
         <!--{* nop *}-->
     <!--{elseif $key == 'arrFile'}-->
         <!--{* nop *}-->
+    <!--{*# 商品支払方法指定 ADD BEGIN #*}-->
+    <!--{elseif $smarty.const.USE_PRODUCT_PAYMENT === true && $key == 'payment_id'}-->
+        <!--{foreach item=pid from=$item}-->
+            <input type="hidden" name="<!--{$key}-->[]" value="<!--{$pid|h}-->" />
+        <!--{/foreach}-->
+    <!--{*# 商品支払方法指定 ADD BEGIN #*}-->
+    <!--{*# 商品配送方法指定 ADD BEGIN #*}-->
+    <!--{elseif $smarty.const.USE_PRODUCT_DELIV === true && $key == 'deliv_id'}-->
+        <!--{foreach item=did from=$item}-->
+            <input type="hidden" name="<!--{$key}-->[]" value="<!--{$did|h}-->" />
+        <!--{/foreach}-->
+    <!--{*# 商品配送方法指定 ADD BEGIN #*}-->
     <!--{else}-->
         <input type="hidden" name="<!--{$key}-->" value="<!--{$item|h}-->" />
     <!--{/if}-->
@@ -80,7 +92,37 @@
                 <!--{/foreach}-->
             </td>
         </tr>
-
+        
+        <!--{*# 商品支払方法指定 ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_PRODUCT_PAYMENT === true}-->
+        <tr>
+            <th>支払方法</th>
+            <td>
+                <!--{foreach from=$arrForm.payment_id item=pid}-->
+                    <!--{if $pid != ""}-->
+                        <!--{$arrPAYMENT[$pid]|h}-->&nbsp;
+                    <!--{/if}-->
+                <!--{/foreach}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*# 商品支払方法指定 ADD END #*}-->
+        
+        <!--{*# 商品配送方法指定 ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_PRODUCT_DELIV === true}-->
+        <tr>
+            <th>配送方法</th>
+            <td>
+                <!--{foreach from=$arrForm.deliv_id item=did}-->
+                    <!--{if $did != ""}-->
+                        <!--{$arrDELIV[$did]|h}-->&nbsp;
+                    <!--{/if}-->
+                <!--{/foreach}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*# 商品配送方法指定 ADD END #*}-->
+        
         <!--{if $arrForm.has_product_class != true}-->
             <tr>
                 <th>商品種別</th>

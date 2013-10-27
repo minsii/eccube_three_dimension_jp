@@ -131,6 +131,26 @@ function selectAll(target) {
                 <!--{html_checkboxes name="product_status" options=$arrSTATUS selected=$arrForm.product_status separator='&nbsp;&nbsp;'}-->
             </td>
         </tr>
+        <!--{*# 商品支払方法指定 ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_PRODUCT_PAYMENT === true}-->
+        <tr>
+            <th>支払方法</th>
+            <td>
+                <!--{html_checkboxes name="payment_id" options=$arrPAYMENT selected=$arrForm.payment_id separator='&nbsp;&nbsp;'}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*# 商品支払方法指定 ADD END #*}-->
+        <!--{*# 商品配送方法指定 ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_PRODUCT_DELIV === true}-->
+        <tr>
+            <th>配送方法</th>
+            <td>
+                <!--{html_checkboxes name="deliv_id" options=$arrDELIV selected=$arrForm.deliv_id separator='&nbsp;&nbsp;'}-->
+            </td>
+        </tr>
+        <!--{/if}-->
+        <!--{*# 商品配送方法指定 ADD END #*}-->
         <!--{if $arrForm.has_product_class == false}-->
         <tr>
             <th>商品種別<span class="attention"> *</span></th>

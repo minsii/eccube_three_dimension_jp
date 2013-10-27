@@ -265,5 +265,125 @@ __EOS__;
         $objQuery->setOrder('T2.order_detail_id');
         return $objQuery->select($col, $from, 'T1.order_id = ?', array($order_id));
     }    
+    
+	/*## 商品支払方法指定 ADD BEGIN ##*/
+    /**
+     * 全ての商品に指定した支払方法から購入金額に応じた支払方法を取得する.
+     *
+     * @param integer $total 購入金額
+     * @param integer $deliv_id 商品ID
+     * @return array 購入金額に応じた支払方法の配列
+     */
+    function getPaymentsByProduct($total, $productIds, $deliv_id) {
+        $objProduct = new SC_Product_Ex();
+		$arrProductPaymentIds = $objProduct->getProductPayment($productIds);
+		$arrDelivPaymentIds = $this->getPayments($deliv_id);
+
+		// 商品指定支払方法がない場合、配送先の支払方法を利用する
+		foreach($arrProductPaymentIds as $pdctId => $paymentIds){
+			if(!count($paymentIds)){
+				$arrProductPaymentIds[$pdctId] = $arrDelivPaymentIds;
+			}
+		}
+		
+		// 全ての商品が指定した支払方法を抽出する
+		$arrPaymentIds = array();
+		foreach($arrProductPaymentIds as $pdctId => $paymentIds){
+			if($pdctId == $productIds[0]){
+				$arrPaymentIds = $paymentIds;
+			}
+			else{
+				$arrPaymentIds = array_intersect($arrPaymentIds, $paymentIds);
+			}
+		}
+
+        if (SC_Utils_Ex::isBlank($arrPaymentIds)) {
+            return array();
+        }
+        $arrPaymentIds = array_values($arrPaymentIds);
+
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+
+    	// 削除されていない支払方法を取得
+        $where = 'del_flg = 0 AND payment_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($arrPaymentIds)) . ')';
+        $objQuery->setOrder('rank DESC');
+        $payments = $objQuery->select('payment_id, payment_method, rule_max, upper_rule, note, payment_image, charge', 'dtb_payment', $where, $arrPaymentIds);
+        $arrPayment = array();
+        foreach ($payments as $data) {
+            // 下限と上限が設定されている
+            if (strlen($data['rule_max']) != 0 && strlen($data['upper_rule']) != 0) {
+                if ($data['rule_max'] <= $total && $data['upper_rule'] >= $total) {
+                    $arrPayment[] = $data;
+                }
+            }
+            // 下限のみ設定されている
+            elseif (strlen($data['rule_max']) != 0) {
+                if ($data['rule_max'] <= $total) {
+                    $arrPayment[] = $data;
+                }
+            }
+            // 上限のみ設定されている
+            elseif (strlen($data['upper_rule']) != 0) {
+                if ($data['upper_rule'] >= $total) {
+                    $arrPayment[] = $data;
+                }
+            }
+            // いずれも設定なし
+            else {
+                $arrPayment[] = $data;
+            }
+        } 
+        return $arrPayment;
+    }
+    /*## 商品支払方法指定 ADD END ##*/
+    
+    
+    /*## 商品配送方法指定 ADD BEGIN ##*/
+    /**
+     * 商品ID から配送業者を取得する.
+     *
+     * @param integer $product_type_id 商品種別ID
+     * @param integer $productIds 商品ID
+     * @return array 配送業者の配列
+     */
+    function getDelivByProduct($product_type_id, $productIds) {
+    	$arrDefaultDeliv = parent::getDeliv($product_type_id);
+    	
+    	$arrDefaultDelivIds = array();
+    	$arrDefaultDelivIndex = array();
+    	foreach($arrDefaultDeliv as $deliv){
+    		$arrDefaultDelivIds[] = $deliv["deliv_id"];
+    		$arrDefaultDelivIndex[$deliv["deliv_id"]] = $deliv;
+    	}
+    	
+    	$objProduct = new SC_Product_Ex();
+    	$arrProductDelivIds = $objProduct->getProductDeliv($productIds);
+    	    	
+    	// 商品指定配送方法がない場合、商品種別で取る配送方法を利用する
+		foreach($arrProductDelivIds as $pdctId => $delivIds){
+			if(!count($delivIds)){
+				$arrProductDelivIds[$pdctId] = $arrDefaultDelivIds;
+			}
+		}
+		
+		// 全ての商品が指定した配送方法を抽出する
+		$arrDelivIds = array();
+		foreach($arrProductDelivIds as $pdctId => $delivIds){
+			if($pdctId == $productIds[0]){
+				$arrDelivIds = $delivIds;
+			}
+			else{
+				$arrDelivIds = array_intersect($arrDelivIds, $delivIds);
+			}
+		}
+		
+		$arrDeliv = array();
+		foreach($arrDelivIds as $delivId){
+			$arrDeliv[] = $arrDefaultDelivIndex[$delivId];
+		}
+		
+		return $arrDeliv;
+     }
+    /*## 商品配送方法指定 ADD END ##*/
 }
 ?>

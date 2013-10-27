@@ -24,112 +24,113 @@
 require_once CLASS_REALDIR . 'SC_CartSession.php';
 
 class SC_CartSession_Ex extends SC_CartSession {
-	
-    // カートへの商品追加
-    function addProduct($product_class_id, $quantity, $arrExtraInfo=array()) {
-        $objProduct = new SC_Product_Ex();
-        $arrProduct = $objProduct->getProductsClass($product_class_id);
-        $productTypeId = $arrProduct['product_type_id'];
-        $find = false;
-        $max = $this->getMax($productTypeId);
-        for($i = 0; $i <= $max; $i++) {
 
-            if($this->cartSession[$productTypeId][$i]['id'] == $product_class_id &&
+	// カートへの商品追加
+	function addProduct($product_class_id, $quantity, $arrExtraInfo=array()) {
+		$objProduct = new SC_Product_Ex();
+		$arrProduct = $objProduct->getProductsClass($product_class_id);
+		$productTypeId = $arrProduct['product_type_id'];
+		$find = false;
+		$max = $this->getMax($productTypeId);
+		for($i = 0; $i <= $max; $i++) {
+
+			if($this->cartSession[$productTypeId][$i]['id'] == $product_class_id &&
+			$this->cartSession[$productTypeId][$max+1]['extra_info'] == $arrExtraInfo) {
+				$val = $this->cartSession[$productTypeId][$i]['quantity'] + $quantity;
+				if(strlen($val) <= INT_LEN) {
+					$this->cartSession[$productTypeId][$i]['quantity'] += $quantity;
+				}
+				$find = true;
+			}
+		}
+		if(!$find) {
+			$this->cartSession[$productTypeId][$max+1]['id'] = $product_class_id;
+			$this->cartSession[$productTypeId][$max+1]['quantity'] = $quantity;
+			$this->cartSession[$productTypeId][$max+1]['cart_no'] = $this->getNextCartID($productTypeId);
+
+			/*## 追加規格 ADD BEGIN ##*/
+			$this->cartSession[$productTypeId][$max+1]['extra_info'] = $arrExtraInfo;
+			/*## 追加規格 ADD END ##*/
+		}
+	}
+
+
+	/**
+	 * 商品種別ごとにカート内商品の一覧を取得する.
+	 *
+	 * @param integer $productTypeId 商品種別ID
+	 * @return array カート内商品一覧の配列
+	 */
+	function getCartList($productTypeId) {
+		$objProduct = new SC_Product_Ex();
+		$max = $this->getMax($productTypeId);
+		$arrRet = array();
+		for ($i = 0; $i <= $max; $i++) {
+			if (isset($this->cartSession[$productTypeId][$i]['cart_no'])
+			&& $this->cartSession[$productTypeId][$i]['cart_no'] != '') {
+
+				// 商品情報は常に取得
+				// TODO 同一インスタンス内では1回のみ呼ぶようにしたい
+				$this->cartSession[$productTypeId][$i]['productsClass']
+				=& $objProduct->getDetailAndProductsClass($this->cartSession[$productTypeId][$i]['id']);
+
+				$price = $this->cartSession[$productTypeId][$i]['productsClass']['price02'];
+				$this->cartSession[$productTypeId][$i]['price'] = $price;
+
+				$this->cartSession[$productTypeId][$i]['point_rate']
+				= $this->cartSession[$productTypeId][$i]['productsClass']['point_rate'];
+
+				$quantity = $this->cartSession[$productTypeId][$i]['quantity'];
+				$incTax = SC_Helper_DB_Ex::sfCalcIncTax($price);
+				$total = $incTax * $quantity;
+
 				/*## 追加規格 ADD BEGIN ##*/
-				(USE_EXTRA_CLASS !== true || 
-					$this->cartSession[$productTypeId][$i]['extra_info']['extra_classcategory_id'] == $arrExtraInfo['extra_classcategory_id'])
+				$extra_classcategory = array();
+				foreach($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"]
+				as $extcls_id=>$extclscat_id){
+					$extra_classcategory["extra_class_name$extcls_id"] = $arrAllExtraClass[$extcls_id];
+					$extra_classcategory["extra_classcategory_name$extcls_id"] = $arrAllExtraClassCat[$extcls_id][$extclscat_id];
+				}
+				$this->cartSession[$productTypeId][$i]	["extra_info"]["extra_classcategory"] = $extra_classcategory;
 				/*## 追加規格 ADD END ##*/
-				) {
-                $val = $this->cartSession[$productTypeId][$i]['quantity'] + $quantity;
-                if(strlen($val) <= INT_LEN) {
-                    $this->cartSession[$productTypeId][$i]['quantity'] += $quantity;
-                }
-                $find = true;
-            }
-        }
-        if(!$find) {
-            $this->cartSession[$productTypeId][$max+1]['id'] = $product_class_id;
-            $this->cartSession[$productTypeId][$max+1]['quantity'] = $quantity;
-            $this->cartSession[$productTypeId][$max+1]['cart_no'] = $this->getNextCartID($productTypeId);
-            
-            /*## 追加規格 ADD BEGIN ##*/
-            if(USE_EXTRA_CLASS === true){
-            	$this->cartSession[$productTypeId][$max+1]['extra_info'] = $arrExtraInfo;
-            }
-            /*## 追加規格 ADD END ##*/
-        }
-    }	
-    
-    
+
+				$this->cartSession[$productTypeId][$i]['total_inctax'] = $total;
+
+				$arrRet[] = $this->cartSession[$productTypeId][$i];
+
+				// セッション変数のデータ量を抑制するため、一部の商品情報を切り捨てる
+				// XXX 上で「常に取得」するのだから、丸ごと切り捨てて良さそうにも感じる。
+				$this->adjustSessionProductsClass($this->cartSession[$productTypeId][$i]['productsClass']);
+			}
+		}
+		return $arrRet;
+	}
+
+	/*## 商品配送方法指定 ADD BEGIN ##*/
     /**
-     * 商品種別ごとにカート内商品の一覧を取得する.
+     * カート内にある商品IDを全て取得する.
      *
      * @param integer $productTypeId 商品種別ID
-     * @return array カート内商品一覧の配列
+     * @return array 商品ID の配列
      */
-    function getCartList($productTypeId) {
-        $objProduct = new SC_Product_Ex();
+    function getAllProductID($productTypeId) {
         $max = $this->getMax($productTypeId);
-        $arrRet = array();
-        
-        /*## 追加規格 ADD BEGIN ##*/
-		if(USE_EXTRA_CLASS === true){
-			$objDb = new SC_Helper_DB_Ex();
-    		$arrAllExtraClass = $objDb->lfGetAllExtraClass();
-    		$arrAllExtraClassCat = $objDb->lfGetAllExtraClassCategory();
-		}
-    	/*## 追加規格 ADD END ##*/
-		
+        $productIDs = array();
         for ($i = 0; $i <= $max; $i++) {
-            if (isset($this->cartSession[$productTypeId][$i]['cart_no'])
-                && $this->cartSession[$productTypeId][$i]['cart_no'] != '') {
-
-                // 商品情報は常に取得
-                // TODO 同一インスタンス内では1回のみ呼ぶようにしたい
-                $this->cartSession[$productTypeId][$i]['productsClass']
-                    =& $objProduct->getDetailAndProductsClass($this->cartSession[$productTypeId][$i]['id']);
-
-                $price = $this->cartSession[$productTypeId][$i]['productsClass']['price02'];
-                $this->cartSession[$productTypeId][$i]['price'] = $price;
-
-                $this->cartSession[$productTypeId][$i]['point_rate']
-                    = $this->cartSession[$productTypeId][$i]['productsClass']['point_rate'];
-
-                $quantity = $this->cartSession[$productTypeId][$i]['quantity'];
-                $incTax = SC_Helper_DB_Ex::sfCalcIncTax($price);
-                $total = $incTax * $quantity;
-                
-                /*## 追加規格 ADD BEGIN ##*/
-                if(USE_EXTRA_CLASS === true){
-                	$extra_classcategory = array();
-                	foreach($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"]
-                	as $extcls_id=>$extclscat_id){
-                		$extra_classcategory["extra_class_name$extcls_id"] = $arrAllExtraClass[$extcls_id];
-                		$extra_classcategory["extra_classcategory_name$extcls_id"] = $arrAllExtraClassCat[$extcls_id][$extclscat_id];
-                	}
-                	$this->cartSession[$productTypeId][$i]	["extra_info"]["extra_classcategory"] = $extra_classcategory;
-                }
-                /*## 追加規格 ADD END ##*/
-                
-                $this->cartSession[$productTypeId][$i]['total_inctax'] = $total;
-
-                $arrRet[] = $this->cartSession[$productTypeId][$i];
-
-                // セッション変数のデータ量を抑制するため、一部の商品情報を切り捨てる
-                // XXX 上で「常に取得」するのだから、丸ごと切り捨てて良さそうにも感じる。
-                $this->adjustSessionProductsClass($this->cartSession[$productTypeId][$i]['productsClass']);
+            if ($this->cartSession[$productTypeId][$i]['cart_no'] != '') {
+                $productIDs[] = $this->cartSession[$productTypeId][$i]['productsClass']['product_id'];
             }
         }
-        return $arrRet;
+        return array_values(array_unique($productIDs));
     }
-    
-    
-     /**
-     * セッション中の商品情報データの調整。
-     * productsClass項目から、不必要な項目を削除する。
-     */
-    function adjustSessionProductsClass(&$arrProductsClass) {
-        $arrNecessaryItems = array(
+    /*## 商品配送方法指定 ADD END ##*/
+
+	/**
+	 * セッション中の商品情報データの調整。
+	 * productsClass項目から、不必要な項目を削除する。
+	 */
+	function adjustSessionProductsClass(&$arrProductsClass) {
+		$arrNecessaryItems = array(
             'product_id'          => true,
             'product_class_id'    => true,
             'name'                => true,
@@ -145,32 +146,32 @@ class SC_CartSession_Ex extends SC_CartSession {
             'classcategory_name1' => true,
             'class_name2'         => true,
             'classcategory_name2' => true,
-        /*## お届け日付非表示のバグ修正 ADD BEGIN ##*/
+		/*## お届け日付非表示のバグ修正 ADD BEGIN ##*/
         	'deliv_date_id' => true,
-        /*## お届け日付非表示のバグ修正 ADD END ##*/
-        );
+		/*## お届け日付非表示のバグ修正 ADD END ##*/
+		);
 
-        // 必要な項目以外を削除。
-        foreach (array_keys($arrProductsClass) as $key) {
-            if (!isset($arrNecessaryItems[$key])) {
-                unset($arrProductsClass[$key]);
-            }
-        }
-    }
- 
-    /*## 配送ランク ADD BEGIN ##*/
-    /**
-     * 都道府県から配送料金を取得する.
-     *
-     * @param integer|array $pref_id 都道府県ID 又は都道府県IDの配列
-     * @param integer $deliv_id 配送業者ID
-     * @return string 指定の都道府県, 配送業者の配送料金
-     */
-    function sfGetDelivFee($pref_id, $deliv_id = 0) {
-        if(USE_DELIV_RANK !== true){
+		// 必要な項目以外を削除。
+		foreach (array_keys($arrProductsClass) as $key) {
+			if (!isset($arrNecessaryItems[$key])) {
+				unset($arrProductsClass[$key]);
+			}
+		}
+	}
+
+	/*## 配送ランク ADD BEGIN ##*/
+	/**
+	 * 都道府県から配送料金を取得する.
+	 *
+	 * @param integer|array $pref_id 都道府県ID 又は都道府県IDの配列
+	 * @param integer $deliv_id 配送業者ID
+	 * @return string 指定の都道府県, 配送業者の配送料金
+	 */
+	function sfGetDelivFee($pref_id, $deliv_id = 0) {
+		if(USE_DELIV_RANK !== true){
 			return parent::sfGetDelivFee($pref_id, $deliv_id);
 		}
-		
+
 		$objQuery =& SC_Query_Ex::getSingletonInstance();
 		if (!is_array($pref_id)) {
 			$pref_id = array($pref_id);
@@ -218,8 +219,8 @@ __EOS__;
 			}
 		}
 		return $result;
-    }
-    /*## 配送ランク ADD END ##*/
+	}
+	/*## 配送ランク ADD END ##*/
 }
 
 ?>

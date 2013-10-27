@@ -41,6 +41,54 @@ class SC_Product_Ex extends SC_Product {
         return $result;
     }	
     /*## 追加規格 ADD END ##*/
+    
+ 	/*## 商品支払方法指定 ADD BEGIN ##*/
+    /**
+     * 商品IDをキーにした, 商品支払方法IDの配列を取得する.
+     *
+     * @param array 商品ID の配列
+     * @return array 商品IDをキーにした商品支払方法IDの配列
+     */
+    function getProductPayment($productIds) {
+        if (empty($productIds)) {
+            return array();
+        }
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $cols = 'product_id, payment_id';
+        $from = 'dtb_product_payment';
+        $where = 'product_id IN (' . implode(', ', array_pad(array(), count($productIds), '?')) . ')';
+        $arrRet = $objQuery->select($cols, $from, $where, $productIds);
+        $results = array_fill_keys($productIds, array());
+        foreach ($arrRet as $row) {
+            $results[$row['product_id']][] = $row['payment_id'];
+        }
+        return $results;
+    }
+    /*## 商品支払方法指定 ADD END ##*/
+    
+    /*## 商品配送方法指定 ADD BEGIN ##*/
+    /**
+     * 商品IDをキーにした, 商品配送方法IDの配列を取得する.
+     *
+     * @param array 商品ID の配列
+     * @return array 商品IDをキーにした商品配送方法IDの配列
+     */
+    function getProductDeliv($productIds) {
+        if (empty($productIds)) {
+            return array();
+        }
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $cols = 'product_id, deliv_id';
+        $from = 'dtb_product_deliv';
+        $where = 'product_id IN (' . implode(', ', array_pad(array(), count($productIds), '?')) . ')';
+        $arrRet = $objQuery->select($cols, $from, $where, $productIds);
+        $results = array_fill_keys($productIds, array());
+        foreach ($arrRet as $row) {
+            $results[$row['product_id']][] = $row['deliv_id'];
+        }
+        return $results;
+    }
+    /*## 商品配送方法指定 ADD END ##*/
 }
 
 ?>
