@@ -95,18 +95,14 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
         $objFormParam->convParam();
 
         switch($this->getMode()) {
-        // カテゴリー登録/編集実行
+        // カテゴリ登録/編集実行
         case 'edit':
         	/*## CATEGORY 情報 ADD BEGIN ##*/
         	$objUpFile->setHiddenFileList($_POST);
         	/*## CATEGORY 情報 ADD END ##*/
         	
-            $category_id = $objFormParam->getValue('category_id');
-            if ($category_id == '') {
-                $this->doRegister($objFormParam, $objUpFile);
-            } else {
-                $this->doEdit($objFormParam, $objUpFile);
-            }      
+            $this->doEdit($objFormParam, $objUpFile);     
+            
             /*## カテゴリお勧め商品 ADD BEGIN ##*/ 
             if(count($this->arrErr)){
             	$this->arrForm = $objFormParam->getHashArray();
@@ -135,7 +131,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
             // DnDしたカテゴリと移動先のセットを分解する
             $keys = explode("-", $_POST['keySet']);
             if ($keys[0] && $keys[1]) {
-                $objQuery = new SC_Query_Ex();
+                $objQuery =& SC_Query_Ex::getSingletonInstance();
                 $objQuery->begin();
 
                 // 移動したデータのrank、level、parent_category_idを取得
@@ -189,11 +185,12 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
             break;
          // CSVダウンロード
         case 'csv':
-            // CSVを送信する
-            $objCSV = new SC_Helper_CSV_Ex();
-            $objCSV->sfDownloadCsv("5", "", array(), "", true);
-            exit;
-            break;
+        	// CSVを送信する
+        	$objCSV = new SC_Helper_CSV_Ex();
+
+        	$objCSV->sfDownloadCsv('5', '', array(), '', true);
+        	SC_Response_Ex::actionExit();
+        	break;
 /*## カテゴリお勧め商品 ADD BEGIN ##*/            
         case 'recommend_select':
         	$objUpFile->setHiddenFileList($_POST);
@@ -278,7 +275,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
         $where = "parent_category_id = ? AND del_flg = 0";
         $count = $objQuery->count("dtb_category", $where, array($category_id));
         if ($count > 0) {
-             $this->arrErr['category_name'] = "※ 子カテゴリが存在するため削除できません。<br/>";
+             $this->arrErr['category_name'] = "※ 子カテゴリーが存在するため削除できません。<br/>";
              return;
         }
         // 登録商品のチェック
@@ -286,7 +283,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
         $where = "T1.category_id = ? AND T2.del_flg = 0";
         $count = $objQuery->count($table, $where, array($category_id));
         if ($count > 0) {
-            $this->arrErr['category_name'] = "※ カテゴリ内に商品が存在するため削除できません。<br/>";
+            $this->arrErr['category_name'] = "※ カテゴリー内に商品が存在するため削除できません。<br/>";
             return;
         }
 
@@ -310,41 +307,30 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 	 * @param SC_FormParam $objFormParam
 	 * @return void
 	 */
-	function doPreEdit(&$objFormParam, &$objUpFile = null) {
-		$category_id = $objFormParam->getValue('category_id');
+    function doPreEdit(&$objFormParam, $objUpFile) {
+        $category_id = $objFormParam->getValue('category_id');
 
-		$objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
 
-		// 編集対象のカテゴリ名をDBより取得する
-		$where = "category_id = ?";
+        // 編集対象のカテゴリ名をDBより取得する
+        $where = 'category_id = ?';
+        $arrRes = $objQuery->getRow('*', 'dtb_category', $where, array($category_id));
 
-		/*## SEO管理 MDF BEGIN ##*/
-		//$category_name = $objQuery->get("category_name", "dtb_category", $where, array($category_id));
-		$arrRet = $objQuery->select("*", "dtb_category", $where, array($category_id));
+        $objFormParam->setParam($arrRes);
 
-		// 入力ボックスへカテゴリ名を保持する.
-		$arrKey = $objFormParam->getKeyList();
-		if(is_array($arrRet[0])){
-			foreach($arrKey as $name){
-				$this->arrForm[$name] = $arrRet[0][$name];
-			}
-		}
-		//$this->arrForm['category_name'] = $category_name;
-		/*## SEO管理 MDF END ##*/
-		
+        $this->arrForm = $objFormParam->getHashArray();
+        
 		/*## CATEGORY 情報 ## ADD BEGIN*/
 		if(constant("USE_CATEGORY_INFO") === true){
 			$objUpFile->setDBFileList($arrRet[0]);
 		}
 		/*## CATEGORY 情報 MDF END ##*/
-
-		// カテゴリIDを保持する.
-		$this->arrForm['category_id']   = $category_id;
 		
 		/*## カテゴリお勧め商品 ADD BEGIN ##*/
 		$this->lfPreGetRecommend($category_id);
-		/*## カテゴリお勧め商品 ADD END ##*/		
-	}
+		/*## カテゴリお勧め商品 ADD END ##*/	
+    }
+
 
 	/**
 	 * カテゴリの編集を実行する.
@@ -356,144 +342,53 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 	 * @param SC_FormParam $objFormParam
 	 * @return void
 	 */
-	function doEdit(&$objFormParam, $objUpFile = null) {
-		// 入力項目チェック
-		$arrErr = $objFormParam->checkError();
-		if (count($arrErr) > 0) {
-			$this->arrErr = $arrErr;
-//			$this->arrForm['category_id']   = $objFormParam->getValue('category_id');
-//			$this->arrForm['category_name'] = $objFormParam->getValue('category_name');
-			return;
-		}
+    
+    function doEdit(&$objFormParam, $objUpFile) {
+    	$category_id = $objFormParam->getValue('category_id');
 
-		// 重複チェック
-		$objQuery =& SC_Query_Ex::getSingletonInstance();
-		$where = "parent_category_id = ? AND category_id <> ? AND category_name = ?";
-		$count = $objQuery->count("dtb_category",
-		$where,
-		array($objFormParam->getValue('parent_category_id'),
-		$objFormParam->getValue('category_id'),
-		$objFormParam->getValue('category_name')));
-		if ($count > 0) {
-			$this->arrErr['category_name']  = "※ 既に同じ内容の登録が存在します。<br/>";
-//			$this->arrForm['category_id']   = $objFormParam->getValue('category_id');
-//			$this->arrForm['category_name'] = $objFormParam->getValue('category_name');
-			return;
-		}
+    	// 追加か
+    	$add = strlen($category_id) === 0;
 
-		// カテゴリ更新
-		$arrCategory = array();
+    	// エラーチェック
+    	$this->arrErr = $this->checkError($objFormParam, $add);
 
-		/*## SEO管理 MDF BEGIN ##*/
-		$arrCategory = $objFormParam->getHashArray();
-		unset($arrCategory["parent_category_id"]);
-		unset($arrCategory["category_id"]);
-		//$arrCategory['category_name'] = $objFormParam->getValue('category_name');
-		/*## SEO管理 MDF BEGIN ##*/
+    	// エラーがない場合、追加・更新処理
+    	if (empty($this->arrErr)) {
+    		$objQuery =& SC_Query_Ex::getSingletonInstance();
+    		
+    		$arrCategory = $objFormParam->getDbArray();
 
-		/*## CATEGORY 情報 ## ADD BEGIN*/
-		if(constant("USE_CATEGORY_INFO") === true){
-			unset($arrCategory["image_key"]);
-			$arrCategory = array_merge($arrCategory, $objUpFile->getDBFileList());
+    		/*## CATEGORY 情報 ## ADD BEGIN*/
+    		if(constant("USE_CATEGORY_INFO") === true){
+    			unset($arrCategory["image_key"]);
+    			$arrCategory = array_merge($arrCategory, $objUpFile->getDBFileList());
 
-			// 一時ファイルを本番ディレクトリに移動する
-			$objUpFile->moveTempFile();		
-			$objUpFile->temp_file = array();	
-		}
-		/*## CATEGORY 情報 ## ADD END*/
-		
-		$arrCategory['update_date']   = 'CURRENT_TIMESTAMP';
+    			// 一時ファイルを本番ディレクトリに移動する
+    			$objUpFile->moveTempFile();
+    			$objUpFile->temp_file = array();
+    		}
+    		/*## CATEGORY 情報 ## ADD END*/
 
-		$this->updateCategory($objFormParam->getValue('category_id'), $arrCategory, $objQuery);
-
-		/*## カテゴリお勧め商品 ADD BEGIN ##*/
-		$this->lfRegistRecommend($objFormParam->getValue('category_id'), $objQuery);
-		/*## カテゴリお勧め商品 ADD END ##*/
-	}
-
-	/**
-	 * カテゴリの登録を実行する.
-	 *
-	 * 下記の場合は, 登録を実行せず、エラーメッセージを表示する
-	 *
-	 * - カテゴリー登録数の上限を超える場合
-	 * - 階層登録数の上限を超える場合
-	 * - カテゴリ名がすでに使用されている場合
-	 *
-	 * @param SC_FormParam $objFormParam
-	 * @return void
-	 */
-	function doRegister(&$objFormParam, $objUpFile = null) {
-		// 入力項目チェック
-		$arrErr = $objFormParam->checkError();
-		if (count($arrErr) > 0) {
-			$this->arrErr = $arrErr;
-//			$this->arrForm['category_name'] = $objFormParam->getValue('category_name');
-			return;
-		}
-
-		// 登録数上限チェック
-		$objQuery =& SC_Query_Ex::getSingletonInstance();
-		$where = "del_flg = 0";
-		$count = $objQuery->count("dtb_category", $where);
-		if ($count >= CATEGORY_MAX) {
-			$this->arrErr['category_name']  = "※ カテゴリの登録最大数を超えました。<br/>";
-//			$this->arrForm['category_name'] = $objFormParam->getValue('category_name');
-			return;
-		}
-
-		// 階層上限チェック
-		if ($this->isOverLevel($objFormParam->getValue('parent_category_id'))) {
-			$this->arrErr['category_name']  = "※ " . LEVEL_MAX . "階層以上の登録はできません。<br/>";
-//			$this->arrForm['category_name'] = $objFormParam->getValue('category_name');
-			return;
-		}
-
-		// 重複チェック
-		$where = "parent_category_id = ? AND category_name = ?";
-		$count = $objQuery->count("dtb_category",
-		$where,
-		array($objFormParam->getValue('parent_category_id'),
-		$objFormParam->getValue('category_name')));
-		if ($count > 0) {
-			$this->arrErr['category_name']  = "※ 既に同じ内容の登録が存在します。<br/>";
-			$this->arrForm['category_name'] = $objFormParam->getValue('category_name');
-			return;
-		}
-
-		// カテゴリー登録
-		$category_id = $this->registerCategory($objFormParam->getValue('parent_category_id'),
-		$objFormParam->getValue('category_name'),
-		$_SESSION['member_id'],
-		$objQuery);
-
-		/*## SEO管理 ADD BEGIN ##*/
-		if(constant("USE_SEO") === true){
-			$arrCategory = $objFormParam->getHashArray();
-			unset($arrCategory["parent_category_id"]);
-			unset($arrCategory["category_id"]);
-		}
-		/*## SEO管理 ADD END ##*/
-		
-		/*## CATEGORY 情報 ## ADD BEGIN*/
-		if(constant("USE_CATEGORY_INFO") === true){
-			unset($arrCategory["image_key"]);
-			$arrCategory = array_merge($arrCategory, $objUpFile->getDBFileList());
-
-			// 一時ファイルを本番ディレクトリに移動する
-			$objUpFile->moveTempFile();
-			$objUpFile->temp_file = array();
-		}
-		/*## CATEGORY 情報 ## ADD END*/
-		
-		if(is_array($arrCategory) && count($arrCategory))
-			$this->updateCategory($category_id, $arrCategory);
-		
-		/*## カテゴリお勧め商品 ADD BEGIN ##*/
-		$this->lfRegistRecommend($category_id);
-		/*## カテゴリお勧め商品 ADD END ##*/		
-	}
-
+    		// 追加
+    		if ($add) {
+    			$category_id = $this->registerCategory($arrCategory, $objQuery);
+    		}
+    		// 更新
+    		else {
+    			unset($arrCategory['category_id']);
+    			$this->updateCategory($category_id, $arrCategory, $objQuery);
+    		}
+    		
+    		/*## カテゴリお勧め商品 ADD BEGIN ##*/
+    		$this->lfRegistRecommend($category_id, $objQuery);
+    		/*## カテゴリお勧め商品 ADD END ##*/
+    	}
+    	// エラーがある場合、入力値の再表示
+    	else {
+    		$this->arrForm = $objFormParam->getHashArray();
+    	}
+    }
+ 
     /**
      * カテゴリを登録する
      *
@@ -502,47 +397,47 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
      * @param integer 作成者のID
      * @return void
      */
-    function registerCategory($parent_category_id, $category_name, $creator_id, &$objQuery = null) {
-        if(empty($objQuery)){
+	function registerCategory($arrCategory, &$objQuery = null) {
+	    if(empty($objQuery)){
     		$objQuery =& SC_Query_Ex::getSingletonInstance();
         	$objQuery->begin();
         	$commit_flg = 1;
         }
 
+        $parent_category_id = $arrCategory['parent_category_id'];
         $rank = null;
         if ($parent_category_id == 0) {
             // ROOT階層で最大のランクを取得する。
-            $where = "parent_category_id = ?";
-            $rank = $objQuery->max('rank', "dtb_category", $where, array($parent_category_id)) + 1;
+            $where = 'parent_category_id = ?';
+            $rank = $objQuery->max('rank', 'dtb_category', $where, array($parent_category_id)) + 1;
         } else {
             // 親のランクを自分のランクとする。
-            $where = "category_id = ?";
-            $rank = $objQuery->get('rank', "dtb_category", $where, array($parent_category_id));
+            $where = 'category_id = ?';
+            $rank = $objQuery->get('rank', 'dtb_category', $where, array($parent_category_id));
             // 追加レコードのランク以上のレコードを一つあげる。
-            $sqlup = "UPDATE dtb_category SET rank = (rank + 1) WHERE rank >= ?";
+            $sqlup = 'UPDATE dtb_category SET rank = (rank + 1) WHERE rank >= ?';
             $objQuery->exec($sqlup, array($rank));
         }
 
-        $where = "category_id = ?";
+        $where = 'category_id = ?';
         // 自分のレベルを取得する(親のレベル + 1)
-        $level = $objQuery->get('level', "dtb_category", $where, array($parent_category_id)) + 1;
+        $level = $objQuery->get('level', 'dtb_category', $where, array($parent_category_id)) + 1;
 
-        $arrCategory = array();
-        $arrCategory['category_name'] = $category_name;
-        $arrCategory['parent_category_id'] = $parent_category_id;
         $arrCategory['create_date'] = 'CURRENT_TIMESTAMP';
         $arrCategory['update_date'] = 'CURRENT_TIMESTAMP';
-        $arrCategory['creator_id']  = $creator_id;
+        $arrCategory['creator_id']  = $_SESSION['member_id'];
         $arrCategory['rank']        = $rank;
         $arrCategory['level']       = $level;
         $arrCategory['category_id'] = $objQuery->nextVal('dtb_category_category_id');
-        $objQuery->insert("dtb_category", $arrCategory);
+
+        $objQuery->insert('dtb_category', $arrCategory);
 
         if($commit_flg)
         	$objQuery->commit();    // トランザクションの終了
-        
+        	
         return $arrCategory['category_id'];
     }
+
     
     /**
      * カテゴリを更新する
@@ -557,6 +452,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
     		$objQuery->begin();
     		$commit_flg = 1;
     	}
+    	$arrCategory['update_date']   = 'CURRENT_TIMESTAMP';
         $where = "category_id = ?";
         $objQuery->update("dtb_category", $arrCategory, $where, array($category_id));
         if($commit_flg)
@@ -570,14 +466,14 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 	 * @return void
 	 */
 	function initParam(&$objFormParam) {
-		$objFormParam->addParam("親カテゴリID", "parent_category_id", null, null, array());
-		$objFormParam->addParam("カテゴリID", "category_id", null, null, array());
-		$objFormParam->addParam("カテゴリ名", "category_name", STEXT_LEN, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));
+		$objFormParam->addParam("親カテゴリーID", "parent_category_id", null, null, array());
+		$objFormParam->addParam("カテゴリーID", "category_id", null, null, array());
+		$objFormParam->addParam("カテゴリー名", "category_name", STEXT_LEN, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));
 
 		/*## CATEGORY 情報 ## ADD BEGIN*/
 		if(constant("USE_CATEGORY_INFO") === true){
-			$objFormParam->addParam("カテゴリ説明", "category_info", LLTEXT_LEN, "KVa", array("SPTAB_CHECK","MAX_LENGTH_CHECK"));
-			$objFormParam->addParam("カテゴリ画像ALT", "category_main_image_alt", LTEXT_LEN, "KVa", array("SPTAB_CHECK", "MAX_LENGTH_CHECK"));
+			$objFormParam->addParam("カテゴリー説明", "category_info", LLTEXT_LEN, "KVa", array("SPTAB_CHECK","MAX_LENGTH_CHECK"));
+			$objFormParam->addParam("カテゴリー画像ALT", "category_main_image_alt", LTEXT_LEN, "KVa", array("SPTAB_CHECK", "MAX_LENGTH_CHECK"));
 			$objFormParam->addParam("image_key", "image_key", "", "", array());
 		}
 		/*## CATEGORY 情報 ## ADD END*/
@@ -595,7 +491,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 	/*## CATEGORY 情報 ## ADD BEGIN*/
     /* ファイル情報の初期化 */
     function lfInitFile(&$objUpFile) {
-        $objUpFile->addFile("カテゴリ画像", 'category_main_image', array('jpg', 'gif', 'png'),IMAGE_SIZE, true, CAT_MAINIMAGE_WIDTH, CAT_MAINIMAGE_HEIGHT);
+        $objUpFile->addFile("カテゴリー画像", 'category_main_image', array('jpg', 'gif', 'png'),IMAGE_SIZE, true, CAT_MAINIMAGE_WIDTH, CAT_MAINIMAGE_HEIGHT);
     }	
 
     
@@ -643,6 +539,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 		CATEGORY_RECOMMEND_PRODUCT_MAX > 0){
 			for($i = 1; $i <= CATEGORY_RECOMMEND_PRODUCT_MAX; $i++){
 				$this->objRcmdFormParam->addParam("おすすめ商品{$i}", "recommend_id{$i}", INT_LEN, "n", array("NUM_CHECK"));
+				$this->objRcmdFormParam->addParam("おすすめ商品コメント{$i}", "recommend_comment{$i}", LTEXT_LEN, "KVa", array("NUM_CHECK"));
 			}
 		}
 	}
@@ -672,17 +569,20 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 		defined("CATEGORY_RECOMMEND_PRODUCT_MAX")
 		&& CATEGORY_RECOMMEND_PRODUCT_MAX > 0){
 
+			$objProduct = new SC_Product_Ex();
 			$objQuery =& SC_Query_Ex::getSingletonInstance();
-			$cols = "T1.rank, T2.product_id, T2.name, T2.main_list_image, T2.main_list_comment";
-			$from = "dtb_category_recommend T1 LEFT JOIN dtb_products T2 ON T1.product_id=T2.product_id AND T2.del_flg<>1";
+			$cols = "T1.comment, T1.rank, T1.product_id";
+			$from = "dtb_category_recommend T1";
 			$objQuery->setOrder("rank");
-
 			$arrRet = $objQuery->select($cols, $from, "T1.category_id=?", array($category_id));
 
 			//おすすめ情報
 			if(is_array($arrRet)){
 				foreach($arrRet as $no =>$row){
-					$this->arrRecommend[$row["rank"]] = $row;
+					$arrDetail = $objProduct->getDetail($row["product_id"]);
+					unset($row["product_id"]);
+					$arrDetail = array_merge($row, $arrDetail);
+					$this->arrRecommend[$row["rank"]] = $arrDetail;
 				}
 			}
 			return true;
@@ -737,6 +637,7 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 				for($i = 1; $i <= CATEGORY_RECOMMEND_PRODUCT_MAX; $i++){
 					if(!empty($arrParam["recommend_id{$i}"])){
 						$sqlval["product_id"] = $arrParam["recommend_id{$i}"];
+						$sqlval["comment"] = $arrParam["recommend_comment{$i}"];
 						$sqlval["rank"] = $i;
 						$objQuery->insert("dtb_category_recommend", $sqlval);
 					}

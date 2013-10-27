@@ -110,3 +110,24 @@ ALTER TABLE dtb_products ADD COLUMN deliv_rank integer DEFAULT 1;
 INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_CONTACT', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '商品問い合わせ使用フラグ');
 /*######################■事例問い合わせ■######################*/
 INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_JIREI_CONTACT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), '事例問い合わせ使用フラグ');
+
+/*######## カテゴリお勧め商品 ########*/
+CREATE TABLE dtb_category_recommend (
+  category_recommend_id serial,
+  category_id INT NOT NULL,
+  product_id INT NOT NULL,
+  rank INT NOT NULL,
+  PRIMARY KEY (category_recommend_id)
+);
+ALTER TABLE dtb_category_recommend ADD COLUMN comment text;
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CATEGORY_RECOMMEND_PRODUCT_MAX', '1', (SELECT MAX(rank)+1 FROM mtb_constants), 'カテゴリおすすめ商品最大登録数|数値:最大登録数|false:使用しない');
+
+/*######## カテゴリ追加情報 ########*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_CATEGORY_INFO', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'カテゴリ追加情報使用フラグ|true:使用する');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CAT_MAINIMAGE_WIDTH', '600', (SELECT MAX(rank)+1 FROM mtb_constants), 'カテゴリ画像幅');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CAT_MAINIMAGE_HEIGHT', '600', (SELECT MAX(rank)+1 FROM mtb_constants), 'カテゴリ画像縦');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('PRODUCT_LIST_MAX', '4', (SELECT MAX(rank)+1 FROM mtb_constants), '商品一覧最大表示数');
+
+ALTER TABLE dtb_category ADD COLUMN category_info text;
+ALTER TABLE dtb_category ADD COLUMN category_main_image_alt text;
+ALTER TABLE dtb_category ADD COLUMN category_main_image text;
