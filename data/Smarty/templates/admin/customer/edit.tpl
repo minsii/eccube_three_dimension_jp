@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,14 +21,23 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <script type="text/javascript">
 <!--
+
     function fnReturn() {
         document.search_form.action = './<!--{$smarty.const.DIR_INDEX_PATH}-->';
         document.search_form.submit();
         return false;
     }
+
+    function fnOrderidSubmit(order_id, order_id_value) {
+        if(order_id != "" && order_id_value != "") {
+            document.form2[order_id].value = order_id_value;
+        }
+        document.form2.action = '../order/edit.php';
+        document.form2.submit();
+    }
+
 //-->
 </script>
 
@@ -98,6 +107,37 @@
                     <input type="text" name="kana01" value="<!--{$arrForm.kana01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.kana01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="kana02" value="<!--{$arrForm.kana02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.kana02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
                 </td>
             </tr>
+
+            <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+            <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+            <tr>
+                <th>法人名</th>
+                <td>
+                    <!--{assign var=key value="company"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr[$key]}--></span>
+                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                </td>
+            </tr>
+            <tr>
+                <th>法人名(フリガナ)</th>
+                <td>
+                    <!--{assign var=key value="company_kana"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr[$key]}--></span>
+                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                </td>
+            </tr>
+            <!--{*
+            <tr>
+                <th>部署名</th>
+                <td>
+                    <!--{assign var=key value="company_department"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr[$key]}--></span>
+                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                </td>
+            </tr>
+            *}-->
+            <!--{/if}-->
+            <!--{*## 顧客法人管理 ADD END ##*}-->
             <tr>
                 <th>郵便番号<span class="attention"> *</span></th>
                 <td>
@@ -238,6 +278,49 @@
                 <li><a class="btn-action" href="javascript:;" onclick="fnSetFormSubmit('form1', 'mode', 'confirm'); return false;"><span class="btn-next">確認ページへ</span></a></li>
             </ul>
         </div>
+
+<!--{*## 顧客管理画面にお届け先一覧表示 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_ADMIN_CUSTOMER_DELIV_LIST === true}-->
+        <!--{assign var=multipager_prefix value="deliv"}-->
+        <input type="hidden" name="search_deliv_pageno" value="<!--{$tpl_multi_pageno[$multipager_prefix]}-->">
+
+        <h2>お届け先一覧</h2>
+        <!--{if $tpl_multi_linemax[$multipager_prefix] > 0}-->
+        <p><span class="attention"><!--お届け先一覧--><!--{$tpl_multi_linemax[$multipager_prefix]}-->件</span>&nbsp;が該当しました。</p>
+
+        <!--{include file=$tpl_multi_pager}-->
+
+            <!--{* お届け先一覧表示テーブル *}-->
+            <table class="list">
+                <tr>
+                    <th>お届け先ID</th>
+                    <!--{if $smarty.const.USE_ADMIN_CUSTOMER_DELIV_LIST === true}-->
+                    <th>法人名</th>
+                    <!--{/if}-->
+                    <th>お名前</th>
+                    <th>住所</th>
+                </tr>
+                <!--{section name=cnt loop=$arrOtherDeliv}-->
+                    <tr>
+                        <td><!--{$arrOtherDeliv[cnt].other_deliv_id}--></td>
+                    <!--{if $smarty.const.USE_ADMIN_CUSTOMER_DELIV_LIST === true}-->
+                        <td class="center"><!--{$arrOtherDeliv[cnt].company|h}--> <!--{$arrOtherDeliv[cnt].company_department|h}--></td>
+                    <!--{/if}-->
+                        <td class="center"><!--{$arrOtherDeliv[cnt].name01|h}--> <!--{$arrOtherDeliv[cnt].name02|h}--></td>
+                        <!--{assign var=pref_id value=$arrOtherDeliv[cnt].pref}-->
+                        <td class="left">
+                          〒<!--{$arrOtherDeliv[cnt].zip01|h}-->-<!--{$arrOtherDeliv[cnt].zip02|h}-->  <!--{$arrPref[$pref_id]|h}--><!--{$arrOtherDeliv[cnt].addr01|h}--><!--{$arrOtherDeliv[cnt].addr02|h}-->
+                        </td>
+                    </tr>
+                <!--{/section}-->
+            </table>
+            <!--{* お届け先一覧表示テーブル *}-->
+        <!--{else}-->
+            <div class="message">お届け先情報はありません。</div>
+        <!--{/if}-->
+        <!--{assign var=multipager_prefix value=""}--><!--{* unset multipager_prefix *}-->
+<!--{/if}-->
+<!--{*## 顧客管理画面にお届け先一覧表示 ADD END ##*}-->
 
         <input type="hidden" name="order_id" value="" />
         <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->">

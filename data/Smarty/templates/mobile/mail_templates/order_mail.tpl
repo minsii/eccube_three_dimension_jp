@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -62,10 +62,17 @@
 <!--{foreach item=shipping name=shipping from=$arrShipping}-->
 ◎お届け先<!--{if count($arrShipping) > 1}--><!--{$smarty.foreach.shipping.iteration}--><!--{/if}-->
 
+<!--{*## 顧客法人管理 ADD BEGIN ##*}--><!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+　法人名　：<!--{$shipping.shipping_company|h}-->
+<!--{*　部署名　：<!--{$shipping.shipping_company_department|h}--> *}-->
+<!--{/if}--><!--{*## 顧客法人管理 ADD END ##*}-->
 　お名前　：<!--{$shipping.shipping_name01}--> <!--{$shipping.shipping_name02}-->　様
 　郵便番号：〒<!--{$shipping.shipping_zip01}-->-<!--{$shipping.shipping_zip02}-->
 　住所　　：<!--{$arrPref[$shipping.shipping_pref]}--><!--{$shipping.shipping_addr01}--><!--{$shipping.shipping_addr02}-->
 　電話番号：<!--{$shipping.shipping_tel01}-->-<!--{$shipping.shipping_tel02}-->-<!--{$shipping.shipping_tel03}-->
+<!--{if $shipping.shipping_fax01}-->
+　FAX番号：<!--{$shipping.shipping_fax01}-->-<!--{$shipping.shipping_fax02}-->-<!--{$shipping.shipping_fax03}-->
+<!--{/if}-->
 　お届け日：<!--{$shipping.shipping_date|date_format:"%Y/%m/%d"|default:"指定なし"}-->
 お届け時間：<!--{$shipping.shipping_time|default:"指定なし"}-->
 

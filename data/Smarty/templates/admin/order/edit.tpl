@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <script type="text/javascript">
 <!--
     function fnEdit(customer_id) {
@@ -34,30 +33,32 @@
 
     function fnCopyFromOrderData() {
         df = document.form1;
-
-        // お届け先名のinputタグのnameを取得
-        var shipping_data = $('input[name^=shipping_name01]').attr('name'); 
-        var shipping_slt  = shipping_data.split("shipping_name01");
-        
-        var shipping_key = "[0]";
-        if(shipping_slt.length > 1) {
-            shipping_key = shipping_slt[1];
-        }
-
-        df['shipping_name01'+shipping_key].value = df.order_name01.value;
-        df['shipping_name02'+shipping_key].value = df.order_name02.value;
-        df['shipping_kana01'+shipping_key].value = df.order_kana01.value;
-        df['shipping_kana02'+shipping_key].value = df.order_kana02.value;
-        df['shipping_zip01'+shipping_key].value = df.order_zip01.value;
-        df['shipping_zip02'+shipping_key].value = df.order_zip02.value;
-        df['shipping_tel01'+shipping_key].value = df.order_tel01.value;
-        df['shipping_tel02'+shipping_key].value = df.order_tel02.value;
-        df['shipping_tel03'+shipping_key].value = df.order_tel03.value;
-        df['shipping_fax01'+shipping_key].value = df.order_fax01.value;
-        df['shipping_fax02'+shipping_key].value = df.order_fax02.value;
-        df['shipping_fax03'+shipping_key].value = df.order_fax03.value;
-        df['shipping_addr01'+shipping_key].value = df.order_addr01.value;
-        df['shipping_addr02'+shipping_key].value = df.order_addr02.value;
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+        df['shipping_company[0]'].value = df.order_company.value;
+        df['shipping_company_kana[0]'].value = df.order_company_kana.value;
+        df['shipping_company_department[0]'].value = df.order_company_department.value;
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
+        df['shipping_name01[0]'].value = df.order_name01.value;
+        df['shipping_name02[0]'].value = df.order_name02.value;
+        df['shipping_kana01[0]'].value = df.order_kana01.value;
+        df['shipping_kana02[0]'].value = df.order_kana02.value;
+        df['shipping_zip01[0]'].value = df.order_zip01.value;
+        df['shipping_zip02[0]'].value = df.order_zip02.value;
+        df['shipping_tel01[0]'].value = df.order_tel01.value;
+        df['shipping_tel02[0]'].value = df.order_tel02.value;
+        df['shipping_tel03[0]'].value = df.order_tel03.value;
+        df['shipping_pref[0]'].value = df.order_pref.value;
+        df['shipping_addr01[0]'].value = df.order_addr01.value;
+        df['shipping_addr02[0]'].value = df.order_addr02.value;
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
+        df['shipping_fax01[0]'].value = df.order_fax01.value;
+        df['shipping_fax02[0]'].value = df.order_fax02.value;
+        df['shipping_fax03[0]'].value = df.order_fax03.value;
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
     }
 
     function fnFormConfirm() {
@@ -93,6 +94,11 @@
 <input type="hidden" id="add_product_class_id" name="add_product_class_id" value="" />
 <input type="hidden" id="edit_product_id" name="edit_product_id" value="" />
 <input type="hidden" id="edit_product_class_id" name="edit_product_class_id" value="" />
+
+<!--{*## 追加規格 ADD BEGIN ##*}-->
+<input type="hidden" id="edit_extra_info" name="edit_extra_info" value="" />
+<!--{*## 追加規格 ADD END ##*}-->
+
 <input type="hidden" id="no" name="no" value="" />
 <input type="hidden" id="delete_no" name="delete_no" value="" />
 <!--{foreach key=key item=item from=$arrSearchHidden}-->
@@ -164,6 +170,48 @@
                 <!--{/if}-->
             </td>
         </tr>
+<!--{*## 顧客管理フォーム ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_ADMIN_FORM === true}-->
+        <tr>
+            <th>ヌボー管理ID</th>
+            <td>
+                <!--{$arrForm.nubow_customer_id.value|h}-->
+                <input type="hidden" name="nubow_customer_id" value="<!--{$arrForm.nubow_customer_id.value|h}-->" />
+            </td>
+        </tr>
+<!--{/if}-->
+<!--{*## 顧客管理フォーム ADD END ##*}-->
+
+        <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+        <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+        <tr>
+            <th>法人名</th>
+            <td>
+                <!--{assign var=key1 value="order_company"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+        </tr>
+        <tr>
+            <th>法人名(フリガナ)</th>
+            <td>
+                <!--{assign var=key1 value="order_company_kana"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+        </tr>
+        <!--{*
+        <tr>
+            <th>部署名</th>
+            <td>
+                <!--{assign var=key1 value="order_company_department"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+        </tr>
+        *}-->
+        <!--{/if}-->
+        <!--{*## 顧客法人管理 ADD END ##*}-->
         <tr>
             <th>お名前</th>
             <td>
@@ -206,6 +254,8 @@
                 <input type="text" name="<!--{$arrForm[$key3].keyname}-->" value="<!--{$arrForm[$key3].value|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->" size="6" class="box6" />
             </td>
         </tr>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
         <tr>
             <th>FAX</th>
             <td>
@@ -220,6 +270,8 @@
                 <input type="text" name="<!--{$arrForm[$key3].keyname}-->" value="<!--{$arrForm[$key3].value|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->" size="6" class="box6" />
             </td>
         </tr>
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
         <tr>
             <th>住所</th>
             <td>
@@ -302,6 +354,19 @@
                 <input type="hidden" name="classcategory_name1[<!--{$product_index}-->]" value="<!--{$arrForm.classcategory_name1.value[$product_index]|h}-->" id="classcategory_name1_<!--{$product_index}-->" />
                 <input type="hidden" name="classcategory_name2[<!--{$product_index}-->]" value="<!--{$arrForm.classcategory_name2.value[$product_index]|h}-->" id="classcategory_name2_<!--{$product_index}-->" />
                 <br />
+<!--{*## 追加規格 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_EXTRA_CLASS === true}-->
+                  <br />
+                  <!--{foreach key=extcls_id item=extclscat_id from=$arrExtraInfo[$product_index].extra_classcategory_id}-->
+                  <!--{assign var=extcls_nm_key value="extra_class_name`$extcls_id`"}-->
+                  <!--{assign var=extclscat_nm_key value="extra_classcategory_name`$extcls_id`"}-->
+                  <!--{if $arrExtraInfo[$product_index].extra_classcategory[$extcls_nm_key]}-->
+                    <!--{$arrExtraInfo[$product_index].extra_classcategory[$extcls_nm_key]}--> : <!--{$arrExtraInfo[$product_index].extra_classcategory[$extclscat_nm_key]}--><br />
+                  <!--{/if}-->
+                  <!--{/foreach}-->
+                  <input type="hidden" name="extra_info[<!--{$product_index}-->]" value="<!--{$arrForm.extra_info.value[$product_index]|h}-->" id="extra_info_<!--{$product_index}-->" />
+                <!--{/if}-->
+<!--{*## 追加規格 ADD END ##*}-->
                 <a class="btn-normal" href="javascript:;" name="change" onclick="win03('<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->order/product_select.php?no=<!--{$product_index}-->&amp;order_id=<!--{$arrForm.order_id.value|h}-->', 'search', '615', '500'); return false;">変更</a>
                 <!--{if count($arrForm.quantity.value) > 1}-->
                     <a class="btn-normal" href="javascript:;" name="delete" onclick="fnSetFormVal('form1', 'delete_no', <!--{$product_index}-->); fnModeSubmit('delete_product','anchor_key','order_products'); return false;">削除</a>
@@ -470,6 +535,36 @@
         <!--{/if}-->
 
         <table class="form">
+            <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+            <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+            <tr>
+                <th>法人名</th>
+                <td>
+                    <!--{assign var=key value="shipping_company"}-->
+                    <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                    <input type="text" name="<!--{$key}-->[<!--{$shipping_index}-->]" value="<!--{$arrShipping[$key]|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->" />
+                </td>
+            </tr>
+            <tr>
+                <th>法人名(フリガナ)</th>
+                <td>
+                    <!--{assign var=key value="shipping_company_kana"}-->
+                    <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                    <input type="text" name="<!--{$key}-->[<!--{$shipping_index}-->]" value="<!--{$arrShipping[$key]|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->" />
+                </td>
+            </tr>
+            <!--{*
+            <tr>
+                <th>部署名</th>
+                <td>
+                    <!--{assign var=key value="shipping_company_department"}-->
+                    <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                    <input type="text" name="<!--{$key}-->[<!--{$shipping_index}-->]" value="<!--{$arrShipping[$key]|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->" />
+                </td>
+            </tr>
+            *}-->
+            <!--{/if}-->
+            <!--{*## 顧客法人管理 ADD END ##*}-->
             <tr>
                 <th>お名前</th>
                 <td>
@@ -504,6 +599,8 @@
                     <input type="text" name="<!--{$key3}-->[<!--{$shipping_index}-->]" value="<!--{$arrShipping[$key3]|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" />
                 </td>
             </tr>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
             <tr>
                 <th>FAX</th>
                 <td>
@@ -518,6 +615,8 @@
                     <input type="text" name="<!--{$key3}-->[<!--{$shipping_index}-->]" value="<!--{$arrShipping[$key3]|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" />
                 </td>
             </tr>
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
             <tr>
                 <th>住所</th>
                 <td>
@@ -615,6 +714,36 @@
         </tr>
         <!--{/if}-->
 
+        <!--{*## 写真希望・用途選択 ADD BEGIN ##*}-->
+        <!--{if $smarty.const.USE_ORDER_PHOTO_APPLY === true}-->
+        <div class="center_cont02">
+        <tr>
+          <th>写真希望</th>
+          <td>
+          <!--{assign var=key value="photo_apply_id}-->
+          <span class="attention"><!--{$arrErr[$key]}--></span>
+          <!--{foreach key=id item=name from=$arrPhotoApply}-->
+            <input type="radio" id="<!--{$key}-->_<!--{$id}-->" name="<!--{$key}-->"  value="<!--{$id}-->" <!--{if $id==$arrForm[$key].value}-->checked<!--{/if}-->>
+            <label for="<!--{$key}-->_<!--{$id}-->"><!--{$name|h}--></label>
+          <!--{/foreach}-->
+          </td>
+        </tr>
+        <!--{/if}-->
+        <!--{if $smarty.const.USE_ORDER_USE_SELECT === true}-->
+        <tr>
+          <th>ご用途</th>
+          <td>
+          <!--{assign var=key value="use_select_id"}-->
+          <span class="attention"><!--{$arrErr[$key]}--></span>
+          <select name="<!--{$key}-->" style="">
+            <option value="" selected="">選択してください</option>
+            <!--{html_options options=$arrUseSelect selected=$arrForm[$key].value}-->
+          </select>
+          </td>
+        </th>
+        <!--{/if}-->
+        <!--{*## 写真希望・用途選択 ADD END ##*}-->
+        
         <tr>
             <th>メモ</th>
             <td>

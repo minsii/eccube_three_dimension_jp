@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -19,7 +19,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
+<!--▼CONTENTS-->
+<script>
+// 別のお届け先入力制限。
+function fnCheckInputDelivCompany() {
+    if(!document.form1) {
+        return;
+    }
+    if(document.form1['deliv_check']) {
+        list = new Array(
+                        'shipping_company',
+                        'shipping_company_kana',
+                        'shipping_company_department'
+                        );
 
+        if(!document.form1['deliv_check'].checked) {
+            fnChangeDisabled(list, '#dddddd');
+        } else {
+            fnChangeDisabled(list, '');
+        }
+    }
+}
+</script>
 <div id="undercolumn">
     <div id="undercolumn_customer">
         <p class="flow_area"><img src="<!--{$TPL_URLPATH}-->img/picture/img_flow_01.jpg" alt="購入手続きの流れ" /></p>
@@ -28,7 +49,7 @@
         <div class="information">
             <p>下記項目にご入力ください。「<span class="attention">※</span>」印は入力必須項目です。<br />
                 <!--{if $smarty.const.USE_MULTIPLE_SHIPPING !== false}-->
-                    入力後、一番下の「上記のお届け先のみに送る」<br/>
+            入力後、一番下の「上記のお届け先のみに送る」<br/>
                     または「複数のお届け先に送る」ボタンをクリックしてください。
                 <!--{else}-->
                     入力後、一番下の「次へ」ボタンをクリックしてください。
@@ -41,6 +62,36 @@
         <input type="hidden" name="mode" value="nonmember_confirm" />
         <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
         <table summary=" ">
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+            <tr>
+                <th>法人名</th>
+                <td>
+                    <!--{assign var=key1 value="order_company"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: active;" class="box240" />
+                </td>
+            </tr>
+            <tr>
+                <th>法人名(フリガナ)</th>
+                <td>
+                    <!--{assign var=key1 value="order_company_kana"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: active;" class="box240" />
+                </td>
+            </tr>
+            <!--{*
+            <tr>
+                <th>部署名</th>
+                <td>
+                    <!--{assign var=key1 value="order_company_department"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: active;" class="box240" />
+                </td>
+            </tr>
+            *}-->
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
             <tr>
                 <th>お名前<span class="attention">※</span></th>
                 <td>
@@ -177,10 +228,46 @@
             <tr>
                 <th colspan="2">
                 <!--{assign var=key value="deliv_check"}-->
+<!--{*## 顧客法人管理 MDF BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+                <input type="checkbox" name="<!--{$key}-->" value="1" onclick="fnCheckInputDeliv();fnCheckInputDelivCompany();" <!--{$arrForm[$key].value|sfGetChecked:1}--> id="deliv_label" />
+<!--{else}-->
                 <input type="checkbox" name="<!--{$key}-->" value="1" onclick="fnCheckInputDeliv();" <!--{$arrForm[$key].value|sfGetChecked:1}--> id="deliv_label" />
+<!--{/if}-->
+<!--{*## 顧客法人管理 MDF END ##*}-->
                 <label for="deliv_label"><span class="attention">お届け先を指定</span>　※上記に入力された住所と同一の場合は省略可能です。</label>
                 </th>
             </tr>
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+            <tr>
+                <th>法人名</th>
+                <td>
+                    <!--{assign var=key1 value="shipping_company"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: disabled;" class="box240" />
+                </td>
+            </tr>
+            <tr>
+                <th>法人名(フリガナ)</th>
+                <td>
+                    <!--{assign var=key1 value="shipping_company_kana"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: disabled;" class="box240" />
+                </td>
+            </tr>
+            <!--{*
+            <tr>
+                <th>部署名</th>
+                <td>
+                    <!--{assign var=key1 value="shipping_company_department"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: disabled;" class="box240" />
+                </td>
+            </tr>
+            *}-->
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
             <tr>
                 <th>お名前<span class="attention">※</span></th>
                 <td>
@@ -250,27 +337,34 @@
                 </td>
             </tr>
         </table>
-
+        
         <!--{if $smarty.const.USE_MULTIPLE_SHIPPING !== false}-->
-            <p class="alignC">この商品を複数のお届け先に送りますか？</p>
+        <p class="alignC">この商品を複数のお届け先に送りますか？</p>
         <!--{/if}-->
         <div class="btn_area">
             <ul>
                 <!--{if $smarty.const.USE_MULTIPLE_SHIPPING !== false}-->
-                    <li>
-                        <input type="image" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_singular_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_singular.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_singular.jpg" alt="上記のお届け先のみに送る" name="singular" id="singular" />
-                    </li>
-                    <li>
-                    <a href="javascript:;" onclick="fnModeSubmit('multiple', '', ''); return false" onmouseover="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_multiple_on.jpg','several');" onmouseout="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_multiple.jpg','several');">
-                        <img src="<!--{$TPL_URLPATH}-->img/button/btn_multiple.jpg" alt="複数のお届け先に送る" border="0" name="several" id="several" /></a>
-                    </li>
+                <li>
+                    <input type="image" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_singular_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_singular.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_singular.jpg" alt="上記のお届け先のみに送る" name="singular" id="singular" />
+                </li>
+                <li>
+                <a href="javascript:;" onclick="fnModeSubmit('multiple', '', ''); return false" onmouseover="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_multiple_on.jpg','several');" onmouseout="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_multiple.jpg','several');">
+                    <img src="<!--{$TPL_URLPATH}-->img/button/btn_multiple.jpg" alt="複数のお届け先に送る" border="0" name="several" id="several" /></a>
+                </li>
                 <!--{else}-->
                     <li>
                         <input type="image" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_next_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_next.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_next.jpg" alt="次へ" name="singular" id="singular" />
                     </li>
-                <!--{/if}-->
+        <!--{/if}-->
+
             </ul>
         </div>
         </form>
     </div>
 </div>
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+<script>fnCheckInputDelivCompany();</script>
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
+<!--▲CONTENTS-->

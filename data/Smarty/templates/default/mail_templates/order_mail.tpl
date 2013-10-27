@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -51,7 +51,19 @@
 <!--{section name=cnt loop=$arrOrderDetail}-->
 商品コード: <!--{$arrOrderDetail[cnt].product_code}-->
 商品名: <!--{$arrOrderDetail[cnt].product_name}--> <!--{$arrOrderDetail[cnt].classcategory_name1}--> <!--{$arrOrderDetail[cnt].classcategory_name2}-->
-単価：￥ <!--{$arrOrderDetail[cnt].price|sfCalcIncTax|number_format}-->
+<!--{*## 追加規格 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_EXTRA_CLASS === true}-->
+    <!--{foreach key=extcls_id item=extclscat_id from=$arrOrderDetail[cnt].extra_info.extra_classcategory_id}-->
+    <!--{assign var=extraInfo value=$arrOrderDetail[cnt].extra_info.extra_classcategory}-->
+    <!--{assign var=extcls_nm_key value="extra_class_name`$extcls_id`"}-->
+    <!--{assign var=extclscat_nm_key value="extra_classcategory_name`$extcls_id`"}-->
+    <!--{if $extraInfo[$extcls_nm_key]}-->
+            <!--{$extraInfo[$extcls_nm_key]}--> : <!--{$extraInfo[$extclscat_nm_key]}-->
+    <!--{/if}-->
+    <!--{/foreach}-->
+<!--{/if}-->
+<!--{*## 追加規格 ADD END ##*}-->
+単価：￥ <!--{$arrOrderDetail[cnt].price|sfCalcIncTax:$arrInfo.tax:$arrInfo.tax_rule|number_format}-->
 数量：<!--{$arrOrderDetail[cnt].quantity}-->
 
 <!--{/section}-->
@@ -63,7 +75,7 @@
 ============================================
 合　計 ￥ <!--{$arrOrder.payment_total|number_format|default:0}-->
 
-<!--{if count($arrShipping) >= 1}-->
+
 ************************************************
 　配送情報
 ************************************************
@@ -71,6 +83,7 @@
 <!--{foreach item=shipping name=shipping from=$arrShipping}-->
 ◎お届け先<!--{if count($arrShipping) > 1}--><!--{$smarty.foreach.shipping.iteration}--><!--{/if}-->
 
+　法人名　：<!--{$shipping.shipping_company}-->　様
 　お名前　：<!--{$shipping.shipping_name01}--> <!--{$shipping.shipping_name02}-->　様
 　郵便番号：〒<!--{$shipping.shipping_zip01}-->-<!--{$shipping.shipping_zip02}-->
 　住所　　：<!--{$arrPref[$shipping.shipping_pref]}--><!--{$shipping.shipping_addr01}--><!--{$shipping.shipping_addr02}-->
@@ -88,7 +101,6 @@
 
 <!--{/foreach}-->
 <!--{/foreach}-->
-<!--{/if}-->
 <!--{if $arrOrder.customer_id && $smarty.const.USE_POINT !== false}-->
 ============================================
 <!--{* ご注文前のポイント {$tpl_user_point} pt *}-->

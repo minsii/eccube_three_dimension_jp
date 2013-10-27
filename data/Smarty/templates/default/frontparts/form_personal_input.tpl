@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,9 +21,44 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <col width="30%" />
 <col width="70%" />
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+<tr>
+    <th>法人名</th>
+    <td>
+        <!--{assign var=key value="company"}-->
+        <!--{if $arrErr[$key]}-->
+            <div class="attention"><!--{$arrErr[$key]}--></div>
+        <!--{/if}-->
+       <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+    </td>
+</tr>
+<tr>
+    <th>法人名(フリガナ)</th>
+    <td>
+        <!--{assign var=key value="company_kana"}-->
+        <!--{if $arrErr[$key]}-->
+            <div class="attention"><!--{$arrErr[$key]}--></div>
+        <!--{/if}-->
+       <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+    </td>
+</tr>
+<!--{*
+<tr>
+    <th>部署名</th>
+    <td>
+        <!--{assign var=key value="company_department"}-->
+        <!--{if $arrErr[$key]}-->
+            <div class="attention"><!--{$arrErr[$key]}--></div>
+        <!--{/if}-->
+       <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+    </td>
+</tr>
+*}-->
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
 <tr>
     <th>お名前<span class="attention">※</span></th>
     <td>
@@ -110,6 +145,7 @@
         <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1]|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: disabled;" class="box60" />&nbsp;-&nbsp;<input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2]|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->; ime-mode: disabled;" class="box60" />&nbsp;-&nbsp;<input type="text" name="<!--{$key3}-->" value="<!--{$arrForm[$key3]|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->; ime-mode: disabled;" class="box60" />
     </td>
 </tr>
+
 <!--{if $flgFields > 1}-->
     <tr>
         <th>メールアドレス<span class="attention">※</span></th>

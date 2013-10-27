@@ -21,26 +21,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'SC_Product.php';
+// {{{ requires
+require_once '../require.php';
+require_once CLASS_EX_REALDIR . 'page_extends/admin/products/LC_Page_Admin_Products_Extra_ClassCategory_Ex.php';
 
-class SC_Product_Ex extends SC_Product {
-	/*## 追加規格 ADD BEGIN ##*/
-    /**
-     * 商品の追加規格一覧を取得する.
-     *
-     * @param integer $productId 商品ID
-     * @return array 商品追加規格一覧の配列
-     */
-    function getExtraClass($productId, &$objQuery = null) {
-    	if(empty($objQuery))
-        	$objQuery =& SC_Query_Ex::getSingletonInstance();
-        $objQuery->setOrder("product_extra_class_id");
-        $result = $objQuery->select("*", "dtb_products_extra_class",
-                                    "product_id = ?",
-                                    array($productId));
-        return $result;
-    }	
-    /*## 追加規格 ADD END ##*/
-}
+// }}}
+// {{{ generate page
 
+$objPage = new LC_Page_Admin_Products_Extra_ClassCategory_Ex();
+register_shutdown_function(array($objPage, 'destroy'));
+$objPage->init();
+$objPage->process();
 ?>

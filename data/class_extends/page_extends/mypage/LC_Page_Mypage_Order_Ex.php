@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -31,7 +31,7 @@ require_once CLASS_REALDIR . 'pages/mypage/LC_Page_Mypage_Order.php';
  *
  * @package Page
  * @author LOCKON CO.,LTD.
- * @version $Id: LC_Page_Mypage_Order_Ex.php 22796 2013-05-02 09:11:36Z h_yoshimoto $
+ * @version $Id: LC_Page_Mypage_Order_Ex.php 20764 2011-03-22 06:26:40Z nanasess $
  */
 class LC_Page_Mypage_Order_Ex extends LC_Page_Mypage_Order {
 
@@ -64,4 +64,47 @@ class LC_Page_Mypage_Order_Ex extends LC_Page_Mypage_Order {
     function destroy() {
         parent::destroy();
     }
+    
+   // 受注詳細データの取得
+    function lfGetOrderDetail($order_id) {
+        $objQuery       = SC_Query_Ex::getSingletonInstance();
+
+        $objCustomer    = new SC_Customer_Ex();
+        //customer_idを検証
+        $customer_id    = $objCustomer->getValue("customer_id");
+        $order_count    = $objQuery->count("dtb_order", "order_id = ? and customer_id = ?", array($order_id, $customer_id));
+        if ($order_count != 1) return array();
+
+        $col    = "product_class_id, quantity";
+        /*## 追加規格 ADD BEGIN ##*/
+        if(USE_EXTRA_CLASS === true){
+        	$col .= ", extra_info";
+        }
+        /*## 追加規格 ADD END ##*/
+        $table  = "dtb_order_detail LEFT JOIN dtb_products_class USING(product_class_id)";
+        $where  = "order_id = ?";
+        $objQuery->setOrder("order_detail_id");
+        $arrOrderDetail = $objQuery->select($col, $table, $where, array($order_id));
+        return $arrOrderDetail;
+    }
+
+    // 商品をカートに追加
+    function lfAddCartProducts($arrOrderDetail) {
+
+        $objCartSess = new SC_CartSession_Ex();
+        foreach($arrOrderDetail as $order_row) {
+        	/*## 追加規格 ## MDF BEGIN*/
+        	if(USE_EXTRA_CLASS === true){
+        		$extra_info = unserialize($order_row['extra_info']);
+        		$objCartSess->addProduct($order_row['product_class_id'],
+        							$order_row['quantity'], 
+        							$extra_info);
+        	}else{
+        		$objCartSess->addProduct($order_row['product_class_id'],
+        							$order_row['quantity']);        		
+        	}
+        	/*## 追加規格 ## MDF END*/
+        }
+    }    
 }
+?>

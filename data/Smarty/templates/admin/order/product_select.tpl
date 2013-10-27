@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,103 +21,145 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <!--{include file="`$smarty.const.TEMPLATE_ADMIN_REALDIR`admin_popup_header.tpl"}-->
 
-<script type="text/javascript">//<![CDATA[
-    self.moveTo(20,20);self.focus();
+<script type="text/javascript">
+<!--
+self.moveTo(20,20);self.focus();
 
-    function func_submit(product_id, class_name1, class_name2) {
-        var err_text = '';
-        var fm = window.opener.document.form1;
-        var fm1 = window.opener.document;
-        var class1 = "classcategory_id" + product_id + "_1";
-        var class2 = "classcategory_id" + product_id + "_2";
+function func_submit(product_id, class_name1, class_name2) {
+    var err_text = '';
+    var fm = window.opener.document.form1;
+    var fm1 = window.opener.document;
+    var class1 = "classcategory_id" + product_id + "_1";
+    var class2 = "classcategory_id" + product_id + "_2";
 
-        var class1_id = document.getElementById(class1).value;
-        var class2_id = document.getElementById(class2).value;
-        var product_class_id = document.getElementById("product_class_id" + product_id).value;
-        var opner_product_id = 'add_product_id';
-        var opner_product_class_id = 'add_product_class_id';
-        var tpl_no = '<!--{$tpl_no}-->';
+    var class1_id = document.getElementById(class1).value;
+    var class2_id = document.getElementById(class2).value;
+    var product_class_id = document.getElementById("product_class_id" + product_id).value;
+    var opner_product_id = 'add_product_id';
+    var opner_product_class_id = 'add_product_class_id';
+    var tpl_no = '<!--{$tpl_no}-->';
 
-        if (tpl_no != '') {
-            opner_product_id = 'edit_product_id';
-            opner_product_class_id = 'edit_product_class_id';
-            fm1.getElementById("no").value = escape('<!--{$tpl_no}-->');
-        }
-        if (document.getElementById(class1).type == 'select-one' && class1_id == '__unselected') {
-            err_text = class_name1 + "を選択してください。\n";
-        }
-        if (document.getElementById(class2).type == 'select-one' && class2_id == '') {
-            err_text = err_text + class_name2 + "を選択してください。\n";
-        }
-        if (err_text != '') {
-            alert(err_text);
-            return false;
-        }
+    if (tpl_no != '') {
+        opner_product_id = 'edit_product_id';
+        opner_product_class_id = 'edit_product_class_id';
+        fm1.getElementById("no").value = escape('<!--{$tpl_no}-->');
+    }
+    err_text = "";
+    if (document.getElementById(class1).type == 'select-one' && (class1_id == '' || class1_id =='__unselected')) {
+        err_text = class_name1 + "を選択してください。\n";
+    }
+    if (document.getElementById(class2).type == 'select-one' && (class2_id == '' || class2_id =='__unselected')) {
+        err_text = err_text + class_name2 + "を選択してください。\n";
+    }
 
-        fm1.getElementById(opner_product_id).value = product_id;
-        fm1.getElementById(opner_product_class_id).value = product_class_id;
+    err_text += fnSetExtraCls(product_id, fm1);
 
-        fm.mode.value = 'select_product_detail';
+    if (err_text != '') {
+        alert(err_text);
+        return false;
+    }
+
+    fm1.getElementById(opner_product_id).value = product_id;
+    fm1.getElementById(opner_product_class_id).value = product_class_id;
+
+    fm.mode.value = 'select_product_detail';
         fm.anchor_key.value = 'order_products';
-        fm.submit();
-        window.close();
+    fm.submit();
+    window.close();
 
-        return true;
+    return true;
+}
+
+
+// 追加規格初期化
+var arrPdctExtraClsId = new Array();
+var arrAllExtraClass = new Array();
+<!--{foreach item=item key=key from=$arrAllExtraClass}-->
+arrAllExtraClass[<!--{$key}-->] = "<!--{$item}-->";
+<!--{/foreach}-->
+// 追加規格設定
+function fnSetExtraCls(product_id, doc){
+  // init opener's param
+  var openerVal = "";
+  var arrExtclsId = arrPdctExtraClsId[product_id];
+  var i;
+  var ret = true;
+  for(i in arrExtclsId){
+    var id = arrExtclsId[i];
+    var extcls_var_nm = "extra_classcategory_id" + product_id + "_" + id;
+    var extcls_val = document.getElementById(extcls_var_nm).value;
+
+    // add value to opener's param
+    if(openerVal == ""){
+      openerVal += id + ":" + extcls_val;
     }
+    else{
+      openerVal += "," + id + ":" + extcls_val;
+    }
+  }
+  if(ret){
+    doc.getElementById("edit_extra_info").value = openerVal;
+  }
+  return "";
+}
+//-->
+</script>
 
-    // 規格2に選択肢を割り当てる。
-    function fnSetClassCategories(form, classcat_id2_selected) {
-        sele1 = form.classcategory_id1;
-        sele2 = form.classcategory_id2;
-        product_id = form.product_id.value;
 
-        if (sele1) {
-            if (sele2) {
-                // 規格2の選択肢をクリア
-                count = sele2.options.length;
-                for(i = count; i >= 0; i--) {
-                    sele2.options[i] = null;
-                }
+<script type="text/javascript">//<![CDATA[
+// 規格2に選択肢を割り当てる。
+function fnSetClassCategories(form, classcat_id2_selected) {
+    sele1 = form.classcategory_id1;
+    sele2 = form.classcategory_id2;
+    product_id = form.product_id.value;
 
-                // 規格2に選択肢を割り当てる
-                classcats = productsClassCategories[product_id][sele1.value];
-                i = 0;
-                for (var classcat_id2_key in classcats) {
-                    classcategory_id2 = classcats[classcat_id2_key].classcategory_id2;
-                    sele2.options[i] = new Option(classcats[classcat_id2_key].name, classcategory_id2);
-                    if (classcategory_id2 == classcat_id2_selected) {
-                        sele2.options[i].selected = true;
-                    }
-                    i++;
-                }
+    if (sele1) {
+        if (sele2) {
+            // 規格2の選択肢をクリア
+            count = sele2.options.length;
+            for(i = count; i >= 0; i--) {
+                sele2.options[i] = null;
             }
-            fnCheckStock(form);
-        }
-    }
 
-    function fnCheckStock(form) {
-        product_id = form.product_id.value;
-        classcat_id1 = form.classcategory_id1.value;
-        classcat_id2 = form.classcategory_id2 ? form.classcategory_id2.value : '';
-        classcat2 = productsClassCategories[product_id][classcat_id1]['#' + classcat_id2];
-        // 商品規格
-        eleDynamic = document.getElementById('product_class_id' + product_id);
-        if (
-            classcat2
-            && typeof classcat2.product_class_id != 'undefined'
-            && String(classcat2.product_class_id).length >= 1
-        ) {
-            eleDynamic.value = classcat2.product_class_id;
-        } else {
+            // 規格2に選択肢を割り当てる
+            classcats = productsClassCategories[product_id][sele1.value];
+            i = 0;
+            for (var classcat_id2_key in classcats) {
+                classcategory_id2 = classcats[classcat_id2_key].classcategory_id2;
+                sele2.options[i] = new Option(classcats[classcat_id2_key].name, classcategory_id2);
+                if (classcategory_id2 == classcat_id2_selected) {
+                    sele2.options[i].selected = true;
+                }
+                i++;
+            }
+        }
+        fnCheckStock(form);
+    }
+}
+
+function fnCheckStock(form) {
+    product_id = form.product_id.value;
+    classcat_id1 = form.classcategory_id1.value;
+    classcat_id2 = form.classcategory_id2 ? form.classcategory_id2.value : '';
+    classcat2 = productsClassCategories[product_id][classcat_id1]['#' + classcat_id2];
+    // 商品規格
+    eleDynamic = document.getElementById('product_class_id' + product_id);
+    if (
+        classcat2
+        && typeof classcat2.product_class_id != 'undefined'
+        && String(classcat2.product_class_id).length >= 1
+    ) {
+        eleDynamic.value = classcat2.product_class_id;
+    } else {
             // 規格が1つのみの場合
             classcat1 = productsClassCategories[product_id][classcat_id1]['#0'];
             eleDynamic.value = classcat1.product_class_id;
-        }
     }
-//]]></script>
+}
+//]]>
+</script>
 
 <!--▼検索フォーム-->
 <form name="form1" id="form1" method="post" action="?">
@@ -181,7 +223,7 @@
                 <tr style="background:<!--{$arrPRODUCTSTATUS_COLOR[$status]}-->;">
                     <td class="center">
                         <img src="<!--{$smarty.const.ROOT_URLPATH}-->resize_image.php?image=<!--{$arrProducts[cnt].main_list_image|sfNoImageMainList|h}-->&width=65&height=65" alt="<!--{$arrRecommend[$recommend_no].name|h}-->" />
-                    </td>
+                    </td>    
                     <td>
                         <!--{assign var=codemin value=`$arrProducts[cnt].product_code_min`}-->
                         <!--{assign var=codemax value=`$arrProducts[cnt].product_code_max`}-->
@@ -226,6 +268,30 @@
                         <!--{else}-->
                         <input type="hidden" name="<!--{$class2}-->" id="<!--{$class2}-->" value="" />
                         <!--{/if}-->
+                        <!--{*## 追加規格 ADD BEGIN ##*}-->
+                        <!--{if $smarty.const.USE_EXTRA_CLASS === true}-->
+                        <!--{assign var=arrExtraClass value=$tpl_extra_class[$id]}-->
+                        <script>arrPdctExtraClsId[<!--{$id}-->] = new Array();</script>
+                        <!--{section name=extcnt loop=$arrExtraClass}-->
+                            <!--{assign var=extraClsId value=$arrExtraClass[extcnt].extra_class_id}-->
+                            <!--{assign var=extraClsName value=$arrAllExtraClass[$extraClsId]}-->
+                            <!--{assign var=extraClsCat value=$arrAllExtraClassCat[$extraClsId]}-->
+                            <!--{assign var=key value="extra_classcategory_id`$id`_`$extraClsId`"}-->
+                            <dl>
+                                <dt><!--{$extraClsName|h}-->：</dt>
+                                <dd>
+                                    <select name="<!--{$key}-->" id="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                                        <!--{html_options options=$extraClsCat selected=$arrForm[$key]}-->
+                                    </select>
+                                    <!--{if $arrErr[$key] != ""}-->
+                                    <br /><span class="attention">※ <!--{$arrErr[$key]}--></span>
+                                    <!--{/if}-->
+                                </dd>
+                            </dl>
+                            <script>arrPdctExtraClsId[<!--{$id}-->].push(<!--{$extraClsId}-->);</script>
+                        <!--{/section}-->
+                        <!--{/if}-->
+                        <!--{*## 追加規格 ADD END ##*}-->
                         <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
                         <input type="hidden" name="product_class_id<!--{$id|h}-->" id="product_class_id<!--{$id|h}-->" value="<!--{$tpl_product_class_id[$id]}-->" />
                         <input type="hidden" name="product_type" id="product_type<!--{$id|h}-->" value="<!--{$tpl_product_type[$id]}-->" />

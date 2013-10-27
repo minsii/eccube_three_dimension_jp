@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <script type="text/javascript">
 <!--
 
@@ -67,6 +66,25 @@ function func_return(){
                 <th>会員状態</th>
                 <td><!--{if $arrForm.status == 1}-->仮会員<!--{else}-->本会員<!--{/if}--></td>
             </tr>
+
+            <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+            <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+            <tr>
+                <th>法人名</th>
+                <td><!--{$arrForm.company|h}--></td>
+            </tr>
+            <tr>
+                <th>法人名(フリガナ)</th>
+                <td><!--{$arrForm.company_kana|h}--></td>
+            </tr>
+            <!--{*
+            <tr>
+                <th>部署名</th>
+                <td><!--{$arrForm.company_department|h}--></td>
+            </tr>
+            *}-->
+            <!--{/if}-->
+            <!--{*## 顧客法人管理 ADD END ##*}-->
             <tr>
                 <th>お名前</th>
                 <td><!--{$arrForm.name01|h}--><!--{$arrForm.name02|h}-->　様</td>

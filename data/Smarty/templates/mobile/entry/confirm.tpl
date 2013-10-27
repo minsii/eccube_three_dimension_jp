@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -24,52 +24,65 @@
 
 <!--{strip}-->
     <form name="form1" id="form1" method="post" action="?" utn>
-        <input type="hidden" name="mode" value="complete">
+	<input type="hidden" name="mode" value="complete">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
-        <!--{foreach from=$arrForm key=key item=item}-->
-            <input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->">
-        <!--{/foreach}-->
-        下記の内容でご登録してもよろしいですか？<br>
-        <br>
+	<!--{foreach from=$arrForm key=key item=item}-->
+		<input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->">
+	<!--{/foreach}-->
+	下記の内容でご登録してもよろしいですか？<br>
+	<br>
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+	●法人名<br>
+	<!--{$arrForm.company|h}--><br>
 
-        ●お名前<br>
-        <!--{$arrForm.name01|h}-->　<!--{$arrForm.name02|h}--><br>
+	●法人名(フリガナ)<br>
+	<!--{$arrForm.company_kana|h}--><br>
+<!--{*
+	●部署名<br>
+	<!--{$arrForm.company_department|h}--><br>
+}-->
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
 
-        ●お名前(フリガナ)<br>
-        <!--{$arrForm.kana01|h}-->　<!--{$arrForm.kana02|h}--><br>
+	●お名前<br>
+	<!--{$arrForm.name01|h}-->　<!--{$arrForm.name02|h}--><br>
 
-        ●性別<br>
-        <!--{if $arrForm.sex eq 1}-->男性<!--{else}-->女性<!--{/if}--><br>
+	●お名前(フリガナ)<br>
+	<!--{$arrForm.kana01|h}-->　<!--{$arrForm.kana02|h}--><br>
 
-        ●職業<br>
-        <!--{if $arrForm.job}--><!--{$arrJob[$arrForm.job]|h}--><!--{else}-->未登録<!--{/if}--><br>
+	●性別<br>
+	<!--{if $arrForm.sex eq 1}-->男性<!--{else}-->女性<!--{/if}--><br>
 
-        ●生年月日<br>
-        <!--{if strlen($arrForm.year) > 0 && strlen($arrForm.month) > 0 && strlen($arrForm.day) > 0}--><!--{$arrForm.year|h}-->年<!--{$arrForm.month|h}-->月<!--{$arrForm.day|h}-->日生まれ<!--{else}-->未登録<!--{/if}--><br>
+	●職業<br>
+	<!--{if $arrForm.job}--><!--{$arrJob[$arrForm.job]|h}--><!--{else}-->未登録<!--{/if}--><br>
 
-        ●住所<br>
-        〒<!--{$arrForm.zip01|h}--> - <!--{$arrForm.zip02|h}--><br>
-        <!--{$arrPref[$arrForm.pref]|h}--><!--{$arrForm.addr01|h}--><!--{$arrForm.addr02|h}--><br>
+	●生年月日<br>
+	<!--{if strlen($arrForm.year) > 0 && strlen($arrForm.month) > 0 && strlen($arrForm.day) > 0}--><!--{$arrForm.year|h}-->年<!--{$arrForm.month|h}-->月<!--{$arrForm.day|h}-->日生まれ<!--{else}-->未登録<!--{/if}--><br>
 
-        ●電話番号<br>
-        <!--{$arrForm.tel01|h}-->-<!--{$arrForm.tel02|h}-->-<!--{$arrForm.tel03|h}--><br>
-        
-        ●ﾒｰﾙｱﾄﾞﾚｽ<br>
-        <!--{$arrForm.email|h}--><br>
+	●住所<br>
+	〒<!--{$arrForm.zip01|h}--> - <!--{$arrForm.zip02|h}--><br>
+	<!--{$arrPref[$arrForm.pref]|h}--><!--{$arrForm.addr01|h}--><!--{$arrForm.addr02|h}--><br>
 
-        ●ﾊﾟｽﾜｰﾄﾞ確認用質問<br>
-        <!--{$arrReminder[$arrForm.reminder]|h}--><br>
+	●電話番号<br>
+	<!--{$arrForm.tel01|h}-->-<!--{$arrForm.tel02|h}-->-<!--{$arrForm.tel03|h}--><br>
+	
+	●ﾒｰﾙｱﾄﾞﾚｽ<br>
+	<!--{$arrForm.email|h}--><br>
 
-        ●質問の答え<br>
-        <!--{$arrForm.reminder_answer|h}--><br>
+	●ﾊﾟｽﾜｰﾄﾞ確認用質問<br>
+	<!--{$arrReminder[$arrForm.reminder]|h}--><br>
 
-        ●ﾒｰﾙﾏｶﾞｼﾞﾝ<br>
-        <!--{if $arrForm.mailmaga_flg eq 2}-->希望する<!--{else}-->希望しない<!--{/if}--><br>
-        <br>
+	●質問の答え<br>
+	<!--{$arrForm.reminder_answer|h}--><br>
 
-        <center>
-            <input type="submit" name="submit" value="登録"><br>
-            <input type="submit" name="return" value="戻る">
-        </center>
+	●ﾒｰﾙﾏｶﾞｼﾞﾝ<br>
+	<!--{if $arrForm.mailmaga_flg eq 2}-->希望する<!--{else}-->希望しない<!--{/if}--><br>
+	<br>
+
+	<center>
+	<input type="submit" name="submit" value="登録"><br>
+	<input type="submit" name="return" value="戻る">
+	</center>
     </form>
 <!--{/strip}-->

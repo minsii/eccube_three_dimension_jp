@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -31,7 +31,37 @@ require_once CLASS_REALDIR . 'helper/SC_Helper_PageLayout.php';
  *
  * @package Helper
  * @author LOCKON CO.,LTD.
- * @version $Id: SC_Helper_PageLayout_Ex.php 22796 2013-05-02 09:11:36Z h_yoshimoto $
+ * @version $Id: SC_Helper_PageLayout_Ex.php 20764 2011-03-22 06:26:40Z nanasess $
  */
 class SC_Helper_PageLayout_Ex extends SC_Helper_PageLayout {
+	
+	/*## SEO管理 ADD BEGIN ##*/
+	function sfSetPageInfo(&$page, $arrInfo){
+		if(!empty($arrInfo['title'])){
+			$page->arrPageLayout['title'] = $arrInfo['title'];
+		}
+				
+		if (empty($page->arrPageLayout['keyword'])){
+			$page->arrPageLayout['keyword'] .= $arrInfo['keyword'];
+		}else{
+			$page->arrPageLayout['keyword'] .= ",".$arrInfo['keyword'];
+		}
+
+		if (empty($page->arrPageLayout['description'])){
+			$page->arrPageLayout['description'] .= $arrInfo['description'];
+		}
+		else{
+			$page->arrPageLayout['description'] .= ",".$arrInfo['description'];
+		}
+		
+		if (empty($page->arrPageLayout['h1'])){
+			$page->arrPageLayout['h1'] .= $arrInfo['h1'];
+		}
+		else{
+			$page->arrPageLayout['h1'] .= ",".$arrInfo['h1'];
+		}
+	}
+	/*## SEO管理 ADD END ##*/
+
 }
+?>

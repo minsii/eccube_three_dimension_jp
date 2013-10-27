@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -182,6 +182,24 @@
             <table summary="お届け先" class="delivname">
                     <col width="30%" />
                     <col width="70%" />
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+                    <tr>
+                        <th class="alignL">法人名</th>
+                        <td><!--{$shippingItem.shipping_company|h}--></td>
+                    </tr>
+                    <tr>
+                        <th class="alignL">法人名(フリガナ)</th>
+                        <td><!--{$shippingItem.shipping_company_kana|h}--></td>
+                    </tr>
+                    <!--{*
+                    <tr>
+                        <th class="alignL">部署名</th>
+                        <td><!--{$shippingItem.shipping_company_department|h}--></td>
+                    </tr>
+                    *}-->
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
                     <tr>
                         <th class="alignL">お名前</th>
                         <td><!--{$shippingItem.shipping_name01|h}-->&nbsp;<!--{$shippingItem.shipping_name02|h}--></td>

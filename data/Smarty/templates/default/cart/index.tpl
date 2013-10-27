@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -19,15 +19,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
-
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.js"></script>
 <link rel="stylesheet" type="text/css" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.css" media="screen" />
 <script type="text/javascript">//<![CDATA[
     $(document).ready(function() {
-        $('a.expansion').facebox({
-            loadingImage : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/loading.gif',
-            closeImage   : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/closelabel.png'
-        });
+    $('a.expansion').facebox({
+        loadingImage : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/loading.gif',
+        closeImage   : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/closelabel.png'
+    });
     });
 //]]></script>
 
@@ -137,8 +136,17 @@
                                 <!--{$item.productsClass.class_name1}-->：<!--{$item.productsClass.classcategory_name1}--><br />
                             <!--{/if}-->
                             <!--{if $item.productsClass.classcategory_name2 != ""}-->
-                                <!--{$item.productsClass.class_name2}-->：<!--{$item.productsClass.classcategory_name2}-->
+                                <!--{$item.productsClass.class_name2}-->：<!--{$item.productsClass.classcategory_name2}--><br />
                             <!--{/if}-->
+                <!--{*## 追加規格 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_EXTRA_CLASS === true}-->
+                        <!--{foreach key=extra_cls_id item=extra_clscat_id from=$item.extra_info.extra_classcategory_id}-->
+                            <!--{assign var=extra_cls_key value="extra_class_name`$extra_cls_id`"}-->
+                            <!--{assign var=extra_clscat_key value="extra_classcategory_name`$extra_cls_id`"}-->
+                            <!--{$item.extra_info.extra_classcategory[$extra_cls_key]}-->：<!--{$item.extra_info.extra_classcategory[$extra_clscat_key]}--><br />
+                        <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{*## 追加規格 ADD END ##*}-->
                         </td>
                         <td class="alignR">
                             <!--{$item.price|sfCalcIncTax|number_format}-->円
@@ -200,3 +208,4 @@
     <!--{/if}-->
     </div>
 </div>
+<!--▲CONTENTS-->

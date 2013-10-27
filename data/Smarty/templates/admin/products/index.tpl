@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <script type="text/javascript">
 // URLの表示非表示切り替え
 function lfnDispChange(){
@@ -169,7 +168,7 @@ function lfnDispChange(){
 
     </div>
     <!--検索条件設定テーブルここまで-->
-</form>
+</form>  
 
 
 <!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
@@ -205,18 +204,18 @@ function lfnDispChange(){
 
         <!--検索結果表示テーブル-->
         <table class="list" id="products-search-result">
-            <col width="8%" />
-            <col width="9%" />
-            <col width="9%" />
-            <col width="8%" />
-            <col width="25%" />
-            <col width="8%" />
-            <col width="8%" />
-            <col width="5%" />
-            <col width="5%" />
-            <col width="5%" />
-            <col width="5%" />
-            <col width="5%" />
+            <colgroup width="5%">
+            <colgroup width="8%">
+            <colgroup width="8%">
+            <colgroup width="8%">
+            <colgroup width="25%">
+            <colgroup width="8%">
+            <colgroup width="8%">
+            <colgroup width="5%">
+            <colgroup width="5%">
+            <colgroup width="5%">
+            <colgroup width="5%">
+            <colgroup width="5%">
             <tr>
                 <th rowspan="2">商品ID</th>
                 <th rowspan="2">商品画像</th>
@@ -230,6 +229,11 @@ function lfnDispChange(){
                 <!--{if $smarty.const.OPTION_CLASS_REGIST == 1}-->
                 <th rowspan="2">規格</th>
                 <!--{/if}-->
+                <!--{*## 追加規格 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_EXTRA_CLASS == 1}-->
+                <th rowspan="2">追加規格</th>
+                <!--{/if}-->
+                <!--{*## 追加規格 ADD END ##*}-->
                 <th rowspan="2">削除</th>
                 <th rowspan="2">複製</th>
             </tr>
@@ -268,8 +272,13 @@ function lfnDispChange(){
                     <td class="menu" rowspan="2"><!--{$arrDISP[$key]}--></td>
                     <td class="menu" rowspan="2"><span class="icon_edit"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >編集</a></span></td>
                     <td class="menu" rowspan="2"><span class="icon_confirm"><a href="<!--{$smarty.const.HTTP_URL|sfTrimURL}-->/products/detail.php?product_id=<!--{$arrProducts[cnt].product_id}-->&amp;admin=on" target="_blank">確認</a></span></td>
+                    <!--{*## 追加規格 ADD BEGIN ##*}-->
                     <!--{if $smarty.const.OPTION_CLASS_REGIST == 1}-->
                     <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >規格</a></span></td>
+                    <!--{/if}-->
+                    <!--{*## 追加規格 ADD END ##*}-->
+                    <!--{if $smarty.const.USE_EXTRA_CLASS == 1}-->
+                    <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_extra_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >追加規格</a></span></td>
                     <!--{/if}-->
                     <td class="menu" rowspan="2"><span class="icon_delete"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnSetFormValue('category_id', '<!--{$arrProducts[cnt].category_id}-->'); fnModeSubmit('delete', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;">削除</a></span></td>
                     <td class="menu" rowspan="2"><span class="icon_copy"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product.php'); fnModeSubmit('copy', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >複製</a></span></td>
@@ -299,6 +308,6 @@ function lfnDispChange(){
 
 </form>
 
-<!--★★検索結果一覧★★-->
+<!--★★検索結果一覧★★-->        
 <!--{/if}-->
 </div>

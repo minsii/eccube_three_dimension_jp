@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -31,7 +31,42 @@ require_once CLASS_REALDIR . 'util/SC_Utils.php';
  *
  * @package Util
  * @author LOCKON CO.,LTD.
- * @version $Id: SC_Utils_Ex.php 22796 2013-05-02 09:11:36Z h_yoshimoto $
+ * @version $Id: SC_Utils_Ex.php 20764 2011-03-22 06:26:40Z nanasess $
  */
 class SC_Utils_Ex extends SC_Utils {
+    
+    /*## マルチページ繰り ADD BEGIN ##*/
+    /**
+     * アンカーハッシュ文字列を取得する
+     * アンカーキーをサニタイジングする
+     * 
+     * @param string $anchor_key フォーム入力パラメーターで受け取ったアンカーキー
+     * @return <type> 
+     */
+    function getAnchorHash($anchor_key) {
+        if($anchor_key != "") {
+            return "location.hash='#" . htmlspecialchars($anchor_key) . "'";
+        } else {
+            return "";
+        }
+    }
+    /*## マルチページ繰り ADD END ##*/
+
+    /*## 追加規格 ADD BEGIN ##*/
+    
+    /* 追加規格分類の件数取得 */
+    function sfGetExtraClassCatCount() {
+        $sql = "SELECT count(dtb_extra_class.extra_class_id) AS count, dtb_extra_class.extra_class_id ";
+        $sql.= "FROM dtb_extra_class INNER JOIN dtb_extra_classcategory ON dtb_extra_class.extra_class_id = dtb_extra_classcategory.extra_class_id ";
+        $sql.= "WHERE dtb_extra_class.del_flg = 0 AND dtb_extra_classcategory.del_flg = 0 ";
+        $sql.= "GROUP BY dtb_extra_class.extra_class_id, dtb_extra_class.name";
+        $objQuery = new SC_Query_Ex();
+        $arrList = $objQuery->getAll($sql);
+        // キーと値をセットした配列を取得
+        $arrRet = SC_Utils_Ex::sfArrKeyValue($arrList, 'extra_class_id', 'count');
+
+        return $arrRet;
+    }
+    /*## 追加規格 ADD END ##*/    
 }
+?>

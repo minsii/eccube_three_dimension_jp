@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2011 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -19,27 +19,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
-
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.js"></script>
 <link rel="stylesheet" type="text/css" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.css" media="screen" />
 <script type="text/javascript">//<![CDATA[
     var send = true;
 
     function fnCheckSubmit() {
-        if(send) {
-            send = false;
-            return true;
-        } else {
-            alert("只今、処理中です。しばらくお待ち下さい。");
-            return false;
-        }
+    if(send) {
+        send = false;
+        return true;
+    } else {
+        alert("只今、処理中です。しばらくお待ち下さい。");
+        return false;
+    }
     }
 
     $(document).ready(function() {
-        $('a.expansion').facebox({
-            loadingImage : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/loading.gif',
-            closeImage   : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/closelabel.png'
-        });
+    $('a.expansion').facebox({
+        loadingImage : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/loading.gif',
+        closeImage   : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/closelabel.png'
+    });
     });
 //]]></script>
 
@@ -65,7 +64,7 @@
                     <!--{if $use_module}-->
                 <li>
                     <input type="image" onclick="return fnCheckSubmit();" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_next_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_next.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_next.jpg" alt="次へ" name="next-top" id="next-top" />
-                </li>
+                </li> 
                     <!--{else}-->
                 <li>
                     <input type="image" onclick="return fnCheckSubmit();" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_order_complete_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_order_complete.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_order_complete.jpg" alt="ご注文完了ページへ" name="next-top" id="next-top" />
@@ -105,6 +104,15 @@
                             <!--{if $item.productsClass.classcategory_name2 != ""}-->
                             <li><!--{$item.productsClass.class_name2}-->：<!--{$item.productsClass.classcategory_name2}--></li>
                             <!--{/if}-->
+                <!--{*## 追加規格 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_EXTRA_CLASS === true}-->
+                        <!--{foreach key=extra_cls_id item=extra_clscat_id from=$item.extra_info.extra_classcategory_id}-->
+                            <!--{assign var=extra_cls_key value="extra_class_name`$extra_cls_id`"}-->
+                            <!--{assign var=extra_clscat_key value="extra_classcategory_name`$extra_cls_id`"}-->
+                            <li><!--{$item.extra_info.extra_classcategory[$extra_cls_key]}-->：<!--{$item.extra_info.extra_classcategory[$extra_clscat_key]}--></li>
+                        <!--{/foreach}-->
+                <!--{/if}-->
+                <!--{*## 追加規格 ADD END ##*}-->
                         </ul>
                     </td>
                     <td class="alignR">
@@ -225,6 +233,24 @@
             <col width="30%" />
             <col width="70%" />
             <tbody>
+<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+                <tr>
+                    <th scope="row">法人名</th>
+                    <td><!--{$arrForm.order_company|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">法人名(フリガナ)</th>
+                    <td><!--{$arrForm.order_company_kana|h}--></td>
+                </tr>
+                <!--{*
+                <tr>
+                    <th scope="row">部署名</th>
+                    <td><!--{$arrForm.order_company_department|h}--></td>
+                </tr>
+                *}-->
+<!--{/if}-->
+<!--{*## 顧客法人管理 ADD END ##*}-->
                 <tr>
                     <th scope="row">お名前</th>
                     <td><!--{$shippingItem.shipping_name01|h}--> <!--{$shippingItem.shipping_name02|h}--></td>
@@ -282,6 +308,22 @@
                 <th scope="row">お支払方法</th>
                 <td><!--{$arrForm.payment_method|h}--></td>
             </tr>
+            
+            <!--{*## 写真希望・用途選択 ADD BEGIN ##*}-->
+            <!--{if $smarty.const.USE_ORDER_PHOTO_APPLY === true}-->
+            <tr>
+                <th scope="row">お届けしたお花の写真を希望する</th>
+                <td><!--{$arrForm.photo_apply|h}--></td>
+            </tr>
+            <!--{/if}-->
+            <!--{if $smarty.const.USE_ORDER_USE_SELECT === true}-->
+            <tr>
+                <th scope="row">ご用途</th>
+                <td><!--{$arrForm.use_select|h}--></td>
+            </tr>
+            <!--{/if}-->
+            <!--{*## 写真希望・用途選択 ADD END ##*}-->
+            
             <tr>
                 <th scope="row">その他お問い合わせ</th>
                 <td><!--{$arrForm.message|h|nl2br}--></td>
