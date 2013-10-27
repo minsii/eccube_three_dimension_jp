@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -33,6 +33,30 @@
         <input type="hidden" name="mode" value="confirm" />
 
         <table summary="お問い合わせ">
+<!--{*## 商品問い合わせ ADD BEGIN ##*}-->
+            <!--{assign var=key value="product_name"}-->
+            <!--{if $smarty.const.USE_PRODUCT_CONTACT === true && $arrForm[$key].value}-->
+            <tr>
+                <th nowrap>お問い合わせ対象商品名</th>
+                <td>
+                    <!--{$arrForm[$key].value|h}-->
+                    <input type="hidden" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" />
+                </td>
+            </tr>
+            <!--{/if}-->
+<!--{*## 商品問い合わせ ADD END ##*}-->
+<!--{*## 事例問い合わせ ADD BEGIN ##*}-->
+            <!--{assign var=key value="example_name"}-->
+            <!--{if $smarty.const.USE_JIREI_CONTACT === true && $arrForm[$key].value}-->
+            <tr>
+                <th nowrap>お問い合わせ対象事例名</th>
+                <td>
+                    <!--{$arrForm[$key].value|h}-->
+                    <input type="hidden" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" />
+                </td>
+            </tr>
+            <!--{/if}-->
+<!--{*## 事例問い合わせ ADD END ##*}-->
             <tr>
                 <th>お名前<span class="attention">※</span></th>
                 <td>

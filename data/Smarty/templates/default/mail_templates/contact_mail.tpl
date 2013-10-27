@@ -1,7 +1,7 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
+
 <!--{$tpl_header}-->
 　※本メールは自動配信メールです。
 　等幅フォント(MSゴシック12ポイント、Osaka-等幅など)で
@@ -30,7 +31,7 @@
 　お送りしています。
 　もしお心当たりが無い場合は、このままこのメールを破棄して
 　ください。
-　またその旨、 <!--{$tpl_infoemail}--> まで
+　またその旨、<!--{$tpl_infoemail}-->まで
 　ご連絡いただければ幸いです。
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
@@ -39,6 +40,12 @@
 以下のお問い合わせを受付致しました。
 確認次第ご連絡いたしますので、少々お待ちください。
 
+<!--{*## 商品問い合わせ ADD BEGIN ##*}--><!--{if $smarty.const.USE_PRODUCT_CONTACT === true && $arrForm.product_name.value}-->
+■お問い合わせ対象商品名　：<!--{$arrForm.product_name.value|h}-->
+<!--{/if}--><!--{*## 商品問い合わせ ADD END ##*}-->
+<!--{*## 事例問い合わせ ADD BEGIN ##*}--><!--{if $smarty.const.USE_PRODUCT_CONTACT === true && $arrForm.example_name.value}-->
+■お問い合わせ対象事例名　：<!--{$arrForm.example_name.value|h}-->
+<!--{/if}--><!--{*## 事例問い合わせ ADD END ##*}-->
 ■お名前　：<!--{$arrForm.name01.value}--> <!--{$arrForm.name02.value}--> (<!--{$arrForm.kana01.value}--> <!--{$arrForm.kana02.value}-->) 様
 ■郵便番号：<!--{if $arrForm.zip01.value && $arrForm.zip02.value}-->〒<!--{$arrForm.zip01.value}-->-<!--{$arrForm.zip02.value}--><!--{/if}-->
 

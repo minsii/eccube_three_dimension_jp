@@ -105,3 +105,8 @@ ALTER TABLE dtb_delivfee DROP CONSTRAINT dtb_delivfee_pkey;
 ALTER TABLE dtb_delivfee ADD CONSTRAINT dtb_delivfee_pkey PRIMARY KEY (deliv_id,fee_id,deliv_rank);
 
 ALTER TABLE dtb_products ADD COLUMN deliv_rank integer DEFAULT 1;
+
+/*######################■商品問い合わせ■######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_CONTACT', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '商品問い合わせ使用フラグ');
+/*######################■事例問い合わせ■######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_JIREI_CONTACT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), '事例問い合わせ使用フラグ');

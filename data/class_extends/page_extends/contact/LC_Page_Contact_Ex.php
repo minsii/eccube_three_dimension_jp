@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -31,7 +31,7 @@ require_once CLASS_REALDIR . 'pages/contact/LC_Page_Contact.php';
  *
  * @package Page
  * @author LOCKON CO.,LTD.
- * @version $Id: LC_Page_Contact_Ex.php 22796 2013-05-02 09:11:36Z h_yoshimoto $
+ * @version $Id: LC_Page_Contact_Ex.php 21867 2012-05-30 07:37:01Z nakanishi $
  */
 class LC_Page_Contact_Ex extends LC_Page_Contact {
 
@@ -63,5 +63,96 @@ class LC_Page_Contact_Ex extends LC_Page_Contact {
      */
     function destroy() {
         parent::destroy();
+    }
+    
+/**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+
+        $objDb = new SC_Helper_DB_Ex();
+        $objFormParam = new SC_FormParam_Ex();
+
+        $this->arrData = isset($_SESSION['customer']) ? $_SESSION['customer'] : '';
+
+        switch ($this->getMode()) {
+            case 'confirm':
+                // エラーチェック
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                $objFormParam->convParam();
+                $objFormParam->toLower('email');
+                $objFormParam->toLower('email02');
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                // 入力値の取得
+                $this->arrForm = $objFormParam->getFormParamList();
+
+                if (SC_Utils_Ex::isBlank($this->arrErr)) {
+                    // エラー無しで完了画面
+                    $this->tpl_mainpage = 'contact/confirm.tpl';
+                    $this->tpl_title = 'お問い合わせ(確認ページ)';
+                }
+
+                break;
+
+            case 'return':
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                $this->arrForm = $objFormParam->getFormParamList();
+
+                break;
+
+            case 'complete':
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                $this->arrErr = $objFormParam->checkError();
+                $this->arrForm = $objFormParam->getFormParamList();
+                if (SC_Utils_Ex::isBlank($this->arrErr)) {
+                    $this->lfSendMail($this);
+
+
+                    // 完了ページへ移動する
+                    SC_Response_Ex::sendRedirect('complete.php');
+                    SC_Response_Ex::actionExit();
+                } else {
+                    SC_Utils_Ex::sfDispSiteError(CUSTOMER_ERROR);
+                    SC_Response_Ex::actionExit();
+                }
+                break;
+
+            default:
+            	/*## 商品問い合わせ ADD BEGIN ##*/
+            	$this->lfInitParam($objFormParam);
+            	$objFormParam->setParam($_GET);
+            	$objFormParam->convParam();
+            	$this->arrForm = $objFormParam->getFormParamList();
+            	/*## 商品問い合わせ ADD END ##*/
+                break;
+        }
+
+    }
+    
+    /**
+     * お問い合わせ入力時のパラメーター情報の初期化を行う.
+     *
+     * @param SC_FormParam $objFormParam SC_FormParam インスタンス
+     * @return void
+     */
+    function lfInitParam(&$objFormParam) {
+    	parent::lfInitParam(&$objFormParam);
+    	
+    	/*## 商品問い合わせ ADD BEGIN ##*/
+    	if(constant("USE_PRODUCT_CONTACT") === true){
+    		$objFormParam->addParam("お問い合わせ対象商品名", 'product_name');
+    	}
+        /*## 商品問い合わせ ADD END ##*/
+    	
+    	/*## 事例問い合わせ ADD BEGIN ##*/
+    	if(constant("USE_JIREI_CONTACT") === true){
+    		$objFormParam->addParam("お問い合わせ対象事例名", 'example_name');
+    	}
+        /*## 事例問い合わせ ADD END ##*/
     }
 }
