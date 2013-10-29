@@ -101,9 +101,11 @@
             <tr>
                 <th>品切れ商品</th>
                 <td>
+                <div style="height:120px; overflow:auto; padding:5px;">
                 <!--{section name=i loop=$arrSoldout}-->
                 <!--{$arrSoldout[i].product_id}-->:<!--{$arrSoldout[i].name|h}--><br />
                 <!--{/section}-->
+                </div>
                 </td>
             </tr>
         </table>
