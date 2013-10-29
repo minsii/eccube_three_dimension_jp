@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -84,6 +84,22 @@
         <!--{if count($arrProductsList) > 0}-->
 
             <p class="remark"><span class="attention"><!--{$tpl_linemax}-->件</span>が該当しました。</p>
+            
+            <!--{*# 商品一括並び替え ADD BEGIN #*}-->
+            <!--{if $smarty.const.USE_PRODUCT_BULK_RANK === true}-->
+              <strong>一括並び替え説明：</strong>
+              <ul>
+                <li>* 変更対象の<span class="attention">移動番目</span>を全て記入してから「一括並び替え」ボタンを押してください。</li>
+                <li>* １番目に移動しようとする商品は<span class="attention">「0」</span>を指定し、最後に移動しようとする商品は<span class="attention">「件数+1」</span>を指定してください。</li>
+              </ul>
+                
+                <p class="right">
+                  <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('bulk_rank', '', ''); return false;">一括並び替え</a>
+                </p>
+                <br />
+            <!--{/if}-->
+            <!--{*# 商品一括並び替え ADD END #*}-->
+            
             <div class="pager">
                 <!--{$tpl_strnavi}-->
             </div>
@@ -91,14 +107,16 @@
             <!--{if $smarty.const.ADMIN_MODE == '1'}-->
                 <p class="right"><a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('renumber', '', ''); return false;">内部順位再割り当て</a></p>
             <!--{/if}-->
-
+            
             <table class="list" id="categoryTable">
+                <col width="8%" />
                 <col width="20%" />
-                <col width="47.5%" />
+                <col width="39.5%" />
                 <col width="10%" />
                 <col width="7.5%" />
                 <col width="15%" />
                 <tr class="nodrop nodrag">
+                    <th>商品ID</th>
                     <th>商品コード</th>
                     <th>商品名</th>
                     <th>商品画像</th>
@@ -109,6 +127,7 @@
                 <!--{assign var=rank value=$tpl_start_row}-->
                 <!--{section name=cnt loop=$arrProductsList}-->
                     <tr>
+                        <td><!--{$arrProductsList[cnt].product_id}--></td>
                         <td><!--{from_to from=$arrProductsList[cnt].product_code_min to=$arrProductsList[cnt].product_code_max separator="～<br />"}--></td>
                         <td>
                             <!--{$arrProductsList[cnt].name|h}-->
