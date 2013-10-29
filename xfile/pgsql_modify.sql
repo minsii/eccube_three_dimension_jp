@@ -152,3 +152,6 @@ CREATE TABLE dtb_product_deliv
 
 /*######################■商品一括並び替え■######################*/
 INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_BULK_RANK', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '商品一括並び替えを使用するフラグ|false:使用しない');
+
+/*######################■商品並び替えで表示件数指定■######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_RANK_PMAX', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '商品並び替えで表示件数指定を使用するフラグ|false:使用しない');

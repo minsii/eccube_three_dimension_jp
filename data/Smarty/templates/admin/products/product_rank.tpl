@@ -82,9 +82,32 @@
     <div id="products-rank-right">
         <h2><!--{* jQuery で挿入される *}--></h2>
         <!--{if count($arrProductsList) > 0}-->
+            <table border="0">
+            <tr>
+              <td style="border:0px;">
+                <p class="remark"><span class="attention"><!--{$tpl_linemax}-->件</span>が該当しました。</p>
+              </td>
+              
+              <!--{*# 商品表示件数指定 ADD BEGIN #*}-->
+              <!--{if $smarty.const.USE_PRODUCT_RANK_PMAX === true}-->
+              <td style="border:0px;">
+              <div style="text-align:right;">
+                <p class="page_rows">検索結果表示件数
+                <!--{assign var=key value="search_page_max"}-->
+                <select name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" 
+                  onchange="fnModeSubmit('', '', ''); return false;">
+                <!--{html_options options=$arrPageMax selected=$search_page_max}-->
+                </select> 件</p>
+                <!--{if $arrErr[$key]}-->
+                <span class="attention"><!--{$arrErr[$key]}--></span>
+                <!--{/if}-->
+              </div>
+              </td>
+              <!--{/if}-->
+              <!--{*# 商品表示件数指定 ADD END #*}-->
+            </tr>
+            </table>
 
-            <p class="remark"><span class="attention"><!--{$tpl_linemax}-->件</span>が該当しました。</p>
-            
             <!--{*# 商品一括並び替え ADD BEGIN #*}-->
             <!--{if $smarty.const.USE_PRODUCT_BULK_RANK === true}-->
               <strong>一括並び替え説明：</strong>
