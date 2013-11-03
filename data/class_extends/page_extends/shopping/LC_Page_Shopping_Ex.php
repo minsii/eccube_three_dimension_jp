@@ -92,9 +92,12 @@ class LC_Page_Shopping_Ex extends LC_Page_Shopping {
         $objFormParam->addParam("電話番号1", "order_tel01", TEL_ITEM_LEN, 'n', array("EXIST_CHECK", "MAX_LENGTH_CHECK" ,"NUM_CHECK"));
         $objFormParam->addParam("電話番号2", "order_tel02", TEL_ITEM_LEN, 'n', array("EXIST_CHECK", "MAX_LENGTH_CHECK" ,"NUM_CHECK"));
         $objFormParam->addParam("電話番号3", "order_tel03", TEL_ITEM_LEN, 'n', array("EXIST_CHECK", "MAX_LENGTH_CHECK" ,"NUM_CHECK"));
-        $objFormParam->addParam("FAX番号1", "order_fax01", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
-        $objFormParam->addParam("FAX番号2", "order_fax02", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
-        $objFormParam->addParam("FAX番号3", "order_fax03", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        /*## 顧客お届け先FAX ADD BEGIN ##*/
+        if(USE_OTHER_DELIV_FAX === true){
+        	$objFormParam->addParam("FAX番号1", "order_fax01", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        	$objFormParam->addParam("FAX番号2", "order_fax02", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        	$objFormParam->addParam("FAX番号3", "order_fax03", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        }
         $objFormParam->addParam("メールアドレス", "order_email", null, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "NO_SPTAB", "EMAIL_CHECK", "EMAIL_CHAR_CHECK"));
         $objFormParam->addParam("メールアドレス（確認）", "order_email02", null, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "NO_SPTAB", "EMAIL_CHECK", "EMAIL_CHAR_CHECK"), "", false);
         $objFormParam->addParam("年", 'year', INT_LEN, 'n', array("MAX_LENGTH_CHECK"), "", false);
@@ -123,6 +126,12 @@ class LC_Page_Shopping_Ex extends LC_Page_Shopping {
         $objFormParam->addParam("電話番号1", "shipping_tel01", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
         $objFormParam->addParam("電話番号2", "shipping_tel02", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
         $objFormParam->addParam("電話番号3", "shipping_tel03", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        /*## 顧客お届け先FAX ADD BEGIN ##*/
+        if(USE_OTHER_DELIV_FAX === true){
+        	$objFormParam->addParam("FAX番号1", "shipping_fax01", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        	$objFormParam->addParam("FAX番号2", "shipping_fax02", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        	$objFormParam->addParam("FAX番号3", "shipping_fax03", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
+        }
         $objFormParam->addParam("メールマガジン", "mail_flag", INT_LEN, 'n', array("MAX_LENGTH_CHECK", "NUM_CHECK"), 1);
     }    
 }

@@ -155,3 +155,6 @@ INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_BULK_RANK
 
 /*######################■商品並び替えで表示件数指定■######################*/
 INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_RANK_PMAX', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '商品並び替えで表示件数指定を使用するフラグ|false:使用しない');
+
+/*######################■顧客お届け先FAX■######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_OTHER_DELIV_FAX',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '顧客お届け先FAX使用フラグ|true:使用');

@@ -22,9 +22,9 @@
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.js"></script>
 <link rel="stylesheet" type="text/css" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.css" media="screen" />
 <script type="text/javascript">//<![CDATA[
-    var send = true;
+var send = true;
 
-    function fnCheckSubmit() {
+function fnCheckSubmit() {
     if(send) {
         send = false;
         return true;
@@ -32,14 +32,14 @@
         alert("只今、処理中です。しばらくお待ち下さい。");
         return false;
     }
-    }
+}
 
-    $(document).ready(function() {
+$(document).ready(function() {
     $('a.expansion').facebox({
         loadingImage : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/loading.gif',
         closeImage   : '<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/closelabel.png'
     });
-    });
+});
 //]]></script>
 
 <!--CONTENTS-->
@@ -179,7 +179,7 @@
             </table>
         <!--{/if}-->
         <!--{* ログイン済みの会員のみ *}-->
-
+        
         <!--お届け先ここから-->
         <!--{* 販売方法判定（ダウンロード販売のみの場合はお届け先を表示しない） *}-->
         <!--{if $cartKey != $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->
@@ -233,8 +233,8 @@
             <col width="30%" />
             <col width="70%" />
             <tbody>
-<!--{*## 顧客法人管理 ADD BEGIN ##*}-->
-<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+                <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
                 <tr>
                     <th scope="row">法人名</th>
                     <td><!--{$arrForm.order_company|h}--></td>
@@ -249,8 +249,8 @@
                     <td><!--{$arrForm.order_company_department|h}--></td>
                 </tr>
                 *}-->
-<!--{/if}-->
-<!--{*## 顧客法人管理 ADD END ##*}-->
+                <!--{/if}-->
+                <!--{*## 顧客法人管理 ADD END ##*}-->
                 <tr>
                     <th scope="row">お名前</th>
                     <td><!--{$shippingItem.shipping_name01|h}--> <!--{$shippingItem.shipping_name02|h}--></td>
@@ -271,6 +271,8 @@
                     <th scope="row">電話番号</th>
                     <td><!--{$shippingItem.shipping_tel01}-->-<!--{$shippingItem.shipping_tel02}-->-<!--{$shippingItem.shipping_tel03}--></td>
                 </tr>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
                 <tr>
                     <th scope="row">FAX番号</th>
                     <td>
@@ -279,6 +281,8 @@
                         <!--{/if}-->
                     </td>
                 </tr>
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
             <!--{if $cartKey != $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->
                 <tr>
                     <th scope="row">お届け日</th>

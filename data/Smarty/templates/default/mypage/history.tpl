@@ -220,6 +220,8 @@
                         <th class="alignL">電話番号</th>
                         <td><!--{$shippingItem.shipping_tel01}-->-<!--{$shippingItem.shipping_tel02}-->-<!--{$shippingItem.shipping_tel03}--></td>
                     </tr>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
                     <tr>
                         <th class="alignL">FAX番号</th>
                         <td>
@@ -228,6 +230,7 @@
                             <!--{/if}-->
                         </td>
                     </tr>
+<!--{/if}-->
                     <tr>
                         <th class="alignL">お届け日</th>
                         <td><!--{$shippingItem.shipping_date|default:'指定なし'|h}--></td>

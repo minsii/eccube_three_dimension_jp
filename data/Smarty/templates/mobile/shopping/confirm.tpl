@@ -93,9 +93,13 @@
 <!--{*## 顧客法人管理 ADD END ##*}-->
 <!--{$shippingItem.shipping_name01|h}--> <!--{$shippingItem.shipping_name02|h}--><br>
 <!--{$shippingItem.shipping_tel01}-->-<!--{$shippingItem.shipping_tel02}-->-<!--{$shippingItem.shipping_tel03}--><br>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
 <!--{if $shippingItem.shipping_fax01 > 0}-->
 <!--{$shippingItem.shipping_fax01}-->-<!--{$shippingItem.shipping_fax02}-->-<!--{$shippingItem.shipping_fax03}--><br>
 <!--{/if}-->
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
 <br>
 
 お届け日：<!--{$shippingItem.shipping_date|default:"指定なし"|h}--><br>

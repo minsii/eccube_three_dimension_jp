@@ -158,6 +158,8 @@ function fnCheckInputDelivCompany() {
                     <input type="text" name="<!--{$key3}-->" value="<!--{$arrForm[$key3].value|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->; ime-mode: disabled;" class="box60" />
                 </td>
             </tr>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
             <tr>
                 <th>FAX</th>
                 <td>
@@ -172,6 +174,8 @@ function fnCheckInputDelivCompany() {
                     <input type="text" name="<!--{$key3}-->" value="<!--{$arrForm[$key3].value|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->; ime-mode: disabled;" class="box60" />
                 </td>
             </tr>
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
             <tr>
                 <th>メールアドレス<span class="attention">※</span></th>
                 <td>

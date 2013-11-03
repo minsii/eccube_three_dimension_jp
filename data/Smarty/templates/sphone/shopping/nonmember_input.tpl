@@ -145,6 +145,8 @@
                     class="boxShort text data-role-none" />
             </dd>
 
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
             <dt>FAX</dt>
             <dd>
                 <!--{assign var=key1 value="order_fax01"}-->
@@ -169,6 +171,8 @@
                     style="<!--{$arrErr[$key3]|sfGetErrorColor}-->"
                     class="boxShort text data-role-none" />
             </dd>
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
 
             <dt>メールアドレス&nbsp;<span class="attention">※</span></dt>
             <dd>

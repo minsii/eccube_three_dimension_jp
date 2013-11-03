@@ -61,7 +61,7 @@ class SC_Helper_Purchase_Ex extends SC_Helper_Purchase {
 		}
 		/*## 顧客法人管理 ADD END ##*/
 		/*## 顧客お届け先FAX ADD BEGIN ##*/
-		if(constant("USE_OTHER_DELIV_FAX") === true){
+		if(USE_OTHER_DELIV_FAX === true){
 			$keys[] = "fax01";
 			$keys[] = "fax02";
 			$keys[] = "fax03";
@@ -119,7 +119,7 @@ class SC_Helper_Purchase_Ex extends SC_Helper_Purchase {
 		}
 		/*## 顧客法人管理 ADD END ##*/
 		/*## 顧客お届け先FAX ADD BEGIN ##*/
-		if(constant("USE_OTHER_DELIV_FAX") === true){
+		if(USE_OTHER_DELIV_FAX === true){
 			$keys[] = "fax01";
 			$keys[] = "fax02";
 			$keys[] = "fax03";

@@ -80,7 +80,7 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
         $objFormParam->addParam("", 'other_deliv_id');
         
    		/*## 顧客お届け先FAX ADD BEGIN ##*/
-        if(constant("USE_OTHER_DELIV_FAX") === true){
+        if(USE_OTHER_DELIV_FAX === true){
         	$objFormParam->addParam("FAX番号1", 'fax01', TEL_ITEM_LEN, 'n', array("SPTAB_CHECK", "NUM_CHECK", "MAX_LENGTH_CHECK"));
         	$objFormParam->addParam("FAX番号2", 'fax02', TEL_ITEM_LEN, 'n', array("SPTAB_CHECK", "NUM_CHECK", "MAX_LENGTH_CHECK"));
         	$objFormParam->addParam("FAX番号3", 'fax03', TEL_ITEM_LEN, 'n', array("SPTAB_CHECK", "NUM_CHECK", "MAX_LENGTH_CHECK"));

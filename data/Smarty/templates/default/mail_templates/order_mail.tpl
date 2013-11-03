@@ -88,8 +88,10 @@
 　郵便番号：〒<!--{$shipping.shipping_zip01}-->-<!--{$shipping.shipping_zip02}-->
 　住所　　：<!--{$arrPref[$shipping.shipping_pref]}--><!--{$shipping.shipping_addr01}--><!--{$shipping.shipping_addr02}-->
 　電話番号：<!--{$shipping.shipping_tel01}-->-<!--{$shipping.shipping_tel02}-->-<!--{$shipping.shipping_tel03}-->
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}--><!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
 　FAX番号 ：<!--{if $shipping.shipping_fax01 > 0}--><!--{$shipping.shipping_fax01}-->-<!--{$shipping.shipping_fax02}-->-<!--{$shipping.shipping_fax03}--><!--{/if}-->
-
+　  
+<!--{/if}--><!--{*## 顧客お届け先FAX ADD END ##*}-->
 　お届け日：<!--{$shipping.shipping_date|date_format:"%Y/%m/%d"|default:"指定なし"}-->
 　お届け時間：<!--{$shipping.shipping_time|default:"指定なし"}-->
 
