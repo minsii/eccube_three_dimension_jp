@@ -179,6 +179,66 @@ $(document).ready(function() {
             </table>
         <!--{/if}-->
         <!--{* ログイン済みの会員のみ *}-->
+
+        <!--{*## 注文者情報表示 ADD BEGIN ##*}-->
+        <h3>注文者</h3>
+        <table summary="注文者情報" class="ordername">
+            <colgroup width="30%"></colgroup>
+            <colgroup width="70%"></colgroup>
+            <tbody>
+                <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+                <tr>
+                    <th scope="row">法人名</th>
+                    <td><!--{$arrForm.order_company|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">法人名(フリガナ)</th>
+                    <td><!--{$arrForm.order_company_kana|h}--></td>
+                </tr>
+<!--{*
+                <tr>
+                    <th scope="row">部署名</th>
+                    <td><!--{$arrForm.order_company_department|h}--></td>
+                </tr>
+*}-->
+                <!--{/if}-->
+                <!--{*## 顧客法人管理 ADD END ##*}-->
+                <tr>
+                    <th scope="row">お名前</th>
+                    <td><!--{$arrForm.order_name01|h}--> <!--{$arrForm.order_name02|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">お名前(フリガナ)</th>
+                    <td><!--{$arrForm.order_kana01|h}--> <!--{$arrForm.order_kana02|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">郵便番号</th>
+                    <td>〒<!--{$arrForm.order_zip01|h}-->-<!--{$arrForm.order_zip02|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">住所</th>
+                    <td><!--{$arrPref[$arrForm.order_pref]}--><!--{$arrForm.order_addr01|h}--><!--{$arrForm.order_addr02|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">電話番号</th>
+                    <td><!--{$arrForm.order_tel01}-->-<!--{$arrForm.order_tel02}-->-<!--{$arrForm.order_tel03}--></td>
+                </tr>
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}-->
+<!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
+                <tr>
+                    <th scope="row">FAX番号</th>
+                    <td>
+                        <!--{if $arrForm.order_fax01 > 0}-->
+                            <!--{$arrForm.order_fax01}-->-<!--{$arrForm.order_fax02}-->-<!--{$arrForm.order_fax03}-->
+                        <!--{/if}-->
+                    </td>
+                </tr>
+<!--{/if}-->
+<!--{*## 顧客お届け先FAX ADD END ##*}-->
+            </tbody>
+        </table>
+        <!--{*## 注文者情報表示 ADD END ##*}-->
         
         <!--お届け先ここから-->
         <!--{* 販売方法判定（ダウンロード販売のみの場合はお届け先を表示しない） *}-->

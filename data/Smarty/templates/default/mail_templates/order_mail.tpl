@@ -75,6 +75,20 @@
 ============================================
 合　計 ￥ <!--{$arrOrder.payment_total|number_format|default:0}-->
 
+************************************************
+　注文者情報
+************************************************
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
+　法人名　：<!--{$arrOrder.order_company}--><!--{$arrOrder.order_company_department}-->　様
+<!--{/if}-->
+　お名前　：<!--{$arrOrder.order_name01}--> <!--{$arrOrder.order_name02}-->　様
+　郵便番号：〒<!--{$arrOrder.order_zip01}-->-<!--{$arrOrder.order_zip02}-->
+　住所　　：<!--{$arrPref[$arrOrder.order_pref]}--><!--{$arrOrder.order_addr01}--><!--{$arrOrder.order_addr02}-->
+　電話番号：<!--{$arrOrder.order_tel01}-->-<!--{$arrOrder.order_tel02}-->-<!--{$arrOrder.order_tel03}-->
+<!--{*## 顧客お届け先FAX ADD BEGIN ##*}--><!--{if $smarty.const.USE_OTHER_DELIV_FAX === true}-->
+　FAX番号 ：<!--{$arrOrder.order_fax01}-->-<!--{$arrOrder.order_fax02}-->-<!--{$arrOrder.order_fax03}-->
+<!--{/if}--><!--{*## 顧客お届け先FAX ADD END ##*}-->
+
 
 ************************************************
 　配送情報
