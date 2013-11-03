@@ -43,6 +43,28 @@ class SC_Product_Ex extends SC_Product {
     /*## 追加規格 ADD END ##*/
     
  	/*## 商品支払方法指定 ADD BEGIN ##*/
+ 	function setProductPayment($objQuery = null, $arrPaymentId, $product_id){
+        if($objQuery == null){
+    		$cmt = true;
+        	$objQuery =& SC_Query_Ex::getSingletonInstance();
+        	$objQuery->begin();
+    	}
+    	
+		$objQuery->delete("dtb_product_payment", "product_id = ?", array($product_id));  
+		$sqlval = array();
+		$sqlval["product_id"] = $product_id;
+        foreach ($arrPaymentId as $pid) {
+            if($pid == '') continue;
+            $sqlval['payment_id'] = $pid;
+            
+            $objQuery->insert('dtb_product_payment', $sqlval);
+        }
+
+        if($cmt){
+        	$objQuery->commit();
+        }
+    }
+    
     /**
      * 商品IDをキーにした, 商品支払方法IDの配列を取得する.
      *
@@ -67,6 +89,28 @@ class SC_Product_Ex extends SC_Product {
     /*## 商品支払方法指定 ADD END ##*/
     
     /*## 商品配送方法指定 ADD BEGIN ##*/
+ 	function setProductDeliv($objQuery = null, $arrDelivId, $product_id){
+        if($objQuery == null){
+    		$cmt = true;
+        	$objQuery =& SC_Query_Ex::getSingletonInstance();
+        	$objQuery->begin();
+    	}
+    	
+		$objQuery->delete("dtb_product_deliv", "product_id = ?", array($product_id));  
+		$sqlval = array();
+		$sqlval["product_id"] = $product_id;
+        foreach ($arrDelivId as $did) {
+            if($did == '') continue;
+            $sqlval['deliv_id'] = $did;
+            
+            $objQuery->insert('dtb_product_deliv', $sqlval);
+        }
+
+        if($cmt){
+        	$objQuery->commit();
+        }
+    }
+    
     /**
      * 商品IDをキーにした, 商品配送方法IDの配列を取得する.
      *
