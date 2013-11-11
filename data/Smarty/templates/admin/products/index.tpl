@@ -199,9 +199,15 @@ function lfnDispChange(){
         <a class="btn-tool" href="../contents/csv.php?tpl_subno_csv=product">CSV 出力項目設定</a>
     </div>
     <!--{if count($arrProducts) > 0}-->
-
+        
+        <!--{*## 商品マスタ一覧で在庫変更 ADD BEGIN ##*}-->
+        <!--{if $smarty.const.USE_PRODUCT_MASTER_STOCK_EDIT == 1}-->
+        *【在庫まとめて変更】をご利用の場合、該当入力欄に在庫数をご編集ください。<span class="attention">無制限</span>と設定する場合は、<span class="attention">-1</span>をご入力ください。<br />
+        <!--{/if}-->
+        <!--{*## 商品マスタ一覧で在庫変更 ADD END ##*}-->
+        
         <!--{include file=$tpl_pager}-->
-
+        
         <!--検索結果表示テーブル-->
         <table class="list" id="products-search-result">
             <colgroup width="5%">
@@ -222,7 +228,13 @@ function lfnDispChange(){
                 <th rowspan="2">商品コード</th>
                 <th rowspan="2">価格(円)</th>
                 <th>商品名</th>
-                <th rowspan="2">在庫</th>
+                <th rowspan="2">在庫
+                <!--{*## 商品マスタ一覧で在庫変更 ADD BEGIN ##*}-->
+                <!--{if $smarty.const.USE_PRODUCT_MASTER_STOCK_EDIT == 1}-->
+                <a class="btn-tool" href="#" onclick="fnModeSubmit('change_all_stock','',''); return false;">まとめて変更</a>
+                <!--{/if}-->
+                <!--{*## 商品マスタ一覧で在庫変更 ADD END ##*}-->
+                </th>
                 <th rowspan="2">種別</th>
                 <th rowspan="2">編集</th>
                 <th rowspan="2">確認</th>
@@ -282,10 +294,22 @@ function lfnDispChange(){
                     <!--{* 在庫 *}-->
                     <!--{* XXX 複数規格でかつ、全ての在庫数量が等しい場合は先頭に「各」と入れたれたら良いと思う。 *}-->
                     <td class="menu" rowspan="2">
+                    
+                <!--{*## 商品マスタ一覧で在庫変更 ADD BEGIN ##*}-->
+                <!--{* 規格なしの商品だけ編集できる *}-->
+                <!--{if $smarty.const.USE_PRODUCT_MASTER_STOCK_EDIT == 1 && 
+                    $arrProducts[cnt].classcategory_id1_min == 0 && $arrProducts[cnt].classcategory_id2_min == 0 }-->
+                    <!--{assign var=stock_key value="product_stock_`$arrProducts[cnt].product_id`"}-->
+                    <input type="text" name="<!--{$stock_key}-->" value="<!--{if $arrProducts[cnt].stock_unlimited_min}-->-1<!--{else}--><!--{$arrProducts[cnt].stock_min|number_format}--><!--{/if}-->" size="2" />
+                <!--{else}-->
                         <!--{if $arrProducts[cnt].stock_unlimited_min}-->無制限<!--{else}--><!--{$arrProducts[cnt].stock_min|number_format}--><!--{/if}-->
                         <!--{if $arrProducts[cnt].stock_unlimited_min != $arrProducts[cnt].stock_unlimited_max || $arrProducts[cnt].stock_min != $arrProducts[cnt].stock_max}-->
                             <br />～ <!--{if $arrProducts[cnt].stock_unlimited_max}-->無制限<!--{else}--><!--{$arrProducts[cnt].stock_max|number_format}--><!--{/if}-->
-                        <!--{/if}-->            </td>
+                        <!--{/if}-->
+                <!--{/if}-->
+                <!--{*## 商品マスタ一覧で在庫変更 ADD END ##*}-->
+                
+                    </td>
                     <!--{* 表示 *}-->
                     <!--{assign var=key value=$arrProducts[cnt].status}-->
                     <td class="menu" rowspan="2">

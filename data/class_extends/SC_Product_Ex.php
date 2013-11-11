@@ -162,6 +162,23 @@ class SC_Product_Ex extends SC_Product {
         return $results;
     }
     /*## 商品配送方法指定 ADD END ##*/
+    
+    /*## 商品マスタ一覧で在庫変更 ADD BEGIN ##*/
+    function changeStock($product_id, $classcategory_id1=0, $classcategory_id2=0, $stock=0, $stock_unlimited=0, &$objQuery){
+    	if($objQuery == null) $objQuery =& SC_Query_Ex::getSingletonInstance();
+    	
+    	if($stock_unlimited == 1){
+    		$sqlval["stock"] = null;
+    		$sqlval["stock_unlimited"] = 1;
+    	}else{
+    		$sqlval["stock"] = $stock;
+    		$sqlval["stock_unlimited"] = "0";
+    	}
+    	$sqlval['update_date'] = 'CURRENT_TIMESTAMP';
+    	$objQuery->update("dtb_products_class", $sqlval, "product_id=? AND classcategory_id1=? AND classcategory_id2=?",
+    						array($product_id, $classcategory_id1, $classcategory_id2));
+    }
+    /*## 商品マスタ一覧で在庫変更 ADD END ##*/
 }
 
 ?>

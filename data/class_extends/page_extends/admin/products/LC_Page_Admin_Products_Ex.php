@@ -100,11 +100,18 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
 					$_POST["mode"] = "search";
 				}
 				/*## 商品マスタ一覧で公開状態変更 ADD END ##*/
-
+							
+				/*## 商品マスタ一覧で在庫変更 ADD BEGIN ##*/
+			case 'change_all_stock':
+				if(USE_PRODUCT_MASTER_STOCK_EDIT === true){
+					$this->changeProductsStock();
+					$_POST["mode"] = "search";
+				}
+				/*## 商品マスタ一覧で在庫変更 ADD END ##*/
+				
 				// 検索パラメーター生成後に処理実行するため breakしない
 			case 'csv':
 			case 'delete_all':
-
 			case 'search':
 				$objFormParam->convParam();
 				$objFormParam->trimParam();
@@ -220,7 +227,6 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
 			
 			$arrRet = $objQuery->select($col, $from, $where, $arrValues);
 			if(is_array($arrRet)){
-				$objProduct = new SC_Product_Ex();
 				foreach($arrRet as $no =>$row){
 					// 規格名表示
 					$objQuery->setOrder("");
@@ -254,9 +260,34 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
 			return $objQuery->select($col, $from, $where, $arrValues);
 		}
 		/*## 商品マスタ一覧で規格有無表示 ADD END ##*/
-		
-
-
 	}
+	
+	/*## 商品マスタ一覧で在庫変更 ADD BEGIN ##*/
+	function changeProductsStock(){
+		$objQuery =& SC_Query_Ex::getSingletonInstance();
+		$objProduct = new SC_Product_Ex();
+		$objQuery->begin();
+
+		foreach($_POST as $name => $value){
+			if(preg_match("/^product_stock_(\d+)/", $name, $matchs)){
+				$stock = $value;
+				$stock_unlimited = null;
+
+				if($value == "-1"){
+					$stock = 0;
+					$stock_unlimited = 1;
+				}
+				$objProduct->changeStock($matchs[1], 0, 0, $stock, $stock_unlimited, $objQuery);
+			}
+		}
+
+		// 件数カウントバッチ実行
+		$objDb = new SC_Helper_DB_Ex();
+		$objDb->sfCountCategory($objQuery);
+		$objDb->sfCountMaker($objQuery);
+
+		$objQuery->commit();
+	}
+	/*## 商品マスタ一覧で在庫変更 ADD END ##*/
 
 }
