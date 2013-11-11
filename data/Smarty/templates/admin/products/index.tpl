@@ -109,7 +109,7 @@ function lfnDispChange(){
             </td>
         </tr>
         <tr>
-            <th>登録・更新日</th>
+            <th>登録日</th>
             <td colspan="3">
                 <!--{if $arrErr.search_startyear || $arrErr.search_endyear}-->
                     <span class="attention"><!--{$arrErr.search_startyear}--></span>

@@ -253,7 +253,6 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
 					}
 				}
 			}
-
 			return $arrRet;
 		}
 		else{ 
@@ -290,4 +289,101 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
 	}
 	/*## 商品マスタ一覧で在庫変更 ADD END ##*/
 
+	
+    /**
+     * クエリを構築する.
+     *
+     * 検索条件のキーに応じた WHERE 句と, クエリパラメーターを構築する.
+     * クエリパラメーターは, SC_FormParam の入力値から取得する.
+     *
+     * 構築内容は, 引数の $where 及び $arrValues にそれぞれ追加される.
+     *
+     * @param string $key 検索条件のキー
+     * @param string $where 構築する WHERE 句
+     * @param array $arrValues 構築するクエリパラメーター
+     * @param SC_FormParam $objFormParam SC_FormParam インスタンス
+     * @param SC_FormParam $objDb SC_Helper_DB_Ex インスタンス
+     * @return void
+     */
+    function buildQuery($key, &$where, &$arrValues, &$objFormParam, &$objDb) {
+        $dbFactory = SC_DB_DBFactory_Ex::getInstance();
+        switch ($key) {
+            // 商品ID
+            case 'search_product_id':
+                $where .= ' AND product_id = ?';
+                $arrValues[] = sprintf('%d', $objFormParam->getValue($key));
+                break;
+            // 商品コード
+            case 'search_product_code':
+                $where .= ' AND product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code ILIKE ?)';
+                $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
+                break;
+            // 商品名
+            case 'search_name':
+                $where .= ' AND name LIKE ?';
+                $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
+                break;
+            // カテゴリ
+            case 'search_category_id':
+                list($tmp_where, $tmp_Values) = $objDb->sfGetCatWhere($objFormParam->getValue($key));
+                if ($tmp_where != '') {
+                    $where.= ' AND product_id IN (SELECT product_id FROM dtb_product_categories WHERE ' . $tmp_where . ')';
+                    $arrValues = array_merge((array)$arrValues, (array)$tmp_Values);
+                }
+                break;
+            // 種別
+            case 'search_status':
+                $tmp_where = '';
+                foreach ($objFormParam->getValue($key) as $element) {
+                    if ($element != '') {
+                        if (SC_Utils_Ex::isBlank($tmp_where)) {
+                            $tmp_where .= ' AND (status = ?';
+                        } else {
+                            $tmp_where .= ' OR status = ?';
+                        }
+                        $arrValues[] = $element;
+                    }
+                }
+
+                if (!SC_Utils_Ex::isBlank($tmp_where)) {
+                    $tmp_where .= ')';
+                    $where .= " $tmp_where ";
+                }
+                break;
+            /*## 商品マスター一覧で登録日で検索 MDF BEGIN ##*/
+            // 登録・更新日(開始)
+            case 'search_startyear':
+                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_startyear'),
+                                                    $objFormParam->getValue('search_startmonth'),
+                                                    $objFormParam->getValue('search_startday'));
+//				$where.= ' AND update_date >= ?';
+                $where.= ' AND create_date >= ?';
+                $arrValues[] = $date;
+                break;
+            // 登録・更新日(終了)
+            case 'search_endyear':
+                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_endyear'),
+                                                    $objFormParam->getValue('search_endmonth'),
+                                                    $objFormParam->getValue('search_endday'), true);
+//				$where.= ' AND update_date <= ?';
+                $where.= ' AND create_date <= ?';
+                $arrValues[] = $date;
+                break;
+            /*## 商品マスター一覧で登録日で検索 MDF END ##*/
+            // 商品ステータス
+            case 'search_product_statuses':
+                $arrPartVal = $objFormParam->getValue($key);
+                $count = count($arrPartVal);
+                if ($count >= 1) {
+                    $where .= ' '
+                        . 'AND product_id IN ('
+                        . '    SELECT product_id FROM dtb_product_status WHERE product_status_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', $count) . ')'
+                        . ')';
+                    $arrValues = array_merge($arrValues, $arrPartVal);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }
