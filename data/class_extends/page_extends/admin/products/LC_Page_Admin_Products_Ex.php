@@ -35,141 +35,191 @@ require_once CLASS_REALDIR . 'pages/admin/products/LC_Page_Admin_Products.php';
  */
 class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
 
-    // }}}
-    // {{{ functions
+	// }}}
+	// {{{ functions
 
-    /**
-     * Page を初期化する.
-     *
-     * @return void
-     */
-    function init() {
-        parent::init();
-    }
+	/**
+	 * Page を初期化する.
+	 *
+	 * @return void
+	 */
+	function init() {
+		parent::init();
+	}
 
-    /**
-     * Page のプロセス.
-     *
-     * @return void
-     */
-    function process() {
-        parent::process();
-    }
+	/**
+	 * Page のプロセス.
+	 *
+	 * @return void
+	 */
+	function process() {
+		parent::process();
+	}
 
-    /**
-     * デストラクタ.
-     *
-     * @return void
-     */
-    function destroy() {
-        parent::destroy();
-    }
-    
-    /**
-     * Page のアクション.
-     *
-     * @return void
-     */
-    function action() {
+	/**
+	 * デストラクタ.
+	 *
+	 * @return void
+	 */
+	function destroy() {
+		parent::destroy();
+	}
 
-        $objDb = new SC_Helper_DB_Ex();
-        $objFormParam = new SC_FormParam_Ex();
-        $objProduct = new SC_Product_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+	/**
+	 * Page のアクション.
+	 *
+	 * @return void
+	 */
+	function action() {
 
-        // パラメーター情報の初期化
-        $this->lfInitParam($objFormParam);
-        $objFormParam->setParam($_POST);
-        $this->arrHidden = $objFormParam->getSearchArray();
-        $this->arrForm = $objFormParam->getFormParamList();
+		$objDb = new SC_Helper_DB_Ex();
+		$objFormParam = new SC_FormParam_Ex();
+		$objProduct = new SC_Product_Ex();
+		$objQuery =& SC_Query_Ex::getSingletonInstance();
 
-        switch ($this->getMode()) {        	
-            case 'delete':
-                // 商品、子テーブル(商品規格)、会員お気に入り商品の削除
-                $this->doDelete('product_id = ?', array($objFormParam->getValue('product_id')));
-                // 件数カウントバッチ実行
-                $objDb->sfCountCategory($objQuery);
-                $objDb->sfCountMaker($objQuery);
-                // 削除後に検索結果を表示するため breakしない
+		// パラメーター情報の初期化
+		$this->lfInitParam($objFormParam);
+		$objFormParam->setParam($_POST);
+		$this->arrHidden = $objFormParam->getSearchArray();
+		$this->arrForm = $objFormParam->getFormParamList();
 
-            /*## 商品マスタ一覧で公開状態変更 ADD BEGIN ##*/
-            case 'change_disp':
-            	// 'delete'もここに来る
-            	if(USE_PRODUCT_MASTER_DISP_EDIT === true && $this->getMode() == 'change_disp'){
-            		$objProduct->changeDisp($objFormParam->getValue('product_id'), $this->arrDISP, $objQuery);
-            		$_POST["mode"] = "search";
-            	}
-            /*## 商品マスタ一覧で公開状態変更 ADD END ##*/
-        		
-            // 検索パラメーター生成後に処理実行するため breakしない
-            case 'csv':
-            case 'delete_all':
+		switch ($this->getMode()) {
+			case 'delete':
+				// 商品、子テーブル(商品規格)、会員お気に入り商品の削除
+				$this->doDelete('product_id = ?', array($objFormParam->getValue('product_id')));
+				// 件数カウントバッチ実行
+				$objDb->sfCountCategory($objQuery);
+				$objDb->sfCountMaker($objQuery);
+				// 削除後に検索結果を表示するため breakしない
 
-            case 'search':
-                $objFormParam->convParam();
-                $objFormParam->trimParam();
-                $this->arrErr = $this->lfCheckError($objFormParam);
-                $arrParam = $objFormParam->getHashArray();
+				/*## 商品マスタ一覧で公開状態変更 ADD BEGIN ##*/
+			case 'change_disp':
+				// 'delete'もここに来る
+				if(USE_PRODUCT_MASTER_DISP_EDIT === true && $this->getMode() == 'change_disp'){
+					$objProduct->changeDisp($objFormParam->getValue('product_id'), $this->arrDISP, $objQuery);
+					$_POST["mode"] = "search";
+				}
+				/*## 商品マスタ一覧で公開状態変更 ADD END ##*/
 
-                if (count($this->arrErr) == 0) {
-                    $where = 'del_flg = 0';
-                    $arrWhereVal = array();
-                    foreach ($arrParam as $key => $val) {
-                        if ($val == '') {
-                            continue;
-                        }
-                        $this->buildQuery($key, $where, $arrWhereVal, $objFormParam, $objDb);
-                    }
+				// 検索パラメーター生成後に処理実行するため breakしない
+			case 'csv':
+			case 'delete_all':
 
-                    $order = 'update_date DESC';
+			case 'search':
+				$objFormParam->convParam();
+				$objFormParam->trimParam();
+				$this->arrErr = $this->lfCheckError($objFormParam);
+				$arrParam = $objFormParam->getHashArray();
 
-                    /* -----------------------------------------------
-                     * 処理を実行
-                     * ----------------------------------------------- */
-                    switch ($this->getMode()) {
-                        // CSVを送信する。
-                        case 'csv':
-                            $objCSV = new SC_Helper_CSV_Ex();
-                            // CSVを送信する。正常終了の場合、終了。
-                            $objCSV->sfDownloadCsv(1, $where, $arrWhereVal, $order, true);
-                            SC_Response_Ex::actionExit();
+				if (count($this->arrErr) == 0) {
+					$where = 'del_flg = 0';
+					$arrWhereVal = array();
+					foreach ($arrParam as $key => $val) {
+						if ($val == '') {
+							continue;
+						}
+						$this->buildQuery($key, $where, $arrWhereVal, $objFormParam, $objDb);
+					}
 
-                        // 全件削除(ADMIN_MODE)
-                        case 'delete_all':
-                            $this->doDelete($where, $arrWhereVal);
-                            break;
+					$order = 'update_date DESC';
 
-                        // 検索実行
-                        default:
-                            // 行数の取得
-                            $this->tpl_linemax = $this->getNumberOfLines($where, $arrWhereVal);
-                            // ページ送りの処理
-                            $page_max = SC_Utils_Ex::sfGetSearchPageMax($objFormParam->getValue('search_page_max'));
-                            // ページ送りの取得
-                            $objNavi = new SC_PageNavi_Ex($this->arrHidden['search_pageno'],
-                                                          $this->tpl_linemax, $page_max,
+					/* -----------------------------------------------
+					 * 処理を実行
+					 * ----------------------------------------------- */
+					switch ($this->getMode()) {
+						// CSVを送信する。
+						case 'csv':
+							$objCSV = new SC_Helper_CSV_Ex();
+							// CSVを送信する。正常終了の場合、終了。
+							$objCSV->sfDownloadCsv(1, $where, $arrWhereVal, $order, true);
+							SC_Response_Ex::actionExit();
+
+							// 全件削除(ADMIN_MODE)
+						case 'delete_all':
+							$this->doDelete($where, $arrWhereVal);
+							break;
+
+							// 検索実行
+						default:
+							// 行数の取得
+							$this->tpl_linemax = $this->getNumberOfLines($where, $arrWhereVal);
+							// ページ送りの処理
+							$page_max = SC_Utils_Ex::sfGetSearchPageMax($objFormParam->getValue('search_page_max'));
+							// ページ送りの取得
+							$objNavi = new SC_PageNavi_Ex($this->arrHidden['search_pageno'],
+							$this->tpl_linemax, $page_max,
                                                           'fnNaviSearchPage', NAVI_PMAX);
-                            $this->arrPagenavi = $objNavi->arrPagenavi;
+							$this->arrPagenavi = $objNavi->arrPagenavi;
 
-                            // 検索結果の取得
-                            $this->arrProducts = $this->findProducts($where, $arrWhereVal, $page_max, $objNavi->start_row,
-                                                                     $order, $objProduct);
+							// 検索結果の取得
+							$this->arrProducts = $this->findProducts($where, $arrWhereVal, $page_max, $objNavi->start_row,
+							$order, $objProduct);
 
-                            // 各商品ごとのカテゴリIDを取得
-                            if (count($this->arrProducts) > 0) {
-                                foreach ($this->arrProducts as $key => $val) {
-                                    $this->arrProducts[$key]['categories'] = $objDb->sfGetCategoryId($val['product_id'], 0, true);
-                                    $objDb->g_category_on = false;
-                                }
-                            }
-                    }
-                }
-                break;
-        }
+							// 各商品ごとのカテゴリIDを取得
+							if (count($this->arrProducts) > 0) {
+								foreach ($this->arrProducts as $key => $val) {
+									$this->arrProducts[$key]['categories'] = $objDb->sfGetCategoryId($val['product_id'], 0, true);
+									$objDb->g_category_on = false;
+								}
+							}
+					}
+				}
+				break;
+		}
 
-        // カテゴリの読込
-        list($this->arrCatKey, $this->arrCatVal) = $objDb->sfGetLevelCatList(false);
-        $this->arrCatList = $this->lfGetIDName($this->arrCatKey, $this->arrCatVal);
+		// カテゴリの読込
+		list($this->arrCatKey, $this->arrCatVal) = $objDb->sfGetLevelCatList(false);
+		$this->arrCatList = $this->lfGetIDName($this->arrCatKey, $this->arrCatVal);
 
-    }
+	}
+
+	/**
+	 * 商品を検索する.
+	 *
+	 * @param string $where 検索条件の WHERE 句
+	 * @param array $arrValues 検索条件のパラメーター
+	 * @param integer $limit 表示件数
+	 * @param integer $offset 開始件数
+	 * @param string $order 検索結果の並び順
+	 * @param SC_Product $objProduct SC_Product インスタンス
+	 * @return array 商品の検索結果
+	 */
+	function findProducts($where, $arrValues, $limit, $offset, $order, &$objProduct) {
+		$objQuery =& SC_Query_Ex::getSingletonInstance();
+
+		// 読み込む列とテーブルの指定
+		$col = 'product_id, name, main_list_image, status, product_code_min, product_code_max, price02_min, price02_max, stock_min, stock_max, stock_unlimited_min, stock_unlimited_max, update_date';
+		$from = $objProduct->alldtlSQL();
+
+		$objQuery->setLimitOffset($limit, $offset);
+		$objQuery->setOrder($order);
+
+		/*## 商品マスタ一覧で規格有無表示 ADD BEGIN ##*/
+		if(USE_PRODUCT_MASTER_CHECK_CLASS === true){
+			// 規格有無チェック
+			$col .= ", classcategory_id1_min, classcategory_id2_min";
+			$from .= " JOIN (
+                        SELECT product_id AS dtb_cls__product_id,
+                            MIN(classcategory_id1) AS classcategory_id1_min,
+                            MIN(classcategory_id2) AS classcategory_id2_min
+                        FROM dtb_products_class
+                        WHERE del_flg = 0
+                        GROUP BY product_id
+                    ) AS Tclass ON alldtl.product_id = Tclass.dtb_cls__product_id";
+
+			if(USE_EXTRA_CLASS === true){
+				// 追加規格有無チェック
+				$col .= ", extra_class_count";
+				$from .= " LEFT JOIN (
+                        SELECT product_id AS dtb_extracls__product_id,
+                            COUNT(product_extra_class_id) AS extra_class_count
+                        FROM dtb_products_extra_class
+                        GROUP BY product_id
+                    ) AS Textraclass ON alldtl.product_id = Textraclass.dtb_extracls__product_id";
+			}
+		}
+		/*## 商品マスタ一覧で規格有無表示 ADD END ##*/
+		return $objQuery->select($col, $from, $where, $arrValues);
+	}
+
 }
