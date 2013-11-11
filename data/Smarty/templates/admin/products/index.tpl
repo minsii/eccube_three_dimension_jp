@@ -259,7 +259,26 @@ function lfnDispChange(){
                         <!--{if $arrProducts[cnt].price02_min != $arrProducts[cnt].price02_max}-->
                             <br />～ <!--{$arrProducts[cnt].price02_max|number_format}-->
                         <!--{/if}-->            </td>
-                    <td><!--{$arrProducts[cnt].name|h}--></td>
+                    <td><!--{$arrProducts[cnt].name|h}-->
+                    <!--{*## 商品マスタ一覧で規格表示 ADD BEGIN ##*}-->
+                    <!--{if $smarty.const.USE_PRODUCT_MASTER_SHOW_CLASS == 1}-->
+                    <!--{if $arrProducts[cnt].class_id1_name || $arrProducts[cnt].class_id2_name }-->
+                      <br />【規格：<!--{$arrProducts[cnt].class_id1_name}-->
+                                    <!--{if $arrProducts[cnt].class_id2_name}-->|<!--{/if}-->
+                                    <!--{$arrProducts[cnt].class_id2_name}-->
+                      】
+                    <!--{/if}-->
+                    <!--{if $arrProducts[cnt].extra_class_names}-->
+                      <!--{assign var=extra_class_names value="`$arrProducts[cnt].extra_class_names`"}-->
+                      <br />【追加規格：
+                      <!--{foreach from=$extra_class_names key=key item=extra_name name=extra_foreach}-->
+                      <!--{$extra_name}--><!--{if !$smarty.foreach.extra_foreach.last}-->|<!--{/if}-->
+                      <!--{/foreach}-->
+                      】
+                    <!--{/if}-->
+                    <!--{/if}-->
+                    <!--{*## 商品マスタ一覧で規格表示 ADD END ##*}-->
+                    </td>
                     <!--{* 在庫 *}-->
                     <!--{* XXX 複数規格でかつ、全ての在庫数量が等しい場合は先頭に「各」と入れたれたら良いと思う。 *}-->
                     <td class="menu" rowspan="2">
@@ -283,11 +302,23 @@ function lfnDispChange(){
                     <td class="menu" rowspan="2"><span class="icon_edit"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >編集</a></span></td>
                     <td class="menu" rowspan="2"><span class="icon_confirm"><a href="<!--{$smarty.const.HTTP_URL|sfTrimURL}-->/products/detail.php?product_id=<!--{$arrProducts[cnt].product_id}-->&amp;admin=on" target="_blank">確認</a></span></td>
                     <!--{if $smarty.const.OPTION_CLASS_REGIST == 1}-->
-                    <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >規格</a></span></td>
+                    <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >規格</a></span>
+                    <!--{*## 商品マスタ一覧で規格表示 ADD BEGIN ##*}-->
+                    <!--{if $smarty.const.USE_PRODUCT_MASTER_SHOW_CLASS == 1}-->
+                    <!--{if $arrProducts[cnt].classcategory_id1_min > 0 || $arrProducts[cnt].classcategory_id2_min > 0 }--><br />○<!--{/if}-->
+                    <!--{/if}-->
+                    <!--{*## 商品マスタ一覧で規格表示 ADD END ##*}-->
+                    </td>
                     <!--{/if}-->
                     <!--{*## 追加規格 ADD BEGIN ##*}-->
                     <!--{if $smarty.const.USE_EXTRA_CLASS == 1}-->
-                    <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_extra_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >追加規格</a></span></td>
+                    <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_extra_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >追加規格</a></span>
+                    <!--{*## 商品マスタ一覧で規格表示 ADD BEGIN ##*}-->
+                    <!--{if $smarty.const.USE_PRODUCT_MASTER_SHOW_CLASS == 1}-->
+                    <!--{if $arrProducts[cnt].extra_class_count > 0}--><br />○<!--{/if}-->
+                    <!--{/if}-->
+                    <!--{*## 商品マスタ一覧で規格表示 ADD END ##*}-->
+                    </td>
                     <!--{/if}-->
                     <!--{*## 追加規格 ADD END ##*}-->
                     <td class="menu" rowspan="2"><span class="icon_delete"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnSetFormValue('category_id', '<!--{$arrProducts[cnt].category_id}-->'); fnModeSubmit('delete', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;">削除</a></span></td>

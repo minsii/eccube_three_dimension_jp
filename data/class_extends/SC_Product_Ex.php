@@ -64,7 +64,7 @@ class SC_Product_Ex extends SC_Product {
     	if(empty($objQuery))
         	$objQuery =& SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder("product_extra_class_id");
-        $result = $objQuery->select("*", "dtb_products_extra_class",
+        $result = $objQuery->select("T1.*, T2.name AS extra_class_name", "dtb_products_extra_class T1 LEFT JOIN dtb_extra_class T2 USING(extra_class_id)",
                                     "product_id = ?",
                                     array($productId));
         return $result;
