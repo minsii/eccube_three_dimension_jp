@@ -24,6 +24,35 @@
 require_once CLASS_REALDIR . 'SC_Product.php';
 
 class SC_Product_Ex extends SC_Product {
+	
+	/*## 商品マスタ一覧で公開状態変更 ADD BEGIN ##*/
+	/**
+	 * 商品公開・非公開状態を切替える
+	 *
+	 * @param integer $productId 商品ID
+	 * @return void
+	 */
+	function changeDisp($productId, $dispMaster = null, &$objQuery = null) {
+		if($objQuery == null){
+			$objQuery =& SC_Query_Ex::getSingletonInstance();
+		}
+
+		if($dispMaster == null){
+			$masterData = new SC_DB_MasterData_Ex();
+			$dispMaster = $masterData->getMasterData('mtb_disp');
+		}
+
+		$disp_count = count($dispMaster);
+		$curr_status = $objQuery->get("status", "dtb_products", "product_id = ? AND del_flg = 0", array($productId));
+
+		$sqlval['status']     = ($curr_status + 1) % ($disp_count + 1);
+		if($sqlval['status'] == 0) $sqlval['status'] = 1;
+		$sqlval['update_date'] = 'CURRENT_TIMESTAMP';
+
+		$objQuery->update('dtb_products', $sqlval, "product_id = ?", array($productId));
+	}
+	/*## 商品マスタ一覧で公開状態変更 ADD END ##*/
+    
 	/*## 追加規格 ADD BEGIN ##*/
     /**
      * 商品の追加規格一覧を取得する.

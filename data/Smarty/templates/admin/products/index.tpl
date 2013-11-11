@@ -269,17 +269,27 @@ function lfnDispChange(){
                         <!--{/if}-->            </td>
                     <!--{* 表示 *}-->
                     <!--{assign var=key value=$arrProducts[cnt].status}-->
-                    <td class="menu" rowspan="2"><!--{$arrDISP[$key]}--></td>
+                    <td class="menu" rowspan="2">
+                    <!--{*## 商品マスタ一覧で公開状態変更 ADD BEGIN ##*}-->
+                    <!--{if $smarty.const.USE_PRODUCT_MASTER_DISP_EDIT == 1}-->
+                    <span class="icon_class">
+                      <a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnModeSubmit('change_disp', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" ><!--{$arrDISP[$key]}--></a>
+                    </span>
+                    <!--{else}-->
+                    <!--{$arrDISP[$key]}-->
+                    <!--{/if}-->
+                    <!--{*## 商品マスタ一覧で公開状態変更 ADD END ##*}-->
+                    </td>
                     <td class="menu" rowspan="2"><span class="icon_edit"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >編集</a></span></td>
                     <td class="menu" rowspan="2"><span class="icon_confirm"><a href="<!--{$smarty.const.HTTP_URL|sfTrimURL}-->/products/detail.php?product_id=<!--{$arrProducts[cnt].product_id}-->&amp;admin=on" target="_blank">確認</a></span></td>
-                    <!--{*## 追加規格 ADD BEGIN ##*}-->
                     <!--{if $smarty.const.OPTION_CLASS_REGIST == 1}-->
                     <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >規格</a></span></td>
                     <!--{/if}-->
-                    <!--{*## 追加規格 ADD END ##*}-->
+                    <!--{*## 追加規格 ADD BEGIN ##*}-->
                     <!--{if $smarty.const.USE_EXTRA_CLASS == 1}-->
                     <td class="menu" rowspan="2"><span class="icon_class"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product_extra_class.php'); fnModeSubmit('pre_edit', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >追加規格</a></span></td>
                     <!--{/if}-->
+                    <!--{*## 追加規格 ADD END ##*}-->
                     <td class="menu" rowspan="2"><span class="icon_delete"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnSetFormValue('category_id', '<!--{$arrProducts[cnt].category_id}-->'); fnModeSubmit('delete', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;">削除</a></span></td>
                     <td class="menu" rowspan="2"><span class="icon_copy"><a href="<!--{$smarty.const.ROOT_URLPATH}-->" onclick="fnChangeAction('./product.php'); fnModeSubmit('copy', 'product_id', <!--{$arrProducts[cnt].product_id}-->); return false;" >複製</a></span></td>
                 </tr>

@@ -158,3 +158,6 @@ INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_RANK_PMAX
 
 /*######################■顧客お届け先FAX■######################*/
 INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_OTHER_DELIV_FAX',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '顧客お届け先FAX使用フラグ|true:使用');
+
+/*######################■商品マスタ一覧で公開状態変更■######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_DISP_EDIT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品マスタ一覧で公開状態変更機能を使用するフラグ|true:使用');
