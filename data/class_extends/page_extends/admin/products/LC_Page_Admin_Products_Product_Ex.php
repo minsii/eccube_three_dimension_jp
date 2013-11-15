@@ -64,6 +64,13 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
 			$this->arrDELIV = SC_Helper_DB_Ex::sfGetIDValueList("dtb_deliv", "deliv_id", "name");
 		}
 		/*## 商品配送方法指定 ADD END ##*/
+		
+		/*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/
+		$this->arrSTATUS2 = $masterData->getMasterData('mtb_status2');
+		$this->arrSTATUS_IMAGE2 = $masterData->getMasterData('mtb_status_image2');
+		$this->arrSTATUS3 = $masterData->getMasterData('mtb_status3');
+		$this->arrSTATUS_IMAGE3 = $masterData->getMasterData('mtb_status_image3');
+		/*## 商品ステータス2、ステータス3を追加 ADD END ##*/
     }
 
     /**
@@ -84,6 +91,22 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         parent::destroy();
     }
     
+    /**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+    	parent::action();
+    	
+    	/*# 商品登録日表示 ADD BEGIN #*/
+    	if(!empty($_POST["product_id"])){
+    		$objProduct = new SC_Product_Ex();
+    		$this->arrDetail = $objProduct->getDetail($_POST["product_id"]);
+    	}
+    	/*# 商品登録日表示 ADD END #*/
+    }
+    
    /**
      * パラメーター情報の初期化
      *
@@ -98,6 +121,15 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         $objFormParam->addParam('公開・非公開', 'status', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('商品ステータス', 'product_status', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
 
+        /*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/
+        $objFormParam->addParam('商品ステータス2', 'product_status2', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('商品ステータス3', 'product_status3', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
+        
+        /*## 商品非課税指定 ADD BEGIN ##*/
+        $objFormParam->addParam('非課税', 'taxfree', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        /*## 商品非課税指定 ADD END ##*/
+        
         if (!$arrPost['has_product_class']) {
             // 新規登録, 規格なし商品の編集の場合
             $objFormParam->addParam('商品種別', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
@@ -115,12 +147,25 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         $objFormParam->addParam('ポイント付与率', 'point_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('発送日目安', 'deliv_date_id', INT_LEN, 'n', array('NUM_CHECK'));
         $objFormParam->addParam('販売制限数', 'sale_limit', AMOUNT_LEN, 'n', array('SPTAB_CHECK', 'ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('メーカー', 'maker_id', INT_LEN, 'n', array('NUM_CHECK'));
-        $objFormParam->addParam('メーカーURL', 'comment1', URL_LEN, 'a', array('SPTAB_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'));
+        
+        /*## その他商品項目カスタマイズ MDF BEGIN ##*/
+        //        $objFormParam->addParam('メーカー', 'maker_id', INT_LEN, 'n', array('NUM_CHECK'));
+        //        $objFormParam->addParam('メーカーURL', 'comment1', URL_LEN, 'a', array('SPTAB_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('メーカー', 'comment1', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('生産国', 'comment2', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('TAISコード', 'comment4', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        /*## その他商品項目カスタマイズ MDF END ##*/
+
         $objFormParam->addParam('検索ワード', 'comment3', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('備考欄(SHOP専用)', 'note', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('一覧-メインコメント', 'main_list_comment', MTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('詳細-メインコメント', 'main_comment', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        
+        /*## その他商品項目カスタマイズ MDF BEGIN ##*/
+        $objFormParam->addParam('詳細-メインコメント1', 'main_comment', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('詳細-メインコメント', 'comment5', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('詳細-メインコメント', 'comment6', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        /*## その他商品項目カスタマイズ MDF END ##*/
+        
         $objFormParam->addParam('save_main_list_image', 'save_main_list_image', '', '', array());
         $objFormParam->addParam('save_main_image', 'save_main_image', '', '', array());
         $objFormParam->addParam('save_main_large_image', 'save_main_large_image', '', '', array());
@@ -216,6 +261,11 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         $sqlval['note'] = $arrList['note'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         $sqlval['creator_id'] = $_SESSION['member_id'];
+        
+        /*## 商品非課税指定 ADD BEGIN ##*/
+        $sqlval['taxfree'] = $arrList['taxfree'];
+        /*## 商品非課税指定 ADD END ##*/
+        
         $arrRet = $objUpFile->getDBFileList();
         $sqlval = array_merge($sqlval, $arrRet);
 
@@ -338,6 +388,12 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         $objProduct = new SC_Product_Ex();
         $objProduct->setProductStatus($product_id, $arrList['product_status']);
 
+        /*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/
+        $objProduct = new SC_Product_Ex();
+        $objProduct->setProductStatus2($product_id, $arrList['product_status2'], $objQuery);
+        $objProduct->setProductStatus3($product_id, $arrList['product_status3'], $objQuery);
+        /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
+        
         // 関連商品登録
         $this->lfInsertRecommendProducts($objQuery, $arrList, $product_id);
 
@@ -414,6 +470,15 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         }
         /*## 商品配送方法指定 ADD END ##*/
         
+        /*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/    
+    	$objProduct = new SC_Product_Ex();
+    	$productStatus2 = $objProduct->getProductStatus2(array($product_id));
+    	$arrProduct['product_status2'] = $productStatus2[$product_id];
+    	
+    	$productStatus3 = $objProduct->getProductStatus3(array($product_id));
+    	$arrProduct['product_status3'] = $productStatus3[$product_id];
+    	/*## 商品ステータス2、ステータス3を追加 ADD END ##*/    
+    	
         return $arrProduct;
     }
     

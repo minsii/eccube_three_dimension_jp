@@ -179,6 +179,106 @@ class SC_Product_Ex extends SC_Product {
     						array($product_id, $classcategory_id1, $classcategory_id2));
     }
     /*## 商品マスタ一覧で在庫変更 ADD END ##*/
+    
+    /*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/    
+    /**
+     * 商品ステータス2を設定する.
+     *
+     * @param integer $productId 商品ID
+     * @param array $productStatusIds ON にする商品ステータス2のIDの配列
+     */
+    function setProductStatus2($productId, $productStatusIds, &$objQuery=null) {
+    	$cmt = 0;
+    	if($objQuery == null){
+    		$objQuery =& SC_Query_Ex::getSingletonInstance();
+    		$objQuery->begin();
+    		$cmt = 1;
+    	}
+    	$val['product_id'] = $productId;
+
+    	$objQuery =& SC_Query_Ex::getSingletonInstance();
+    	$objQuery->delete('dtb_product_status2', 'product_id = ?', array($productId));
+    	foreach ($productStatusIds as $statusId) {
+    		if ($statusId == '') continue;
+    		$val['status2_id'] = $statusId;
+    		$objQuery->insert('dtb_product_status2', $val);
+    	}
+    	if($cmt){
+    		$objQuery->commit();
+    	}
+    }
+    
+    /**
+     * 商品ステータス3を設定する.
+     *
+     * @param integer $productId 商品ID
+     * @param array $productStatusIds ON にする商品ステータス3のIDの配列
+     */
+    function setProductStatus3($productId, $productStatusIds, &$objQuery=null) {
+    	$cmt = 0;
+    	if($objQuery == null){
+    		$objQuery =& SC_Query_Ex::getSingletonInstance();
+    		$objQuery->begin();
+    		$cmt = 1;
+    	}
+    	$val['product_id'] = $productId;
+
+    	$objQuery =& SC_Query_Ex::getSingletonInstance();
+    	$objQuery->delete('dtb_product_status3', 'product_id = ?', array($productId));
+    	foreach ($productStatusIds as $statusId) {
+    		if ($statusId == '') continue;
+    		$val['status3_id'] = $statusId;
+    		$objQuery->insert('dtb_product_status3', $val);
+    	}
+    	if($cmt){
+    		$objQuery->commit();
+    	}
+    }
+    
+    /**
+     * 商品IDをキーにした, 商品ステータス2のIDの配列を取得する.
+     *
+     * @param array 商品ID の配列
+     * @return array 商品IDをキーにした商品ステータス2のIDの配列
+     */
+    function getProductStatus2($productIds) {
+        if (empty($productIds)) {
+            return array();
+        }
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $cols = 'product_id, status2_id';
+        $from = 'dtb_product_status2';
+        $where = 'product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)) . ')';
+        $productStatus = $objQuery->select($cols, $from, $where, $productIds);
+        $results = array();
+        foreach ($productStatus as $status) {
+            $results[$status['product_id']][] = $status['status2_id'];
+        }
+        return $results;
+    }
+    
+    /**
+     * 商品IDをキーにした, 商品ステータス3のIDの配列を取得する.
+     *
+     * @param array 商品ID の配列
+     * @return array 商品IDをキーにした商品ステータス3のIDの配列
+     */
+    function getProductStatus3($productIds) {
+        if (empty($productIds)) {
+            return array();
+        }
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $cols = 'product_id, status3_id';
+        $from = 'dtb_product_status3';
+        $where = 'product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)) . ')';
+        $productStatus = $objQuery->select($cols, $from, $where, $productIds);
+        $results = array();
+        foreach ($productStatus as $status) {
+            $results[$status['product_id']][] = $status['status3_id'];
+        }
+        return $results;
+    }
+    /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
 }
 
 ?>

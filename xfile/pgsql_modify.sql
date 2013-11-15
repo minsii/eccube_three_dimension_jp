@@ -170,3 +170,62 @@ INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER
 
 /*######################■カテゴリ一覧でカゴ表示管理■######################*/
 ALTER TABLE dtb_category ADD COLUMN hide_list_cart integer DEFAULT 0;
+
+/*######################■商品ステータス2、ステータス3を追加■######################*/
+CREATE TABLE mtb_status2(
+  id serial,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_status2_pkey PRIMARY KEY (id)
+);
+CREATE TABLE mtb_status_image2(
+  id serial,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_status_image2_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE mtb_status3(
+  id serial,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_status3_pkey PRIMARY KEY (id)
+);
+CREATE TABLE mtb_status_image3(
+  id serial,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_status_image3_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO mtb_status2(name, rank) VALUES('反射機能', 1);
+INSERT INTO mtb_status2(name, rank) VALUES('杖立て付き', 3);
+INSERT INTO mtb_status2(name, rank) VALUES('アイコン', 3);
+
+INSERT INTO mtb_status_image2(name, rank) VALUES('img/page/detail/icon_01.png', 1);
+INSERT INTO mtb_status_image2(name, rank) VALUES('img/page/detail/icon_02.png', 3);
+INSERT INTO mtb_status_image2(name, rank) VALUES('img/page/detail/icon_03.png', 3);
+
+INSERT INTO mtb_status3(name, rank) VALUES('Good Design', 1);
+INSERT INTO mtb_status3(name, rank) VALUES('JIS', 2);
+INSERT INTO mtb_status3(name, rank) VALUES('S', 3);
+
+INSERT INTO mtb_status_image3(name, rank) VALUES('img/page/detail/icon_01.png', 1);
+INSERT INTO mtb_status_image3(name, rank) VALUES('img/page/detail/icon_02.png', 3);
+INSERT INTO mtb_status_image3(name, rank) VALUES('img/page/detail/icon_03.png', 3);
+
+CREATE TABLE dtb_product_status2(
+  product_id integer NOT NULL,
+  status2_id integer NOT NULL,
+  CONSTRAINT dtb_product_status2_pkey PRIMARY KEY (product_id, status2_id)
+);
+
+CREATE TABLE dtb_product_status3(
+  product_id integer NOT NULL,
+  status3_id integer NOT NULL,
+  CONSTRAINT dtb_product_status3_pkey PRIMARY KEY (product_id, status3_id)
+);
+
+/*######################■商品非課税指定■######################*/
+ALTER TABLE dtb_products ADD COLUMN taxfree integer DEFAULT 0;
+

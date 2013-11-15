@@ -38,6 +38,18 @@
         <!--{foreach item=statusVal from=$item}-->
             <input type="hidden" name="<!--{$key}-->[]" value="<!--{$statusVal|h}-->" />
         <!--{/foreach}-->
+
+<!--{*# 商品ステータス2、ステータス3を追加 ADD BEGIN #*}-->
+    <!--{elseif $key == 'product_status2'}-->
+        <!--{foreach item=statusVal from=$item}-->
+            <input type="hidden" name="<!--{$key}-->[]" value="<!--{$statusVal|h}-->" />
+        <!--{/foreach}-->
+    <!--{elseif $key == 'product_status3'}-->
+        <!--{foreach item=statusVal from=$item}-->
+            <input type="hidden" name="<!--{$key}-->[]" value="<!--{$statusVal|h}-->" />
+        <!--{/foreach}-->
+<!--{*# 商品ステータス2、ステータス3を追加 ADD END #*}-->
+
     <!--{elseif $key == 'arrCategoryId'}-->
         <!--{* nop *}-->
     <!--{elseif $key == 'arrFile'}-->
@@ -67,6 +79,14 @@
                 <!--{$arrForm.name|h}-->
             </td>
         </tr>
+        <!--{*# 商品登録日表示 ADD BEGIN #*}-->
+        <tr>
+            <th>商品登録日</th>
+            <td>
+                <!--{$arrDetail.create_date|sfDispDBDate|h}-->
+            </td>
+        </tr>
+        <!--{*# 商品登録日表示 ADD END #*}-->
         <tr>
             <th>商品カテゴリ</th>
             <td>
@@ -92,6 +112,28 @@
                 <!--{/foreach}-->
             </td>
         </tr>
+        <!--{*# 商品ステータス2、ステータス3を追加 ADD BEGIN #*}-->
+        <tr>
+            <th>商品ステータス2</th>
+            <td>
+                <!--{foreach from=$arrForm.product_status2 item=status}-->
+                    <!--{if $status != ""}-->
+                        <img src="<!--{$TPL_URLPATH_PC}--><!--{$arrSTATUS_IMAGE2[$status]}-->">
+                    <!--{/if}-->
+                <!--{/foreach}-->
+            </td>
+        </tr>
+        <tr>
+            <th>商品ステータス3</th>
+            <td>
+                <!--{foreach from=$arrForm.product_status3 item=status}-->
+                    <!--{if $status != ""}-->
+                        <img src="<!--{$TPL_URLPATH_PC}--><!--{$arrSTATUS_IMAGE3[$status]}-->">
+                    <!--{/if}-->
+                <!--{/foreach}-->
+            </td>
+        </tr>
+        <!--{*# 商品ステータス2、ステータス3を追加 ADD END #*}-->
         
         <!--{*# 商品支払方法指定 ADD BEGIN #*}-->
         <!--{if $smarty.const.USE_PRODUCT_PAYMENT === true}-->
@@ -176,6 +218,15 @@
             </tr>
         <!--{/if}-->
 
+        <!--{*# 商品非課税指定 ADD BEGIN #*}-->
+        <tr>
+            <th>非課税</th>
+            <td>
+                <!--{if $arrForm.taxfree == "1"}-->はい<!--{else}-->いいえ<!--{/if}-->
+            </td>
+        </tr>
+        <!--{*# 商品非課税指定 ADD END #*}-->
+
         <tr>
             <th>商品送料</th>
             <td>
@@ -210,6 +261,8 @@
                 <!--{$arrForm.sale_limit|default:'無制限'|h}-->
             </td>
         </tr>
+        <!--{*## その他商品項目カスタマイズ MDF BEGIN ##*}-->
+        <!--{*
         <tr>
             <th>メーカー</th>
             <td>
@@ -222,6 +275,26 @@
                 <!--{$arrForm.comment1|h}-->
             </td>
         </tr>
+        *}-->
+        <tr>
+            <th>メーカー</th>
+            <td>
+                <!--{$arrForm.comment1|h}-->
+            </td>
+        </tr>
+        <tr>
+            <th>生産国</th>
+            <td>
+                <!--{$arrForm.comment2|h}-->
+            </td>
+        </tr>
+        <tr>
+            <th>TAISコード</th>
+            <td>
+                <!--{$arrForm.comment4|h}-->
+            </td>
+        </tr>
+        <!--{*## その他商品項目カスタマイズ MDF END ##*}-->
         <tr>
             <th>検索ワード</th>
             <td>
@@ -268,12 +341,26 @@
                 <!--{$arrForm.main_list_comment|h|nl2br}-->
             </td>
         </tr>
+        <!--{*## その他商品項目カスタマイズ MDF BEGIN ##*}-->
         <tr>
-            <th>詳細-メインコメント</th>
+            <th>詳細-メインコメント1</th>
             <td>
                 <!--{$arrForm.main_comment|nl2br_html}-->
             </td>
         </tr>
+        <tr>
+            <th>詳細-メインコメント2</th>
+            <td>
+                <!--{$arrForm.comment5|nl2br_html}-->
+            </td>
+        </tr>
+        <tr>
+            <th>詳細-メインコメント3</th>
+            <td>
+                <!--{$arrForm.comment6|nl2br_html}-->
+            </td>
+        </tr>
+        <!--{*## その他商品項目カスタマイズ MDF END ##*}-->
         <tr>
             <th>一覧-メイン画像</th>
             <td>

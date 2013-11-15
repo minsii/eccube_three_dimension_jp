@@ -55,6 +55,34 @@ function selectAll(target) {
     $('#' + target).children().attr({selected: true});
 }
 
+<!--{*## その他商品項目カスタマイズ ADD BEGIN ##*}-->
+$(function() {
+    fckeditorCreate();
+});
+
+function fckeditorCreate(){ 
+    var oFCKeditor = new FCKeditor() ;
+    oFCKeditor.BasePath    = '<!--{$TPL_URLPATH}-->js/fckeditor/' ;
+    oFCKeditor.Height='220';
+    oFCKeditor.InstanceName = 'main_comment';
+    oFCKeditor.ToolbarSet = 'ECCUBEcat';
+    oFCKeditor.ReplaceTextarea() ;
+
+    var oFCKeditor2 = new FCKeditor() ;
+    oFCKeditor2.BasePath    = '<!--{$TPL_URLPATH}-->js/fckeditor/' ;
+    oFCKeditor2.Height='220';
+    oFCKeditor2.InstanceName = 'comment5';
+    oFCKeditor2.ToolbarSet = 'ECCUBEcat';
+    oFCKeditor2.ReplaceTextarea() ;
+
+    var oFCKeditor3 = new FCKeditor() ;
+    oFCKeditor3.BasePath    = '<!--{$TPL_URLPATH}-->js/fckeditor/' ;
+    oFCKeditor3.Height='220';
+    oFCKeditor3.InstanceName = 'comment6';
+    oFCKeditor3.ToolbarSet = 'ECCUBEcat';
+    oFCKeditor3.ReplaceTextarea() ;
+}
+<!--{*## その他商品項目カスタマイズ ADD END ##*}-->
 </script>
 
 <form name="form1" id="form1" method="post" action="?" enctype="multipart/form-data">
@@ -96,6 +124,14 @@ function selectAll(target) {
                 <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
             </td>
         </tr>
+        <!--{*# 商品登録日表示 ADD BEGIN #*}-->
+        <tr>
+            <th>商品登録日</th>
+            <td>
+                <!--{$arrDetail.create_date|sfDispDBDate|h}-->
+            </td>
+        </tr>
+        <!--{*# 商品登録日表示 ADD END #*}-->
         <tr>
             <th>商品カテゴリ<span class="attention"> *</span></th>
             <td>
@@ -131,6 +167,22 @@ function selectAll(target) {
                 <!--{html_checkboxes name="product_status" options=$arrSTATUS selected=$arrForm.product_status separator='&nbsp;&nbsp;'}-->
             </td>
         </tr>
+        <!--{*# 商品ステータス2、ステータス3を追加 ADD BEGIN #*}-->
+        <tr>
+            <th>商品ステータス2</th>
+            <td>
+                <!--{html_checkboxes name="product_status2" options=$arrSTATUS2 selected=$arrForm.product_status2 separator='&nbsp;&nbsp;'}-->
+            </td>
+        </tr>
+
+        <tr>
+            <th>商品ステータス3</th>
+            <td>
+                <!--{html_checkboxes name="product_status3" options=$arrSTATUS3 selected=$arrForm.product_status3 separator='&nbsp;&nbsp;'}-->
+            </td>
+        </tr>
+        <!--{*# 商品ステータス2、ステータス3を追加 ADD END #*}-->
+        
         <!--{*# 商品支払方法指定 ADD BEGIN #*}-->
         <!--{if $smarty.const.USE_PRODUCT_PAYMENT === true}-->
         <tr>
@@ -216,6 +268,16 @@ function selectAll(target) {
         </tr>
         <!--{/if}-->
 
+        <!--{*# 商品非課税指定 ADD BEGIN #*}-->
+        <tr>
+            <th>非課税</th>
+            <td>
+                <span class="attention"><!--{$arrErr.taxfree}--></span>
+                <input type="checkbox" name="taxfree" value="1" <!--{if $arrForm.taxfree == "1"}-->checked<!--{/if}--> />
+            </td>
+        </tr>
+        <!--{*# 商品非課税指定 ADD END #*}-->
+
         <tr>
             <th>商品送料</th>
             <td>
@@ -265,6 +327,8 @@ function selectAll(target) {
                 <span class="attention"> (半角数字で入力)</span>
             </td>
         </tr>
+        <!--{*## その他商品項目カスタマイズ MDF BEGIN ##*}-->
+        <!--{*
         <tr>
             <th>メーカー</th>
             <td>
@@ -283,6 +347,33 @@ function selectAll(target) {
                 <span class="attention"> (上限<!--{$smarty.const.URL_LEN}-->文字)</span>
             </td>
         </tr>
+        *}-->
+        <tr>
+            <th>メーカー</th>
+            <td>
+                <span class="attention"><!--{$arrErr.comment1}--></span>
+                <input type="text" name="comment1" value="<!--{$arrForm.comment1|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.comment1|sfGetErrorColor}-->" />
+                <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>生産国</th>
+            <td>
+                <span class="attention"><!--{$arrErr.comment2}--></span>
+                <input type="text" name="comment2" value="<!--{$arrForm.comment2|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.comment2|sfGetErrorColor}-->" />
+                <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>TAISコード</th>
+            <td>
+                <span class="attention"><!--{$arrErr.comment4}--></span>
+                <input type="text" name="comment4" value="<!--{$arrForm.comment4|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.comment4|sfGetErrorColor}-->" />
+                <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <!--{*## その他商品項目カスタマイズ MDF END ##*}-->
+        
         <tr>
             <th>検索ワード<br />※複数の場合は、カンマ( , )区切りで入力して下さい</th>
             <td>
@@ -291,6 +382,7 @@ function selectAll(target) {
                 <span class="attention"> (上限<!--{$smarty.const.LLTEXT_LEN}-->文字)</span>
             </td>
         </tr>
+        
         <!--{*## SEO管理 ADD BEGIN ##*}-->  
         <!--{if $smarty.const.USE_SEO === true}-->
         <tr>
@@ -339,14 +431,32 @@ function selectAll(target) {
                 <span class="attention"> (上限<!--{$smarty.const.MTEXT_LEN}-->文字)</span>
             </td>
         </tr>
+        <!--{*## その他商品項目カスタマイズ MDF BEGIN ##*}-->
         <tr>
-            <th>詳細-メインコメント<span class="attention">(タグ許可)*</span></th>
+            <th>詳細-メインコメント1<span class="attention">(タグ許可)*</span></th>
             <td>
                 <span class="attention"><!--{$arrErr.main_comment}--></span>
                 <textarea name="main_comment" maxlength="<!--{$smarty.const.LLTEXT_LEN}-->" style="<!--{if $arrErr.main_comment != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->" cols="60" rows="8" class="area60"><!--{"\n"}--><!--{$arrForm.main_comment|h}--></textarea><br />
                 <span class="attention"> (上限<!--{$smarty.const.LLTEXT_LEN}-->文字)</span>
             </td>
         </tr>
+        <tr>
+            <th>詳細-メインコメント2<span class="attention">(タグ許可)*</span></th>
+            <td>
+                <span class="attention"><!--{$arrErr.comment5}--></span>
+                <textarea name="comment5" maxlength="<!--{$smarty.const.LLTEXT_LEN}-->" style="<!--{if $arrErr.comment5 != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->" cols="60" rows="8" class="area60"><!--{"\n"}--><!--{$arrForm.comment5|h}--></textarea><br />
+                <span class="attention"> (上限<!--{$smarty.const.LLTEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>詳細-メインコメント3<span class="attention">(タグ許可)*</span></th>
+            <td>
+                <span class="attention"><!--{$arrErr.comment6}--></span>
+                <textarea name="comment6" maxlength="<!--{$smarty.const.LLTEXT_LEN}-->" style="<!--{if $arrErr.comment6 != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->" cols="60" rows="8" class="area60"><!--{"\n"}--><!--{$arrForm.comment6|h}--></textarea><br />
+                <span class="attention"> (上限<!--{$smarty.const.LLTEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <!--{*## その他商品項目カスタマイズ MDF END ##*}-->
         <tr>
             <!--{assign var=key value="main_list_image"}-->
             <th>一覧-メイン画像<br />[<!--{$smarty.const.SMALL_IMAGE_WIDTH}-->×<!--{$smarty.const.SMALL_IMAGE_HEIGHT}-->]</th>
