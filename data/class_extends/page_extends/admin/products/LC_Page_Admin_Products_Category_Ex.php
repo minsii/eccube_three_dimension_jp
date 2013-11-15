@@ -486,6 +486,10 @@ class LC_Page_Admin_Products_Category_Ex extends LC_Page_Admin_Products_Category
 			$objFormParam->addParam('メタタグ:Keywords', 'keyword', STEXT_LEN, 'KVa', array("MAX_LENGTH_CHECK"));
 		}
 		/*## SEO管理 ADD END ##*/
+		
+		/*## カテゴリ一覧でカゴ表示管理 ADD BEGIN ##*/
+		$objFormParam->addParam('カゴ非表示 ', 'hide_list_cart', INT_LEN, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+		/*## カテゴリ一覧でカゴ表示管理 ADD END ##*/
 	}
 	
 	/*## CATEGORY 情報 ## ADD BEGIN*/

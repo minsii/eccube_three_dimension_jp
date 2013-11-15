@@ -138,10 +138,13 @@ function lfDeleteRecommend(key){
                 <!--{if $arrErr.category_name}-->
                 <span class="attention"><!--{$arrErr.category_name}--></span>
                 <!--{/if}-->
-                <input type="text" name="category_name" value="<!--{$arrForm.category_name|h}-->" size="30" class="box30" maxlength="<!--{$smarty.const.STEXT_LEN}-->" /><span class="attention">&nbsp;（上限<!--{$smarty.const.STEXT_LEN}-->文字）</span>
-                <span class="attention">&nbsp;（上限<!--{$smarty.const.STEXT_LEN}-->文字）</span><br /><br />
-
+                カテゴリ名　<input type="text" name="category_name" value="<!--{$arrForm.category_name|h}-->" size="30" class="box30" maxlength="<!--{$smarty.const.STEXT_LEN}-->" /><span class="attention">&nbsp;（上限<!--{$smarty.const.STEXT_LEN}-->文字）</span>
+                
+                <!--{*## カテゴリ一覧でカゴ表示管理 ADD BEGIN ##*}-->
+                &nbsp;&nbsp;<input type="checkbox" name="hide_list_cart" value="1" <!--{if $arrForm.hide_list_cart == 1}-->checked<!--{/if}-->/>カゴ非表示
+                <!--{*## カテゴリ一覧でカゴ表示管理 ADD END ##*}-->
                 <!--{*## カテゴリ追加情報  ADD BEGIN ##*}-->
+                <br /><br />
                 <!--{if $smarty.const.USE_CATEGORY_INFO === true}-->
                   カテゴリ説明1
                   <textarea name="category_info" id="category_info" cols="40" rows="10"><!--{$arrForm.category_info|escape}--></textarea><br />

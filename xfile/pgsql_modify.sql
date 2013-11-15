@@ -167,3 +167,6 @@ INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER
 
 /*######################■商品マスタ一覧で在庫変更■######################*/
 INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_STOCK_EDIT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品マスタ一覧で在庫変更機能を使用するフラグ|true:使用');
+
+/*######################■カテゴリ一覧でカゴ表示管理■######################*/
+ALTER TABLE dtb_category ADD COLUMN hide_list_cart integer DEFAULT 0;
