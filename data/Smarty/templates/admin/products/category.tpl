@@ -181,8 +181,7 @@ function lfDeleteRecommend(key){
                      商品コード：<!--{$arrRecommend[$recommend_no].product_code_min}--><br />
                      商品名：<!--{$arrRecommend[$recommend_no].name|escape}--><br />
                      <!--{assign var=key value="recommend_comment`$smarty.section.cnt.iteration`"}-->
-                     <textarea name="<!--{$key}-->" cols="60" rows="8" class="area60" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" >
-                     <!--{"\n"}--><!--{$arrRecommend[$recommend_no].comment|h}--></textarea><br />
+                     <textarea name="<!--{$key}-->" cols="60" rows="8" class="area60" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" ><!--{$arrRecommend[$recommend_no].comment|h}--></textarea><br />
                      <span class="attention"> (上限<!--{$smarty.const.LTEXT_LEN}-->文字)</span>
                     </td>
                   </tr>
