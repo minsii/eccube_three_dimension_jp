@@ -126,6 +126,18 @@ class LC_Page_Admin_Products_UploadCSV_Ex extends LC_Page_Admin_Products_UploadC
             $objProduct->setProductStatus($product_id, $arrStatus_id);
         }
 
+        /*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/
+        if (isset($arrList['product_statuses2'])) {
+            $arrStatus_id = explode(',', $arrList['product_statuses2']);
+            $objProduct->setProductStatus2($product_id, $arrStatus_id, $objQuery);
+        }
+
+        if (isset($arrList['product_statuses3'])) {
+            $arrStatus_id = explode(',', $arrList['product_statuses3']);
+            $objProduct->setProductStatus3($product_id, $arrStatus_id, $objQuery);
+        }
+        /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
+        
         /*## 追加規格 ADD BEGIN ##*/
         if(USE_EXTRA_CLASS === true || isset($arrList['extra_class_id'])){
         	$arrExtraClass_id = explode(',', $arrList['extra_class_id']);
