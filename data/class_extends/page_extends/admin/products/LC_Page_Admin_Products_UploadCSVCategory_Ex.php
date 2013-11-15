@@ -133,9 +133,16 @@ class LC_Page_Admin_Products_UploadCSVCategory_Ex extends LC_Page_Admin_Products
 		}
 
 		/*## カテゴリUPLOAD項目カスタム ADD BEGIN ##*/
-		if(isset($arrList["category_recommend_product_id"])){
-			$arrRecommendProductId = explode(',', $arrList['category_recommend_product_id']);
-			$this->lfRegistRecommend($category_id, $arrRecommendProductId, $objQuery);
+		if(isset($arrList["category_recommend_product_id1"]) &&
+			is_int(CATEGORY_RECOMMEND_PRODUCT_MAX) && CATEGORY_RECOMMEND_PRODUCT_MAX > 0){
+				
+			$arrRecommendProductId = array();
+			$arrRecommendProductComment = array();
+			for($i = 1; $i <= CATEGORY_RECOMMEND_PRODUCT_MAX; $i++){
+				$arrRecommendProductId[] = $arrList["category_recommend_product_id{$i}"];
+				$arrRecommendProductComment[] = $arrList["category_recommend_product_comment{$i}"];
+			}
+			$this->lfRegistRecommend($category_id, $arrRecommendProductId, $arrRecommendProductComment, $objQuery);
 		}
 		/*## カテゴリUPLOAD項目カスタム ADD END ##*/ 
 
@@ -148,7 +155,7 @@ class LC_Page_Admin_Products_UploadCSVCategory_Ex extends LC_Page_Admin_Products
 	 *
 	 * @param $category_id
 	 */
-	function lfRegistRecommend($category_id, $arrRecommendProductId, &$objQuery = null){
+	function lfRegistRecommend($category_id, $arrRecommendProductId, $arrRecommendProductComment, &$objQuery = null){
 
 		if(!empty($category_id)){
 			if(empty($objQuery)){
@@ -165,9 +172,10 @@ class LC_Page_Admin_Products_UploadCSVCategory_Ex extends LC_Page_Admin_Products
 				$objQuery->delete("dtb_category_recommend", "category_id = ?", array($category_id));
 
 				$i = 1;
-				foreach($arrRecommendProductId as $pid){
+				foreach($arrRecommendProductId as $no => $pid){
 					if(!empty($pid)){
 						$sqlval["product_id"] = $pid;
+						$sqlval["comment"] = $arrRecommendProductComment[$no];
 						$sqlval["rank"] = $i++;
 						$objQuery->insert("dtb_category_recommend", $sqlval);
 					}
