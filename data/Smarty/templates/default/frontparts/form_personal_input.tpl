@@ -21,12 +21,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-<col width="30%" />
-<col width="70%" />
+<col width="32%" />
+<col width="68%" />
 <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
 <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
 <tr>
-    <th>法人名</th>
+    <th nowrap>法人名<span class="attention">※</span></th>
     <td>
         <!--{assign var=key value="company"}-->
         <!--{if $arrErr[$key]}-->
@@ -59,8 +59,34 @@
 *}-->
 <!--{/if}-->
 <!--{*## 顧客法人管理 ADD END ##*}-->
+
+<!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+<!--{if $flgFields > 1}-->
 <tr>
-    <th>お名前<span class="attention">※</span></th>
+    <th nowrap>介護保護サービス指定事業所名<span class="attention">※</span></th>
+    <td>
+        <!--{assign var=key value="company"}-->
+        <!--{if $arrErr[$key]}-->
+            <div class="attention"><!--{$arrErr[$key]}--></div>
+        <!--{/if}-->
+       <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+    </td>
+</tr>
+<tr>
+    <th nowrap>介護保護サービス指定事業所番号<span class="attention">※</span></th>
+    <td>
+        <!--{assign var=key value="company_no"}-->
+        <!--{if $arrErr[$key]}-->
+            <div class="attention"><!--{$arrErr[$key]}--></div>
+        <!--{/if}-->
+       <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+    </td>
+</tr>
+<!--{/if}-->
+<!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+
+<tr>
+    <th>ご担当者名<span class="attention">※</span></th>
     <td>
         <!--{assign var=key1 value="`$prefix`name01"}-->
         <!--{assign var=key2 value="`$prefix`name02"}-->
@@ -72,7 +98,7 @@
     </td>
 </tr>
 <tr>
-    <th>お名前(フリガナ)<span class="attention">※</span></th>
+    <th>ご担当者名(フリガナ)<span class="attention">※</span></th>
     <td>
         <!--{assign var=key1 value="`$prefix`kana01"}-->
         <!--{assign var=key2 value="`$prefix`kana02"}-->
@@ -83,6 +109,43 @@
         メイ&nbsp;<input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->; ime-mode: active;" class="box120" />
     </td>
 </tr>
+
+<!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+<!--{if $flgFields > 1}-->
+<tr>
+    <th>指定事業所取得年月<span class="attention">※</span></th>
+    <td>
+        <!--{assign var=err_company_certified_date value="`$arrErr.company_certified_date_year``$arrErr.company_certified_date_month`"}-->
+        <!--{if $err_company_certified_date}-->
+            <div class="attention"><!--{$err_company_certified_date}--></div>
+        <!--{/if}-->
+        <select name="company_certified_date_year" style="<!--{$err_company_certified_date|sfGetErrorColor}-->">
+            <!--{html_options options=$arrYear selected=$arrForm.company_certified_date_year|default:''}-->
+        </select>年
+        <select name="company_certified_date_month" style="<!--{$err_company_certified_date|sfGetErrorColor}-->">
+            <!--{html_options options=$arrMonth selected=$arrForm.company_certified_date_month|default:''}-->
+        </select>月
+    </td>
+</tr>
+<tr>
+    <th>新規開業予定</th>
+    <td>
+        <!--{assign var=err_company_open_date value="`$arrErr.company_open_date_year``$arrErr.company_open_date_month`"}-->
+        <!--{if $err_company_open_date}-->
+            <div class="attention"><!--{$err_company_open_date}--></div>
+        <!--{/if}-->
+        <select name="company_open_date_year" style="<!--{$err_company_open_date|sfGetErrorColor}-->">
+            <!--{html_options options=$arrYear selected=$arrForm.company_open_date_year|default:''}-->
+        </select>年
+        <select name="company_open_date_month" style="<!--{$err_company_open_date|sfGetErrorColor}-->">
+            <!--{html_options options=$arrMonth selected=$arrForm.company_open_date_month|default:''}-->
+        </select>月
+        &nbsp;<span class="mini">すでに開業済の場合は入力不要です。</span>
+    </td>
+</tr>
+<!--{/if}-->
+<!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+
 <tr>
     <th>郵便番号<span class="attention">※</span></th>
     <td>
@@ -188,6 +251,23 @@
             </span>
         </td>
     </tr>
+
+    <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+    <tr>
+        <th>事業者区分<span class="attention">※</span></th>
+        <td>
+            <!--{assign var=key1 value="company_type"}-->
+            <!--{if $arrErr[$key1]}-->
+                <div class="attention"><!--{$arrErr[$key1]}--></div>
+            <!--{/if}-->
+            <span style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
+            <!--{html_checkboxes name=$key1 options=$arrCAMPANY_TYPE selected=$arrForm[$key1] separator='&nbsp;&nbsp;'}-->
+            </span>
+        </td>
+    </tr>
+    <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+    <!--{*## 会員登録項目カスタマイズ DEL BEGIN ##*}-->
+    <!--{*
     <tr>
         <th>職業</th>
         <td>
@@ -219,6 +299,8 @@
             </select>日
         </td>
     </tr>
+    *}-->
+    <!--{*## 会員登録項目カスタマイズ DEL END ##*}-->
     <!--{if $flgFields > 2}-->
         <tr>
             <th>希望するパスワード<span class="attention">※</span><br />
@@ -248,6 +330,28 @@
                 答え：<input type="text" name="reminder_answer" value="<!--{$arrForm.reminder_answer|h}-->" style="<!--{$arrErr.reminder_answer|sfGetErrorColor}-->; ime-mode: active;" class="box260" />
             </td>
         </tr>
+        
+        <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+        <tr>
+            <th>通信欄</th>
+            <td>
+                <!--{assign var=key1 value="message"}-->
+                <!--{if $arrErr[$key1]}-->
+                    <div class="attention"><!--{$arrErr[$key1]}--></div>
+                <!--{/if}-->
+                <textarea name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" cols="70" rows="6" class="txtarea" wrap="hard"><!--{$arrForm[$key1]|h}--></textarea><br />
+                <input type="checkbox" id="need_category_check" name="need_category_check" value="1" 
+                  <!--{if $arrForm.need_category_check==1}-->checked<!--{/if}-->/>
+                <label for="need_category_check">
+                  <span class="attention mini">
+                  介護用品、福祉総合用品カタログ最新号を送ってほしい場合はチェックしてください。<br />
+                  ※介護保険指定サービス事業者以外へのカタログ送付は原則としておこなっておりません。
+                  </span>
+                </label>
+            </td>
+        </tr>
+        <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+        
         <tr>
             <th>メールマガジン送付について<span class="attention">※</span></th>
             <td>
@@ -259,6 +363,11 @@
                     <input type="radio" name="mailmaga_flg" value="2" id="text" <!--{if $arrForm.mailmaga_flg eq 2}--> checked="checked" <!--{/if}--> /><label for="text">テキストメールを受け取る</label><br />
                     <input type="radio" name="mailmaga_flg" value="3" id="no" <!--{if $arrForm.mailmaga_flg eq 3}--> checked="checked" <!--{/if}--> /><label for="no">受け取らない</label>
                 </span>
+                <p><span class="attention mini">
+                ウェブ限定セールや、在庫セールなどウェブ注文ならではのお得な情報をお届け致します。<br />
+                ※初期登録の「メールマガジン配信」は「希望する」になっています。<br />
+                「希望しない」場合は、ご利用開始後に会員情報ページより変更ください。
+                </span></p>
             </td>
         </tr>
     <!--{/if}-->

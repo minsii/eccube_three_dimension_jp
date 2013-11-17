@@ -229,3 +229,39 @@ CREATE TABLE dtb_product_status3(
 /*######################■商品非課税指定■######################*/
 ALTER TABLE dtb_products ADD COLUMN taxfree integer DEFAULT 0;
 
+/*######################■会員登録項目カスタマイズ■######################*/
+ALTER TABLE dtb_customer ADD COLUMN company_no text NOT NULL;
+ALTER TABLE dtb_customer ADD COLUMN company_certified_date timestamp without time zone NOT NULL;
+ALTER TABLE dtb_customer ADD COLUMN company_open_date timestamp without time zone;
+ALTER TABLE dtb_customer ADD COLUMN message text;
+ALTER TABLE dtb_customer ADD COLUMN need_category_check integer DEFAULT 0;
+
+CREATE TABLE dtb_customer_company_type(
+  customer_id integer NOT NULL,
+  company_type_id integer NOT NULL,
+  CONSTRAINT dtb_customer_company_type_pkey PRIMARY KEY (customer_id, company_type_id)
+);
+
+CREATE TABLE mtb_company_type(
+  id serial,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_company_type_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO mtb_company_type(name, rank) VALUES('居宅介護支援', 1);
+INSERT INTO mtb_company_type(name, rank) VALUES('訪問介護', 2);
+INSERT INTO mtb_company_type(name, rank) VALUES('訪問入浴', 3);
+INSERT INTO mtb_company_type(name, rank) VALUES('訪問リハピリ', 4);
+INSERT INTO mtb_company_type(name, rank) VALUES('通所介護', 5);
+INSERT INTO mtb_company_type(name, rank) VALUES('通所リハピリ', 6);
+INSERT INTO mtb_company_type(name, rank) VALUES('療養通所介護', 7);
+INSERT INTO mtb_company_type(name, rank) VALUES('認知症対応型通所解除', 8);
+INSERT INTO mtb_company_type(name, rank) VALUES('小規模多機能型居宅介護', 9);
+INSERT INTO mtb_company_type(name, rank) VALUES('短期入所療養介護', 10);
+INSERT INTO mtb_company_type(name, rank) VALUES('介護老人福祉施設（特別養護老人ホーム）', 11);
+INSERT INTO mtb_company_type(name, rank) VALUES('介護老人保健施設', 12);
+
+UPDATE mtb_customer_status SET name='法人仮登録' WHERE id=1;
+UPDATE mtb_customer_status SET name='法人会員' WHERE id=2;
+UPDATE mtb_constants SET name='false' WHERE id='USE_CUSTOMER_COMPANY';

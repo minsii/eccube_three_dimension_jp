@@ -45,6 +45,11 @@ class LC_Page_Entry_Ex extends LC_Page_Entry {
      */
     function init() {
         parent::init();
+
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrCAMPANY_TYPE = $masterData->getMasterData('mtb_company_type');
+        /*## 会員登録項目カスタマイズ ADD END ##*/
     }
 
     /**
@@ -64,4 +69,28 @@ class LC_Page_Entry_Ex extends LC_Page_Entry {
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * 会員登録に必要なSQLパラメーターの配列を生成する.
+     *
+     * フォームに入力された情報を元に, SQLパラメーターの配列を生成する.
+     * モバイル端末の場合は, email を email_mobile にコピーし,
+     * mobile_phone_id に携帯端末IDを格納する.
+     *
+     * @param mixed $objFormParam
+     * @access private
+     * @return $arrResults
+     */
+    function lfMakeSqlVal(&$objFormParam) {
+        $arrResults             = parent::lfMakeSqlVal($objFormParam);
+        $arrForm                = $objFormParam->getHashArray();
+
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $arrResults['company_certified_date'] = SC_Utils_Ex::sfGetTimestamp($arrForm['company_certified_date_year'], $arrForm['company_certified_date_month'], 1);
+        $arrResults['company_open_date'] = SC_Utils_Ex::sfGetTimestamp($arrForm['company_open_date_year'], $arrForm['company_open_date_month'], 1);
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+         
+        return $arrResults;
+    }
+    
 }

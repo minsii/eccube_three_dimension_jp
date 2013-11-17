@@ -36,7 +36,17 @@
         <input type="hidden" name="customer_id" value="<!--{$arrForm.customer_id|h}-->" />
         <!--{foreach from=$arrForm key=key item=item}-->
             <!--{if $key ne "mode" && $key ne "subm"}-->
-            <input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->" />
+
+            <!--{*## 会員登録項目カスタマイズ MDF BEGIN ##*}-->
+            <!--{if is_array($item)}-->
+              <!--{foreach from=$item key=val_key item=val_item}-->
+              <input type="hidden" name="<!--{$key|h}-->[]" value="<!--{$val_item|h}-->" />
+              <!--{/foreach}-->
+            <!--{else}-->
+              <input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->" />
+            <!--{/if}-->
+            <!--{*## 会員登録項目カスタマイズ MDF END ##*}-->
+
             <!--{/if}-->
         <!--{/foreach}-->
         <table summary=" " class="delivname">
@@ -60,14 +70,44 @@
             *}-->
 <!--{/if}-->
 <!--{*## 顧客法人管理 ADD END ##*}-->
+<!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
             <tr>
-                <th>お名前</th>
+                <th>介護保護サービス指定事業所名</th>
+                <td><!--{$arrForm.company|h}--></td>
+            </tr>
+            <tr>
+                <th>介護保護サービス指定事業所番号</th>
+                <td>
+                    <!--{$arrForm.company_no|h}-->
+                </td>
+            </tr>
+<!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            <tr>
+                <th>ご担当者名</th>
                 <td><!--{$arrForm.name01|h}-->　<!--{$arrForm.name02|h}--></td>
             </tr>
             <tr>
-                <th>お名前(フリガナ)</th>
+                <th>ご担当者名(フリガナ)</th>
                 <td><!--{$arrForm.kana01|h}-->　<!--{$arrForm.kana02|h}--></td>
             </tr>
+<!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>指定事業所取得年月</th>
+                <td>
+                    <!--{$arrForm.company_certified_date_year|h}-->年<!--{$arrForm.company_certified_date_month|h}-->月
+                </td>
+            </tr>
+            <tr>
+                <th>新規開業予定</th>
+                <td>
+                    <!--{if strlen($arrForm.company_open_date_year) > 0 && strlen($arrForm.company_open_date_month) > 0}-->
+                        <!--{$arrForm.company_open_date_year|h}-->年<!--{$arrForm.company_open_date_month|h}-->月
+                    <!--{else}-->
+                    未登録
+                    <!--{/if}-->
+                </td>
+            </tr>
+<!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
             <tr>
                 <th>郵便番号</th>
                 <td><!--{$arrForm.zip01}-->-<!--{$arrForm.zip02}--></td>
@@ -102,6 +142,18 @@
                 <th>性別</th>
                 <td><!--{$arrSex[$arrForm.sex]}--></td>
             </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>事業者区分</th>
+                <td>
+                <!--{foreach key=key item=item from=$arrForm.company_type}-->
+                  <!--{$arrCAMPANY_TYPE[$item]|h}--> <br />
+                <!--{/foreach}-->
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            <!--{*## 会員登録項目カスタマイズ DEL BEGIN ##*}-->
+            <!--{*
             <tr>
                 <th>職業</th>
                 <td><!--{$arrJob[$arrForm.job]|default:"未登録"|h}--></td>
@@ -110,6 +162,8 @@
                 <th>生年月日</th>
                 <td><!--{if strlen($arrForm.year) > 0 && strlen($arrForm.month) > 0 && strlen($arrForm.day) > 0}--><!--{$arrForm.year|h}-->年<!--{$arrForm.month|h}-->月<!--{$arrForm.day|h}-->日<!--{else}-->未登録<!--{/if}--></td>
             </tr>
+            *}-->
+            <!--{*## 会員登録項目カスタマイズ DEL END ##*}-->
             <tr>
                 <th>希望するパスワード<br />
                 </th>
@@ -120,6 +174,17 @@
                 <td>質問：&nbsp;<!--{$arrReminder[$arrForm.reminder]|h}--><br />
                         答え：&nbsp;<!--{$arrForm.reminder_answer|h}--></td>
             </tr>
+
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>通信欄</th>
+                <td>
+                    <!--{$arrForm.message|h}--><br /><br />
+                    カタログ希望：<!--{if $arrForm.need_category_check == 1}-->はい<!--{else}-->いいえ<!--{/if}-->
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+
             <tr>
                 <th>メールマガジン送付について</th>
                 <td><!--{$arrMAILMAGATYPE[$arrForm.mailmaga_flg]}--></td>

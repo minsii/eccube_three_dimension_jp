@@ -45,6 +45,11 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
      */
     function init() {
         parent::init();
+        
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrCAMPANY_TYPE = $masterData->getMasterData('mtb_company_type');
+        /*## 会員登録項目カスタマイズ ADD END ##*/
     }
 
     /**
@@ -63,5 +68,49 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
      */
     function destroy() {
         parent::destroy();
+    }
+    
+    
+
+    /**
+     * 登録処理
+     *
+     * @param array $objFormParam フォームパラメータークラス
+     * @return array エラー配列
+     */
+    function lfRegistData(&$objFormParam) {
+        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        // 登録用データ取得
+        $arrData = $objFormParam->getDbArray();
+        // 足りないものを作る
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('year'))) {
+            $arrData['birth'] = $objFormParam->getValue('year') . '/'
+                            . $objFormParam->getValue('month') . '/'
+                            . $objFormParam->getValue('day')
+                            . ' 00:00:00';
+        }
+        
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('company_certified_date_year'))) {
+        	$arrData['company_certified_date'] = SC_Utils_Ex::sfGetTimestamp(
+        							$objFormParam->getValue('company_certified_date_year'), 
+        							$objFormParam->getValue('company_certified_date_month'), 1);
+        }
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('company_open_date_year'))) {
+        	$arrData['company_open_date'] = SC_Utils_Ex::sfGetTimestamp(
+        							$objFormParam->getValue('company_open_date_year'), 
+        							$objFormParam->getValue('company_open_date_month'), 1);
+        }
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+        
+        if (!is_numeric($arrData['customer_id'])) {
+            $arrData['secret_key'] = SC_Utils_Ex::sfGetUniqRandomId('r');
+        } else {
+            $arrOldCustomerData = SC_Helper_Customer_Ex::sfGetCustomerData($arrData['customer_id']);
+            if ($arrOldCustomerData['status'] != $arrData['status']) {
+                $arrData['secret_key'] = SC_Utils_Ex::sfGetUniqRandomId('r');
+            }
+        }
+        return SC_Helper_Customer_Ex::sfEditCustomerData($arrData, $arrData['customer_id']);
     }
 }

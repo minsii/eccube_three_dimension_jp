@@ -93,21 +93,6 @@
                     </span>
                 </td>
             </tr>
-            <tr>
-                <th>お名前<span class="attention"> *</span></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.name01}--><!--{$arrErr.name02}--></span>
-                    <input type="text" name="name01" value="<!--{$arrForm.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.name01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="name02" value="<!--{$arrForm.name02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.name02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                </td>
-            </tr>
-            <tr>
-                <th>お名前(フリガナ)<span class="attention"> *</span></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.kana01}--><!--{$arrErr.kana02}--></span>
-                    <input type="text" name="kana01" value="<!--{$arrForm.kana01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.kana01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="kana02" value="<!--{$arrForm.kana02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.kana02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                </td>
-            </tr>
-
             <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
             <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
             <tr>
@@ -138,6 +123,76 @@
             *}-->
             <!--{/if}-->
             <!--{*## 顧客法人管理 ADD END ##*}-->
+            
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>介護保護サービス指定事業所名<span class="attention">*</span></th>
+                <td>
+                    <!--{assign var=key value="company"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr[$key]}--></span>
+                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                </td>
+            </tr>
+            <tr>
+                <th>介護保護サービス指定事業所番号<span class="attention">*</span></th>
+                <td>
+                  <!--{assign var=key value="company_no"}-->
+                  <span class="attention"><!--{$arrErr[$key]}--></span>
+                  <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> class="box60" />
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            
+            <tr>
+                <th>ご担当者名<span class="attention"> *</span></th>
+                <td>
+                    <span class="attention"><!--{$arrErr.name01}--><!--{$arrErr.name02}--></span>
+                    <input type="text" name="name01" value="<!--{$arrForm.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.name01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="name02" value="<!--{$arrForm.name02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.name02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                </td>
+            </tr>
+            <tr>
+                <th>ご担当者名(フリガナ)<span class="attention"> *</span></th>
+                <td>
+                    <span class="attention"><!--{$arrErr.kana01}--><!--{$arrErr.kana02}--></span>
+                    <input type="text" name="kana01" value="<!--{$arrForm.kana01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.kana01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="kana02" value="<!--{$arrForm.kana02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.kana02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                </td>
+            </tr>
+            
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>指定事業所取得年月<span class="attention">*</span></th>
+                <td>
+                    <!--{assign var=key value="company_certified_date_year"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <select name="<!--{$key}-->" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
+                        <option value="" selected="selected">------</option>
+                        <!--{html_options options=$arrYear selected=$arrForm[$key]}-->
+                    </select>年
+                    <!--{assign var=key value="company_certified_date_month"}-->
+                    <select name="<!--{$key}-->" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
+                        <option value="" selected="selected">----</option>
+                        <!--{html_options options=$arrMonth selected=$arrForm[$key]}-->
+                    </select>月
+                </td>
+            </tr>
+            <tr>
+                <th>新規開業予定</th>
+                <td>
+                    <!--{assign var=key value="company_open_date_year"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <select name="<!--{$key}-->" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
+                        <option value="" selected="selected">------</option>
+                        <!--{html_options options=$arrYear selected=$arrForm[$key]}-->
+                    </select>年
+                    <!--{assign var=key value="company_open_date_month"}-->
+                    <select name="<!--{$key}-->" <!--{if $arrErr[$key] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
+                        <option value="" selected="selected">----</option>
+                        <!--{html_options options=$arrMonth selected=$arrForm[$key]}-->
+                    </select>月
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            
             <tr>
                 <th>郵便番号<span class="attention"> *</span></th>
                 <td>
@@ -197,6 +252,8 @@
                     </span>
                 </td>
             </tr>
+            <!--{*## 会員登録項目カスタマイズ DEL BEGIN ##*}-->
+            <!--{*
             <tr>
                 <th>ご職業</th>
                 <td>
@@ -225,6 +282,22 @@
                     </select>日
                 </td>
             </tr>
+            *}-->
+            <!--{*## 会員登録項目カスタマイズ DEL END ##*}-->
+            
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>事業者区分<span class="attention">*</span></th>
+                <td>
+                  <!--{assign var=key1 value="company_type"}-->
+                  <span class="attention"><!--{$arrErr[$key1]}--></span>
+                  <span style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
+                  <!--{html_checkboxes name=$key1 options=$arrCAMPANY_TYPE selected=$arrForm[$key1] separator='&nbsp;&nbsp;'}-->
+                  </span>
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            
             <tr>
                 <th>パスワード<span class="attention"> *</span></th>
                 <td>
@@ -247,6 +320,21 @@
                     <input type="text" name="reminder_answer" value="<!--{$arrForm.reminder_answer|h}-->" size="30" class="box30" <!--{if $arrErr.reminder_answer != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
                 </td>
             </tr>
+            
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>通信欄</th>
+                <td><!--{$arrForm.message|h}--></td>
+                <input type="hidden" name="message" value="<!--{$arrForm.message|h}-->" />
+            </tr>
+            <tr>
+                <th>カタログ希望</th>
+                <td>
+                  <input type="checkbox" id="need_category_check" name="need_category_check" value="1" <!--{if $arrForm.need_category_check==1}-->checked<!--{/if}-->/>
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            
             <tr>
                 <th>メールマガジン<span class="attention"> *</span></th>
                 <td>

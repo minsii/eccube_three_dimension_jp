@@ -50,11 +50,14 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
     		$objFormParam->addParam("部署名", 'company_department', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
     	}
     	/*## 顧客法人管理 ADD END ##*/
-
-        $objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' , 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お名前(フリガナ・姓)', 'kana01', STEXT_LEN, 'CKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK', 'KANA_CHECK'));
-        $objFormParam->addParam('お名前(フリガナ・名)', 'kana02', STEXT_LEN, 'CKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK', 'KANA_CHECK'));
+    	
+    	/*## 会員登録項目カスタマイズ MDF BEGIN ##*/
+        $objFormParam->addParam('ご担当者(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('ご担当者(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' , 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('ご担当者(フリガナ・姓)', 'kana01', STEXT_LEN, 'CKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK', 'KANA_CHECK'));
+        $objFormParam->addParam('ご担当者(フリガナ・名)', 'kana02', STEXT_LEN, 'CKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK', 'KANA_CHECK'));
+		/*## 会員登録項目カスタマイズ MDF END ##*/
+        
         $objFormParam->addParam('郵便番号1', 'zip01', ZIP01_LEN, 'n', array('EXIST_CHECK', 'SPTAB_CHECK' ,'NUM_CHECK', 'NUM_COUNT_CHECK'));
         $objFormParam->addParam('郵便番号2', 'zip02', ZIP02_LEN, 'n', array('EXIST_CHECK', 'SPTAB_CHECK' ,'NUM_CHECK', 'NUM_COUNT_CHECK'));
         $objFormParam->addParam('都道府県', 'pref', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK'));
@@ -86,6 +89,93 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
         	$objFormParam->addParam("FAX番号3", 'fax03', TEL_ITEM_LEN, 'n', array("SPTAB_CHECK", "NUM_CHECK", "MAX_LENGTH_CHECK"));
         }
     	/*## 顧客お届け先FAX ADD END ##*/                
-    }    
+    }
+    
+    /**
+     * 会員登録共通
+     *
+     * @param SC_FormParam $objFormParam SC_FormParam インスタンス
+     * @param boolean $isAdmin true:管理者画面 false:会員向け
+     * @param boolean $is_mypage マイページの場合 true
+     * @return void
+     */
+    function sfCustomerRegisterParam(&$objFormParam, $isAdmin = false, $is_mypage = false) {
+		parent::sfCustomerRegisterParam($objFormParam, $isAdmin, $is_mypage);
+		
+		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+    	$objFormParam->addParam("介護保護サービス指定事業所名", 'company', STEXT_LEN, 'aKV', array('EXIST_CHECK', "MAX_LENGTH_CHECK"));    	
+    	$objFormParam->addParam("介護保護サービス指定事業所番号", 'company_no', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK'));
+    	
+        $objFormParam->addParam('事業者区分', 'company_type', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('指定事業所取得年', 'company_certified_date_year', 4, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('指定事業所取得月', 'company_certified_date_month', 2, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('新規開業予定年', 'company_open_date_year', 4, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('新規開業予定月', 'company_open_date_month', 2, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('通信欄', 'message', LLTEXT_LEN, 'aKV', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('カタログ希望', 'need_category_check', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+    }
+    
+    /**
+     * 会員情報の登録・編集処理を行う.
+     *
+     * @param array $array 登録するデータの配列（SC_FormParamのgetDbArrayの戻り値）
+     * @param array $customer_id nullの場合はinsert, 存在する場合はupdate
+     * @access public
+     * @return integer 登録編集したユーザーのcustomer_id
+     */
+    function sfEditCustomerData($array, $customer_id = null) {
+    	/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+    	$company_type = $array["company_type"];
+    	unset($array["company_type"]);
+    	
+    	$customer_id = parent::sfEditCustomerData($array, $customer_id);
+    	
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery->begin();
+
+        $objQuery->delete("dtb_customer_company_type", "customer_id=?", array($customer_id));
+
+        if(is_array($company_type)){
+        	$sqlval['customer_id'] = $customer_id;
+        	foreach($company_type as $company_type_id){
+        		$sqlval["company_type_id"] = $company_type_id;
+        		$objQuery->insert("dtb_customer_company_type", $sqlval);
+        	}
+        }
+        
+        $objQuery->commit();
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+        
+        return $customer_id;
+    }
+    
+    /**
+     * customer_idから会員情報を取得する
+     *
+     * @param mixed $customer_id
+     * @param mixed $mask_flg
+     * @access public
+     * @return array 会員情報の配列を返す
+     */
+    function sfGetCustomerData($customer_id, $mask_flg = true) {
+		$arrForm = parent::sfGetCustomerData($customer_id, $mask_flg);
+		
+		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        if (isset($arrForm['company_certified_date'])) {
+            $date = explode(' ', $arrForm['company_certified_date']);
+            list($arrForm['company_certified_date_year'], $arrForm['company_certified_date_month']) = explode('-',$date[0]);
+        }
+        if (isset($arrForm['company_open_date'])) {
+            $date = explode(' ', $arrForm['company_open_date']);
+            list($arrForm['company_open_date_year'], $arrForm['company_open_date_month']) = explode('-',$date[0]);
+        }
+        
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $arrForm["company_type"] = $objQuery->getCol("company_type_id", "dtb_customer_company_type", "customer_id=?", array($customer_id));
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+        
+        return $arrForm;
+    }
 }
 ?>

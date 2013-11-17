@@ -39,7 +39,15 @@ function func_return(){
 
     <!--{foreach from=$arrForm key=key item=item}-->
         <!--{if $key ne "mode" && $key ne "subm" && $key ne $smarty.const.TRANSACTION_ID_NAME}-->
+          <!--{*## 会員登録項目カスタマイズ MDF BEGIN ##*}-->
+          <!--{if is_array($item)}-->
+            <!--{foreach from=$item key=val_key item=val_item}-->
+            <input type="hidden" name="<!--{$key|h}-->[]" value="<!--{$val_item|h}-->" />
+            <!--{/foreach}-->
+          <!--{else}-->
             <input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->" />
+          <!--{/if}-->
+          <!--{*## 会員登録項目カスタマイズ MDF END ##*}-->
         <!--{/if}-->
     <!--{/foreach}-->
 
@@ -64,7 +72,7 @@ function func_return(){
             </tr>
             <tr>
                 <th>会員状態</th>
-                <td><!--{if $arrForm.status == 1}-->仮会員<!--{else}-->本会員<!--{/if}--></td>
+                <td><!--{$arrStatus[$arrForm.status]}--></td>
             </tr>
 
             <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
@@ -85,14 +93,42 @@ function func_return(){
             *}-->
             <!--{/if}-->
             <!--{*## 顧客法人管理 ADD END ##*}-->
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
             <tr>
-                <th>お名前</th>
+                <th>介護保護サービス指定事業所名</th>
+                <td><!--{$arrForm.company|h}--></td>
+            </tr>
+            <tr>
+                <th>介護保護サービス指定事業所番号</th>
+                <td><!--{$arrForm.company_no|h}--></td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            <tr>
+                <th>ご担当者</th>
                 <td><!--{$arrForm.name01|h}--><!--{$arrForm.name02|h}-->　様</td>
             </tr>
             <tr>
-                <th>お名前(フリガナ)</th>
+                <th>ご担当者(フリガナ)</th>
                 <td><!--{$arrForm.kana01|h}--><!--{$arrForm.kana02|h}-->　様</td>
             </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>指定事業所取得年月</th>
+                <td>
+                    <!--{$arrForm.company_certified_date_year|h}-->年<!--{$arrForm.company_certified_date_month|h}-->月
+                </td>
+            </tr>
+            <tr>
+                <th>新規開業予定</th>
+                <td>
+                    <!--{if strlen($arrForm.company_open_date_year) > 0 && strlen($arrForm.company_open_date_month) > 0}-->
+                        <!--{$arrForm.company_open_date_year|h}-->年<!--{$arrForm.company_open_date_month|h}-->月
+                    <!--{else}-->
+                    未登録
+                    <!--{/if}-->
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
             <tr>
                 <th>郵便番号</th>
                 <td>〒 <!--{$arrForm.zip01|h}--> - <!--{$arrForm.zip02|h}--></td>
@@ -121,6 +157,18 @@ function func_return(){
                 <th>性別</th>
                 <td><!--{$arrSex[$arrForm.sex]|h}--></td>
             </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>事業者区分</th>
+                <td>
+                <!--{foreach key=key item=item from=$arrForm.company_type}-->
+                  <!--{$arrCAMPANY_TYPE[$item]|h}--> <br />
+                <!--{/foreach}-->
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
+            <!--{*## 会員登録項目カスタマイズ DEL BEGIN ##*}-->
+<!--{*
             <tr>
                 <th>ご職業</th>
                 <td><!--{$arrJob[$arrForm.job]|default:"未登録"|h}--></td>
@@ -129,6 +177,8 @@ function func_return(){
                 <th>生年月日</th>
                 <td><!--{if strlen($arrForm.year) > 0 && strlen($arrForm.month) > 0 && strlen($arrForm.day) > 0}--><!--{$arrForm.year|h}-->年<!--{$arrForm.month|h}-->月<!--{$arrForm.day|h}-->日<!--{else}-->未登録<!--{/if}--></td>
             </tr>
+*}-->
+            <!--{*## 会員登録項目カスタマイズ DEL END ##*}-->
             <tr>
                 <th>パスワード</th>
                 <td><!--{$smarty.const.DEFAULT_PASSWORD}--></td>
@@ -140,6 +190,16 @@ function func_return(){
                     答え： <!--{$smarty.const.DEFAULT_PASSWORD}-->
                 </td>
             </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>通信欄</th>
+                <td><!--{$arrForm.message|h}--></td>
+            </tr>
+            <tr>
+                <th>カタログ希望</th>
+                <td><!--{if $arrForm.need_category_check == 1}-->はい<!--{else}-->いいえ<!--{/if}--></td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
             <tr>
                 <th>メールマガジン</th>
                 <td><!--{if $arrForm.mailmaga_flg eq 1}-->HTML<!--{elseif $arrForm.mailmaga_flg eq 2}-->テキスト<!--{else}-->希望しない<!--{/if}--></td>

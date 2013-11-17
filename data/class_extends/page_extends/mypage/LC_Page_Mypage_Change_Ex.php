@@ -45,6 +45,11 @@ class LC_Page_Mypage_Change_Ex extends LC_Page_Mypage_Change {
      */
     function init() {
         parent::init();
+        
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrCAMPANY_TYPE = $masterData->getMasterData('mtb_company_type');
+        /*## 会員登録項目カスタマイズ ADD END ##*/
     }
 
     /**
@@ -64,4 +69,26 @@ class LC_Page_Mypage_Change_Ex extends LC_Page_Mypage_Change {
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     *  会員情報を登録する
+     *
+     * @param mixed $objFormParam
+     * @param mixed $customer_id
+     * @access private
+     * @return void
+     */
+    function lfRegistCustomerData(&$objFormParam, $customer_id) {
+        $arrRet             = $objFormParam->getHashArray();
+        $sqlval             = $objFormParam->getDbArray();
+        $sqlval['birth']    = SC_Utils_Ex::sfGetTimestamp($arrRet['year'], $arrRet['month'], $arrRet['day']);
+
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $sqlval['company_certified_date']    = SC_Utils_Ex::sfGetTimestamp($arrRet['company_certified_date_year'], $arrRet['company_certified_date_month'], 1);
+        $sqlval['company_open_date']    = SC_Utils_Ex::sfGetTimestamp($arrRet['company_open_date_year'], $arrRet['company_open_date_month'], 1);
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+        
+        SC_Helper_Customer_Ex::sfEditCustomerData($sqlval, $customer_id);
+    }
+    
 }
