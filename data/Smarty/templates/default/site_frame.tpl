@@ -26,6 +26,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<!--{$smarty.const.CHAR_CODE}-->" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 <link rel="stylesheet" href="<!--{$shop_user_dir}-->css/common.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/import.css" type="text/css" media="all" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="<!--{$smarty.const.HTTP_URL}-->rss/<!--{$smarty.const.DIR_INDEX_PATH}-->" />

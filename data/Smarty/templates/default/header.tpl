@@ -22,17 +22,44 @@
 
 <div id="wrap_all">
 
-<!--▼HEADER-->
-<div id="header">
- <h1><a href="/~three-dimension-jp/"><em><!--{$arrSiteInfo.shop_name|escape}-->/<!--{$tpl_title|escape}--></em></a></h1>
- <div class="g_menu">
-  <ul>
-   <li><a href="<!--{$smarty.const.TOP_URLPATH}-->">TOP</a>｜</li>
-   <li><a href="/~three-dimension-jp/entry/kiyaku.php">会員登録</a>｜</li>
-   <li><a href="/~three-dimension-jp/mypage/login.php">ログイン</a>｜</li>
-   <li><a href="/~three-dimension-jp/cart/index.php">カートをみる</a>｜</li>
-   <li><a href="/~three-dimension-jp/contact/index.php ">お問い合せ</a></li>
-  </ul>
- </div>
-</div>
-<!--▲HEADER-->
+    <!--▼HEADER-->
+    <div id="header_wrap">
+        <div id="header" class="clearfix">
+            <p id="site_description">
+                <em> <!--{$arrSiteInfo.shop_name|escape}-->/<!--{$tpl_title|escape}-->
+                </em>
+            </p>
+            <div id="logo_area">
+                <h1>
+                    <a href="<!--{$smarty.const.TOP_URLPATH}-->"><span>three/</span>
+                    </a>
+                </h1>
+            </div>
+            <div id="header_utility">
+                <div id="header_navi">
+                    <ul>
+                        <li><a
+                            href="<!--{$smarty.const.TOP_URLPATH}-->contact/index.php"><img
+                                src="<!--{$TPL_URLPATH}-->img/page/header/btn_otoiawase.png"
+                                width="126" height="34" alt="お問い合わせ" />
+                        </a>
+                        </li>
+                        <li><a
+                            href="<!--{$smarty.const.TOP_URLPATH}-->user_data/catalog.php"><img
+                                src="<!--{$TPL_URLPATH}-->img/page/header/btn_kagarogu.png"
+                                width="126" height="34" alt="カタログ" /> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hd_lnk_fax">
+                <a href="#">FAXからのご注文はコチラ▶</a>
+            </div>
+        </div>
+        <!--{include file='./navi.tpl'}-->
+    </div>
+    <!--▲HEADER-->
+
+
+    <!--{include file='./pagepath.tpl'}-->

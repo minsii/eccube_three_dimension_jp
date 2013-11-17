@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2012 LOCKON CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -25,36 +25,28 @@
 <div id="mynavi_area">
     <!--{strip}-->
         <ul class="mynavi_list clearfix">
-
+            <li><a href="./" class=" "><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_top.png" alt="マイページトップ" width="138" height="45"></a></li>
             <!--{* 会員状態 *}-->
             <!--{if $tpl_login}-->
-                <li><a href="./<!--{$smarty.const.DIR_INDEX_PATH}-->" class="<!--{if $tpl_mypageno == 'index'}--> selected<!--{/if}-->">
-                    購入履歴一覧</a></li>
+                <li><a href="./<!--{$smarty.const.DIR_INDEX_PATH}-->" class="<!--{if $tpl_mypageno == 'index'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_orderlist.png" alt="購入履歴一覧" width="138" height="45"></a></li>
                 <!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1}-->
-                    <li><a href="favorite.php" class="<!--{if $tpl_mypageno == 'favorite'}--> selected<!--{/if}-->">
-                        お気に入り一覧</a></li>
+                    <li><a href="favorite.php" class="<!--{if $tpl_mypageno == 'favorite'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_favorite.png" alt="お気にいり一覧" width="138" height="45"></a></li>
                 <!--{/if}-->
-                <li><a href="change.php" class="<!--{if $tpl_mypageno == 'change'}--> selected<!--{/if}-->">
-                    会員登録内容変更</a></li>
-                <li><a href="delivery.php" class="<!--{if $tpl_mypageno == 'delivery'}--> selected<!--{/if}-->">
-                    お届け先追加・変更</a></li>
-                <li><a href="refusal.php" class="<!--{if $tpl_mypageno == 'refusal'}--> selected<!--{/if}-->">
-                    退会手続き</a></li>
+            <li><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_estimatemonth.png" alt="月額予算実績確認" width="138" height="45"></li>
+                <li><a href="change.php" class="<!--{if $tpl_mypageno == 'change'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_edituser.png" alt="会員登録内容変更" width="138" height="45"></a></li>
+                <li><a href="delivery.php" class="<!--{if $tpl_mypageno == 'delivery'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_address.png" width="138" height="45" alt="お届け先" /></a></li>
+                <li><a href="refusal.php" class="<!--{if $tpl_mypageno == 'refusal'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_unregist.png" width="138" height="45" alt="退会手続き" /></a></li>
 
             <!--{* 退会状態 *}-->
             <!--{else}-->
-                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'index'}--> selected<!--{/if}-->">
-                    購入履歴一覧</a></li>
+                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'index'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_orderlist.png" alt="購入履歴一覧" width="138" height="45"></a></li>
                 <!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1}-->
-                    <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'favorite'}--> selected<!--{/if}-->">
-                        お気に入り一覧</a></li>
+                    <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'favorite'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_favorite.png" alt="お気にいり一覧" width="138" height="45"></a></li>
                 <!--{/if}-->
-                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'change'}--> selected<!--{/if}-->">
-                    会員登録内容変更</a></li>
-                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'delivery'}--> selected<!--{/if}-->">
-                    お届け先追加・変更</a></li>
-                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'refusal'}--> selected<!--{/if}-->">
-                    退会手続き</a></li>
+            <li><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_estimatemonth.png" alt="月額予算実績確認" width="138" height="45"></li>
+                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'change'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_edituser.png" alt="会員登録内容変更" width="138" height="45"></a></li>
+                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'delivery'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_address.png" width="138" height="45" alt="お届け先" /></a></li>
+                <li><a href="<!--{$smarty.const.TOP_URLPATH}-->" class="<!--{if $tpl_mypageno == 'refusal'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_unregist.png" width="138" height="45" alt="退会手続き" /></a></li>
             <!--{/if}-->
         </ul>
 

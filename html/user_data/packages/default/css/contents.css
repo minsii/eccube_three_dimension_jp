@@ -12,7 +12,9 @@
     margin-bottom: 10px;
     text-align: center;
 }
-
+.top_image{
+	margin-top:10px;
+}
 /* ==============================================
 ▼下層
 =============================================== */
@@ -62,29 +64,28 @@ div#mynavi_area .mynavi_list {
     width: 100%;
 }
 div#mynavi_area .mynavi_list li {
-    margin: 0 15px 5px 0;
-    padding-left: 15px;
-    float: left;
-    background: url('../img/icon/ico_arrow_01.gif') no-repeat left ;
-    font-size: 120%;
+    margin: 0px;
+    padding: 0px;
+	float: left;
+	width:137px;
+}
+div#mynavi_area .mynavi_list li a{
+	display:block;
 }
 
 div#mynavi_area div.point_announce {
     margin-bottom: 30px;
     padding: 10px;
-    border: solid 1px #ffcc62;
-    background-color: #fffaf0;
 }
 div#mynavi_area div.point_announce p {
     padding-left: 20px;
-    background: url('../img/icon/ico_point.gif') no-repeat left ;
 }
 
 div#mycontents_area p.inforamtion {
     margin-bottom: 20px;
 }
 
-div#mypagecolumn h4 {
+div#mypagecolumn > h4 {
     margin: 10px auto;
     border-bottom: 1px solid #999;
     text-align: left;

@@ -18,7 +18,7 @@ table th {
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     color: #333;
-    background-color: #f0f0f0;
+    background-color: #EFEBF7;
     font-weight: normal;
 }
 table td {
@@ -39,6 +39,7 @@ div#undercolumn_shopping table.delivname th {
 /* MYページ */
 div#mycontents_area table th {
     text-align: left;
+	font-weight: bold;
 }
 div#mycontents_area table th.alignR {
     text-align: right;

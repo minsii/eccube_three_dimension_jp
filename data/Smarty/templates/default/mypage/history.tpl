@@ -23,7 +23,7 @@
 *}-->
 
 <div id="mypagecolumn">
-    <h2 class="title"><!--{$tpl_title|h}--></h2>
+    <h2 class="title_s2"><!--{$tpl_title|h}--></h2>
     <!--{include file=$tpl_navi}-->
     <div id="mycontents_area">
         <h3><!--{$tpl_subtitle|h}--></h3>
@@ -269,6 +269,23 @@
                 </li>
             </ul>
         </div>
+
+
+        <!--特集一覧-->
+        <section class="special_list">
+        <h3>特集一覧
+        </h3>
+        <ul class="pure-g">
+            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
+            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
+            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
+            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
+            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
+            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
+            
+        </ul>
+        </section>
+
 
     </div>
 </div>

@@ -1,0 +1,10 @@
+data/logs/*
+data/cache/*
+data/config/*
+data/Smarty/templates_c/admin/*
+data/Smarty/templates_c/sphone/*
+data/Smarty/templates_c/mobile/*
+data/Smarty/templates_c/default/*
+html/upload/*
+html/install
+

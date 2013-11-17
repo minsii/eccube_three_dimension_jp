@@ -79,6 +79,231 @@
         <input type="hidden" name="rnd" value="<!--{$tpl_rnd|h}-->" />
     </form>
 
+      <!-- ▼一覧画面 -->
+      <h2 class="title">食事用品</h2>
+      
+      <section class="sub_category">
+      	<h2>食事用品 カテゴリー</h2>
+        <ul>
+        	<li><a href="#">介護職・嚥下補助</a></li>
+        	<li><a href="#">自助具(薬関係)</a></li>
+        	<li><a href="#">食事用エプロン</a></li>
+        	<li><a href="#">口</a></li>
+        	<li><a href="#">衛生用品</a></li>
+        </ul>
+      </section>
+      
+      <section class="osusume_point_box">
+      	<div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/img_01.png" width="111" height="111" /></div>
+        <h3><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/title.png" width="293" height="19" alt="オススメポイント" /></h3>
+        <p>テキストテキスト</p>
+        <div class="clear"></div>
+      </section>
+      
+      <section class="osusume_shouhin_box pure-g">
+      	<h2><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/title.png" width="742" height="48" alt="コンシェルジュオオススメ商品" /></h2>
+        
+        <div class="box">
+       	  <div class="pure-u-1-2"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/main_img.png" width="300" height="300" /></div>
+          <div class="pure-u-1-2">
+          	<h5>No.B0779</h5>
+          	<h3>オススメキャッチコピー</h3>
+            <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/icon_01.png" width="64" height="18" alt="new" /></p>
+            <p>スメキスメキ</p>
+            <p>スメキスメ \16,500(税込)キスメキ</p>
+            <div class="btn">
+            <p>お得な価格は会員のみ公開</p>
+            <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/btn_regist.png" width="308" height="44" alt="会員登録" /></a></div>
+          </div>
+        </div>
+      </section>
+      
+      <div class="product_list_box pure-form pure-form-stacked">
+        <div class="paginator_box">
+          <section class="sort_box pure-g">
+                <span class="count pure-u-2-5">000件の商品がございます。</span>
+                <span class="sort pure-u-2-5"><a href="#">価格が安い順</a> | <a href="#">価格が高い順</a> | <a href="#">新着順</a></span>
+              <span class="page_max">表示件数<select class=""> </select></span>
+          </section>
+            <section class="paging pure-paginator pure-g-r">
+                <span class="pure-u-1-2">1～50件/1000件中</span>
+                <ul class="pure-u-1-2">
+                    <li class="prev"><a href="#"><<前へ</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">6</a></li>
+                    <li class="next"><a href="#">次へ>></a></li>
+                </ul>
+            </section>
+        </div>
+        
+        <div class="body pure-g-r">
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        	<section class="pure-u-1-4">
+                <div class="warp">
+                    <h3>No.B0779</h3>
+                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
+                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
+                    <p class="content">テキストテキスト</p>
+                    <p class="price">一般価格　￥16.500(税込)</p>
+                    <div class="member_price">
+                        <p><em>会員特別価格</em></p>
+                        <p><strong>￥16,500</strong><em>(税込)</em></p>
+                        <p>ポイント:165pt</p>
+                    </div>
+                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
+                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                </div>
+            </section>
+        </div>
+      </div>
+      
     <!--★タイトル★-->
     <h2 class="title"><!--{$tpl_subtitle|h}--></h2>
 
