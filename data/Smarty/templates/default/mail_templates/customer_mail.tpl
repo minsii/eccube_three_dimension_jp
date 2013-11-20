@@ -36,18 +36,46 @@
 <!--{$name01}--> <!--{$name02}--> 様
 
 <!--{$CONF.shop_name}-->でございます。
+仮登録が完了しました。本会員登録承認までお待ちください。
 
-この度は会員登録依頼をいただきまして、有り難うございます。
+介護保護サービス指定事業所名：<!--{$arrForm.company|h}-->
+介護保護サービス指定事業所番号：<!--{$arrForm.company_no|h}-->
+ご担当者名：<!--{$arrForm.name01|h}--> <!--{$arrForm.name02|h}--> (<!--{$arrForm.kana01|h}--> <!--{$arrForm.kana02|h}-->)
 
-現在は仮登録の状態です。
-　　　~~~~~~
-本会員登録を完了するには下記URLにアクセスしてください。
-※入力されたお客様の情報はSSL暗号化通信により保護されます。
+指定事業所取得年月：<!--{$arrForm.company_certified_date_year|h}-->年<!--{$arrForm.company_certified_date_month|h}-->月
+新規開業予定：<!--{if strlen($arrForm.company_open_date_year) > 0 && strlen($arrForm.company_open_date_month) > 0}-->
+<!--{$arrForm.company_open_date_year|h}-->年<!--{$arrForm.company_open_date_month|h}-->月<!--{else}-->
+未登録
+<!--{/if}-->
 
-<!--{$smarty.const.HTTPS_URL}-->regist/<!--{$smarty.const.DIR_INDEX_PATH}-->?mode=regist&id=<!--{$uniqid}--><!--{$etc_value}-->
+郵便番号：〒<!--{$arrForm.zip01|h}--> - <!--{$arrForm.zip02|h}-->
+住所：<!--{$arrPref[$arrForm.pref]|h}--><!--{$arrForm.addr01|h}--><!--{$arrForm.addr02|h}-->
+電話番号：<!--{$arrForm.tel01|h}--> - <!--{$arrForm.tel02|h}--> - <!--{$arrForm.tel03|h}-->
+FAX：<!--{if strlen($arrForm.fax01) > 0 && strlen($arrForm.fax02) > 0 && strlen($arrForm.fax03) > 0}-->
+<!--{$arrForm.fax01|h}--> - <!--{$arrForm.fax02|h}--> - <!--{$arrForm.fax03|h}-->
+<!--{else}-->
+未登録
+<!--{/if}-->
 
-上記URLにて本会員登録が完了いたしましたら改めてご登録内容ご確認
-メールをお送り致します。
+メールアドレス：<!--{$arrForm.email}-->
+性別：<!--{if $arrForm.sex eq 1}-->
+男性
+<!--{else}-->
+女性
+<!--{/if}-->
+事業者区分：<!--{foreach key=key item=item from=$arrForm.company_type}--><!--{$arrCAMPANY_TYPE[$item]|h}-->  <!--{/foreach}-->
+
+パスワード：登録いただいたパスワード
+通信欄：<!--{$arrForm.message|h}-->
+カタログ希望：<!--{if $arrForm.need_category_check == 1}-->はい<!--{else}-->いいえ<!--{/if}-->
+
+メールマガジン送付について：<!--{if $arrForm.mailmaga_flg eq 1}-->
+HTMLメール＋テキストメールを受け取る
+<!--{elseif $arrForm.mailmaga_flg eq 2}-->
+テキストメールを受け取る
+<!--{else}-->
+受け取らない
+<!--{/if}-->
 
 
 
