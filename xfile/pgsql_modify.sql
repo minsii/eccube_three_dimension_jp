@@ -265,3 +265,6 @@ INSERT INTO mtb_company_type(name, rank) VALUES('介護老人保健施設', 12);
 UPDATE mtb_customer_status SET name='法人仮登録' WHERE id=1;
 UPDATE mtb_customer_status SET name='法人会員' WHERE id=2;
 UPDATE mtb_constants SET name='false' WHERE id='USE_CUSTOMER_COMPANY';
+
+/*######################■本会員承認■######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_APPROVAL',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '管理側で本会員承認を使用するフラグ|true:使用');

@@ -177,5 +177,18 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
         
         return $arrForm;
     }
+    
+    /**
+     * customer_idから会員ステータスを取得する
+     *
+     * @param mixed $customer_id
+     * @access public
+     * @return int 会員ステータスを返す
+     */
+    function sfGetCustomerStatus($customer_id) {
+    	$objQuery =& SC_Query_Ex::getSingletonInstance();
+    	$ret = $objQuery->get('status','dtb_customer','customer_id=?', array($customer_id));
+    	return $ret;
+    }
 }
 ?>

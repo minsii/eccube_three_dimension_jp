@@ -64,4 +64,21 @@ class LC_Page_Regist_Ex extends LC_Page_Regist {
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * Page のAction.
+     *
+     * @return void
+     */
+    function action() {
+    	/*## 本会員承認 ADD BEGIN ##*/
+    	if(USE_ADMIN_CUSTOMER_APPROVAL === true){
+    		// FRONT本会員登録をOFFにする
+    		SC_Utils_Ex::sfDispSiteError(FREE_ERROR_MSG, '', true, '無効なアクセスです。');
+    	}else{
+    		parent::action();
+    	}
+    	/*## 本会員承認 ADD END ##*/
+    }
+    
 }

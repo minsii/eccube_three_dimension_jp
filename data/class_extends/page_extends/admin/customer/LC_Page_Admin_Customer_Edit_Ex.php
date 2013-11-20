@@ -70,7 +70,137 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
         parent::destroy();
     }
     
-    
+    /**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+
+        // パラメーター管理クラス
+        $objFormParam = new SC_FormParam_Ex();
+        // 検索引き継ぎ用パラメーター管理クラス
+        $objFormSearchParam = new SC_FormParam_Ex();
+
+        // モードによる処理切り替え
+        switch ($this->getMode()) {
+            case 'edit_search':
+                // 検索引き継ぎ用パラメーター処理
+                $this->lfInitSearchParam($objFormSearchParam);
+                $objFormSearchParam->setParam($_REQUEST);
+                $this->arrErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
+                $this->arrSearchData = $objFormSearchParam->getSearchArray();
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    return;
+                }
+                // 指定会員の情報をセット
+                $this->arrForm = SC_Helper_Customer_Ex::sfGetCustomerData($objFormSearchParam->getValue('edit_customer_id'), true);
+                // 購入履歴情報の取得
+                list($this->tpl_linemax, $this->arrPurchaseHistory, $this->objNavi) = $this->lfPurchaseHistory($objFormSearchParam->getValue('edit_customer_id'));
+                $this->arrPagenavi = $this->objNavi->arrPagenavi;
+                $this->arrPagenavi['mode'] = 'return';
+                $this->tpl_pageno = '0';
+                break;
+            case 'confirm':
+                // パラメーター処理
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                $objFormParam->convParam();
+                // 入力パラメーターチェック
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                $this->arrForm = $objFormParam->getHashArray();
+                // 検索引き継ぎ用パラメーター処理
+                $this->lfInitSearchParam($objFormSearchParam);
+                $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
+                $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
+                $this->arrSearchData = $objFormSearchParam->getSearchArray();
+                if (!SC_Utils_Ex::isBlank($this->arrErr) or !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                    return;
+                }
+                // 確認画面テンプレートに切り替え
+                $this->tpl_mainpage = 'customer/edit_confirm.tpl';
+                break;
+            case 'return':
+                // パラメーター処理
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                $objFormParam->convParam();
+                // 入力パラメーターチェック
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                $this->arrForm = $objFormParam->getHashArray();
+                // 検索引き継ぎ用パラメーター処理
+                $this->lfInitSearchParam($objFormSearchParam);
+                $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
+                $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
+                $this->arrSearchData = $objFormSearchParam->getSearchArray();
+                if (!SC_Utils_Ex::isBlank($this->arrErr) or !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                    return;
+                }
+                // 購入履歴情報の取得
+                list($this->tpl_linemax, $this->arrPurchaseHistory, $this->objNavi) = $this->lfPurchaseHistory($objFormParam->getValue('customer_id'), $objFormParam->getValue('search_pageno'));
+                $this->arrPagenavi = $this->objNavi->arrPagenavi;
+                $this->arrPagenavi['mode'] = 'return';
+                $this->tpl_pageno = $objFormParam->getValue('search_pageno');
+
+                break;
+            case 'complete':
+                // 登録・保存処理
+                // パラメーター処理
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                $objFormParam->convParam();
+                // 入力パラメーターチェック
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                $this->arrForm = $objFormParam->getHashArray();
+                // 検索引き継ぎ用パラメーター処理
+                $this->lfInitSearchParam($objFormSearchParam);
+                $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
+                $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
+                $this->arrSearchData = $objFormSearchParam->getSearchArray();
+                if (!SC_Utils_Ex::isBlank($this->arrErr) or !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                    return;
+                }
+
+                /*## 本会員承認 ADD BEGIN ##*/
+                if(USE_ADMIN_CUSTOMER_APPROVAL === true){
+                	$old_status = SC_Helper_Customer_Ex::sfGetCustomerStatus($this->arrForm['customer_id']);
+                }
+                /*## 本会員承認 ADD END ##*/
+
+                $this->lfRegistData($objFormParam);
+                $this->tpl_mainpage = 'customer/edit_complete.tpl';
+                
+                /*## 本会員承認 ADD BEGIN ##*/
+                if(USE_ADMIN_CUSTOMER_APPROVAL === true){
+                	$new_status = $this->arrForm['status'];
+                	if($new_status == "2" && $old_status == "1"){
+                		// 本会員登録メール送信
+                		$this->lfSendRegistMail($this->arrForm);
+                	}
+                }
+                /*## 本会員承認 ADD END ##*/
+                
+                
+                break;
+            case 'complete_return':
+                // 入力パラメーターチェック
+                $this->lfInitParam($objFormParam);
+                $objFormParam->setParam($_POST);
+                // 検索引き継ぎ用パラメーター処理
+                $this->lfInitSearchParam($objFormSearchParam);
+                $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
+                $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
+                $this->arrSearchData = $objFormSearchParam->getSearchArray();
+                if (!SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                    return;
+                }
+            default:
+                $this->lfInitParam($objFormParam);
+                $this->arrForm = $objFormParam->getHashArray();
+                break;
+        }
+
+    }
 
     /**
      * 登録処理
@@ -113,4 +243,46 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
         }
         return SC_Helper_Customer_Ex::sfEditCustomerData($arrData, $arrData['customer_id']);
     }
+    
+    /*## 本会員承認 ADD BEGIN ##*/
+    /**
+     * 正会員登録完了メール送信
+     *
+     * @param mixed $registSecretKey
+     * @access private
+     * @return void
+     */
+    function lfSendRegistMail($data) {
+        $objQuery       = SC_Query_Ex::getSingletonInstance();
+        $objCustomer    = new SC_Customer_Ex();
+        $objHelperMail  = new SC_Helper_Mail_Ex();
+        $objHelperMail->setPage($this);
+        $CONF           = SC_Helper_DB_Ex::sfGetBasisData();
+        
+		//--　メール送信
+        $objMailText    = new SC_SiteView_Ex();
+        $objMailText->setPage($this);
+        $objMailText->assign('CONF', $CONF);
+        $objMailText->assign('name01', $data['name01']);
+        $objMailText->assign('name02', $data['name02']);
+        $toCustomerMail = $objMailText->fetch('mail_templates/customer_regist_mail.tpl');
+        $subject = $objHelperMail->sfMakesubject('本会員登録が完了しました。');
+        $objMail = new SC_SendMail_Ex();
+
+        $objMail->setItem(
+                              ''                                // 宛先
+                            , $subject                  // サブジェクト
+                            , $toCustomerMail           // 本文
+                            , $CONF['email03']          // 配送元アドレス
+                            , $CONF['shop_name']        // 配送元 名前
+                            , $CONF['email03']          // reply_to
+                            , $CONF['email04']          // return_path
+                            , $CONF['email04']          // Errors_to
+        );
+        // 宛先の設定
+        $name = $data['name01'] . $data['name02'] .' 様';
+        $objMail->setTo($data['email'], $name);
+        $objMail->sendMail();
+    }
+    /*## 本会員承認 ADD END ##*/
 }
