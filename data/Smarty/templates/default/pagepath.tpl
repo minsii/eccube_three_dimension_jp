@@ -1,7 +1,4 @@
 
-  <div class="top_image">
-  	<img src="<!--{$TPL_URLPATH}-->img/page/top/main_img.png" width="960" height="260" alt="メイン画像" />
-  </div>
   <div class="page_path">
   	<span>トップ</span> / 
     <a href="#">ああ</a> / 

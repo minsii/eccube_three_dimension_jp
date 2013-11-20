@@ -20,6 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 
+
+<script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/Designer.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/products.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.js"></script>
 <link rel="stylesheet" type="text/css" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.facebox/facebox.css" media="screen" />
@@ -40,6 +42,19 @@
     });
 //]]></script>
 
+<SCRIPT language=javascript type=text/javascript>
+		var scrollPic_02 = new ScrollPic();
+		scrollPic_02.scrollContId   = "scrollbox"; //内容容器ID
+		scrollPic_02.arrLeftId      = "arrLeft";//左箭头ID
+		scrollPic_02.arrRightId     = "arrRight"; //右箭头ID
+		scrollPic_02.frameWidth     = 900;//显示框宽度
+		scrollPic_02.pageWidth      = 900; //翻页宽度
+		scrollPic_02.speed          = 8; //移动速度(单位毫秒，越小越快)
+		scrollPic_02.space          = 8; //每次移动像素(单位px，越大越快)
+		scrollPic_02.autoPlay       = false; //自动播放
+		scrollPic_02.autoPlayTime   = 3; //自动播放间隔时间(秒)
+		scrollPic_02.initialize(); //初始化
+</SCRIPT>
 <div id="undercolumn">
     <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
@@ -145,7 +160,7 @@
       
       <div class="review_product_list">
       	<h2>この商品を買った人は、</h2>
-        <div class="body pure-g-r">
+        <div class="body pure-g-r" id="scrollbox">
         	<section class="pure-u-1-4">
                 <div class="warp">
                     <h3>No.B0779</h3>
@@ -215,8 +230,8 @@
                 </div>
             </section>
         </div>
-        <div class="l-btn"><a href="#">◀</a></div>
-        <div class="r-btn"><a href="#">
+        <div class="l-btn" id="arrLeft"><a href="#">◀</a></div>
+        <div class="r-btn" id="arrRight"><a href="#">
         ▶</a></div>
       </div>
       

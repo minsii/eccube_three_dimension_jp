@@ -63,3 +63,5 @@
 
 
     <!--{include file='./pagepath.tpl'}-->
+    
+    <!--{include file='./search_navi_box.tpl'}-->
