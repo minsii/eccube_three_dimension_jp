@@ -24,4 +24,13 @@
 require_once CLASS_REALDIR . 'pages/LC_Page.php';
 
 class LC_Page_Ex extends LC_Page {
+	function process(){
+		/*## ログイン情報全ページ使用 ADD BEGIN ##*/
+		// ログインチェック
+		$objCustomer = new SC_Customer_Ex();
+		$this->tpl_is_login = $objCustomer->isLoginSuccess(true);
+		/*## ログイン情報全ページ使用 ADD END ##*/
+
+		parent::process();
+	}
 }

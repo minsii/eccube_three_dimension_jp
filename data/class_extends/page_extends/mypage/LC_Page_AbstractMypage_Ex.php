@@ -53,7 +53,7 @@ class LC_Page_AbstractMypage_Ex extends LC_Page_AbstractMypage {
      * @return void
      */
     function process() {
-        LC_Page::process();
+        LC_Page_Ex::process();
         
         // ログインチェック
         $objCustomer = new SC_Customer_Ex();
