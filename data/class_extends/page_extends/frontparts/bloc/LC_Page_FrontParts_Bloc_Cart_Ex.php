@@ -64,4 +64,23 @@ class LC_Page_FrontParts_Bloc_Cart_Ex extends LC_Page_FrontParts_Bloc_Cart {
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * カートの情報を取得する
+     *
+     * @param SC_CartSession $objCart カートセッション管理クラス
+     * @return array カートデータ配列
+     */
+    function lfGetCartData(&$objCart) {
+    	$arrCartList = parent::lfGetCartData($objCart);
+
+    	$cartItems = $objCart->getAllCartList();
+    	$arrCartKeys = $objCart->getKeys();
+    	foreach ($arrCartKeys as $cart_key) {
+    		foreach($cartItems[$cart_key] as $product){
+    			$arrCartList["products"][] = $product;
+    		}
+    	}
+        return $arrCartList;
+    }
 }
