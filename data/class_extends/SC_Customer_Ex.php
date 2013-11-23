@@ -63,7 +63,71 @@ __EOS__;
     	/*## 顧客法人管理 MDF END ##*/
         $objQuery->setOrder("other_deliv_id IS NULL DESC, other_deliv_id DESC");
         return $objQuery->select("*", $from, "", array($customer_id, $customer_id));
-    }	
+    }
+
+    
+    /*## 事業者番号でログイン ADD BEGIN ##*/
+    /**
+     * ログインを実行する.
+     *
+     * ログインを実行し, 成功した場合はユーザー情報をセッションに格納し,
+     * true を返す.
+     * モバイル端末の場合は, 携帯端末IDを保存する.
+     * ログインに失敗した場合は, false を返す.
+     *
+     * @param string $login_email ログインメールアドレス
+     * @param string $login_pass ログインパスワード
+     * @param string $login_company_no 事業者番号
+     * @return boolean ログインに成功した場合 true; 失敗した場合 false
+     */
+    function doLogin($login_email, $login_pass, $login_company_no=null) {
+        switch (SC_Display_Ex::detectDevice()) {
+            case DEVICE_TYPE_MOBILE:
+                if (!$this->getCustomerDataFromMobilePhoneIdPass($login_pass) &&
+                    !$this->getCustomerDataFromEmailPass($login_pass, $login_email, true)
+                ) {
+                    return false;
+                } else {
+                    $this->updateMobilePhoneId();
+                    return true;
+                }
+                break;
+
+            case DEVICE_TYPE_SMARTPHONE:
+            case DEVICE_TYPE_PC:
+            default:
+            	if(!empty($login_email)){
+            		return $this->getCustomerDataFromEmailPass($login_pass, $login_email);
+            	}else if(!empty($login_company_no)){
+            		return $this->getCustomerDataFromCompanyNoPass($login_pass, $login_company_no);
+            	}
+                break;
+        }
+    }
+    
+    function getCustomerDataFromCompanyNoPass($pass, $companyno) {
+        // 小文字に変換
+        $arrValues = array($companyno);
+
+        // 本登録された会員のみ
+        $sql = 'SELECT * FROM dtb_customer WHERE company_no = ? AND del_flg = 0 AND status = 2';
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $result = $objQuery->getAll($sql, $arrValues);
+        if (empty($result)) {
+            return false;
+        } else {
+            $data = $result[0];
+        }
+
+        // パスワードが合っていれば会員情報をcustomer_dataにセットしてtrueを返す
+        if (SC_Utils_Ex::sfIsMatchHashPassword($pass, $data['password'], $data['salt'])) {
+            $this->customer_data = $data;
+            $this->startSession();
+            return true;
+        }
+        return false;
+    }
+    /*## 事業者番号でログイン ADD END ##*/
 }
 
 ?>

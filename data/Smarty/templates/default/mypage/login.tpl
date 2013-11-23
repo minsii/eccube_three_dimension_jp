@@ -25,7 +25,7 @@
 <div id="undercolumn">
     <h2 class="title"><!--{$tpl_title|h}--></h2>
     <div id="undercolumn_login">
-        <form name="login_mypage" id="login_mypage" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php" onsubmit="return fnCheckLogin('login_mypage')">
+        <form name="login_mypage" id="login_mypage" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php" >
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
         <input type="hidden" name="mode" value="login" />
         <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
@@ -40,13 +40,32 @@
                     <dt>メールアドレス&nbsp;：</dt>
                     <dd>
                         <input type="text" name="<!--{$key}-->" value="<!--{$tpl_login_email|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: disabled;" class="box300" />
+                        <!--{*## 事業者番号でログイン DEL BEGIN ##*}-->
+                        <!--{*
                         <p class="login_memory">
                             <!--{assign var=key value="login_memory"}-->
                             <input type="checkbox" name="<!--{$key}-->" value="1"<!--{$tpl_login_memory|sfGetChecked:1}--> id="login_memory" />
                             <label for="login_memory">メールアドレスをコンピューターに記憶させる</label>
                         </p>
+                        *}-->
+                        <!--{*## 事業者番号でログイン DEL END ##*}-->
                     </dd>
                 </dl>
+                <!--{*## 事業者番号でログイン ADD BEGIN ##*}-->
+                <dl class="formlist clearfix">
+                    <!--{assign var=key value="login_company_no"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <dt>事業者番号&nbsp;：</dt>
+                    <dd>
+                        <input type="text" name="<!--{$key}-->" value="<!--{$tpl_login_company_no|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: disabled;" class="box300" />
+                        <p class="login_memory">
+                            <!--{assign var=key value="login_memory"}-->
+                            <input type="checkbox" name="<!--{$key}-->" value="1"<!--{$tpl_login_memory|sfGetChecked:1}--> id="login_memory" />
+                            <label for="login_memory">メールアドレスまたは事業者番号をコンピューターに記憶させる</label>
+                        </p>
+                    </dd>
+                </dl>
+                <!--{*## 事業者番号でログイン ADD END##*}-->
                 <dl class="formlist clearfix">
                     <dt>
                         <!--{assign var=key value="login_pass"}-->

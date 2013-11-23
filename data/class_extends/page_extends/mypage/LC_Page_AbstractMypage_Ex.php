@@ -53,7 +53,57 @@ class LC_Page_AbstractMypage_Ex extends LC_Page_AbstractMypage {
      * @return void
      */
     function process() {
-        parent::process();
+        LC_Page::process();
+        
+        // ログインチェック
+        $objCustomer = new SC_Customer_Ex();
+
+        // ログインしていない場合は必ずログインページを表示する
+        if ($objCustomer->isLoginSuccess(true) === false) {
+            // クッキー管理クラス
+            $objCookie = new SC_Cookie_Ex();
+            // クッキー判定(メールアドレスをクッキーに保存しているか）
+            $this->tpl_login_email = $objCookie->getCookie('login_email');
+            if ($this->tpl_login_email != '') {
+                $this->tpl_login_memory = '1';
+            }
+                    
+            // POSTされてきたIDがある場合は優先する。
+            if (isset($_POST['login_email'])
+                && $_POST['login_email'] != ''
+            ) {
+                $this->tpl_login_email = $_POST['login_email'];
+            }
+
+            /*## 事業者番号でログイン ADD BEGIN ##*/
+            $this->tpl_login_company_no = $objCookie->getCookie('login_company_no');
+            if ($this->tpl_login_company_no != '') {
+                $this->tpl_login_memory = '1';
+            }
+            
+            if (isset($_POST['login_company_no']) && $_POST['login_company_no'] != '') {
+            	$this->tpl_login_company_no = $_POST['login_company_no'];
+            }
+            /*## 事業者番号でログイン ADD END ##*/
+            
+            // 携帯端末IDが一致する会員が存在するかどうかをチェックする。
+            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_MOBILE) {
+                $this->tpl_valid_phone_id = $objCustomer->checkMobilePhoneId();
+            }
+            $this->tpl_title        = 'MYページ(ログイン)';
+            $this->tpl_mainpage     = 'mypage/login.tpl';
+
+        } else {
+            //マイページ会員情報表示用共通処理
+            $this->tpl_login     = true;
+            $this->CustomerName1 = $objCustomer->getvalue('name01');
+            $this->CustomerName2 = $objCustomer->getvalue('name02');
+            $this->CustomerPoint = $objCustomer->getvalue('point');
+            $this->action();
+        }
+
+
+        $this->sendResponse();
     }
 
     /**
