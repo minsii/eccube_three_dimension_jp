@@ -1,4 +1,4 @@
-/*######## SEOŠÇ— ########*/
+/*######## SEOç®¡ç† ########*/
 ALTER TABLE dtb_pagelayout ADD COLUMN title text;
 ALTER TABLE dtb_pagelayout ADD COLUMN h1 text;
 
@@ -12,18 +12,18 @@ ALTER TABLE dtb_category ADD COLUMN h1 text;
 ALTER TABLE dtb_category ADD COLUMN keyword text;
 ALTER TABLE dtb_category ADD COLUMN description text;
 
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_SEO',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'SEOŠÇ—g—pƒtƒ‰ƒO|true:g—p');
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_SEO',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'SEOç®¡ç†ä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
-/*######################¡ƒ_ƒEƒ“ƒ[ƒh¤•ig—pƒtƒ‰ƒO’Ç‰Á¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_DOWNLOAD_PRODUCT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), 'ƒ_ƒEƒ“ƒ[ƒh¤•ig—pƒtƒ‰ƒO|true:g—p‚·‚é');
+/*######################â– ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å•†å“ä½¿ç”¨ãƒ•ãƒ©ã‚°è¿½åŠ â– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_DOWNLOAD_PRODUCT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), 'ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å•†å“ä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨ã™ã‚‹');
 
-/*######## x•¥•û–@ŠÇ— ########*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PAYMENT_NOTE',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'x•¥•û–@à–¾g—pƒtƒ‰ƒO|true:g—p');
+/*######## æ”¯æ‰•æ–¹æ³•ç®¡ç† ########*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PAYMENT_NOTE',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'æ”¯æ‰•æ–¹æ³•èª¬æ˜ä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
 
-/*######## ’Ç‰Á‹KŠi ########*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_EXTRA_CLASS', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '’Ç‰Á‹KŠig—pƒtƒ‰ƒO|true:g—p‚·‚é');
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('MAX_EXTRA_CLASS', '5', (SELECT MAX(rank)+1 FROM mtb_constants), '’Ç‰Á‹KŠi“o˜^Å‘å”');
+/*######## è¿½åŠ è¦æ ¼ ########*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_EXTRA_CLASS', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'è¿½åŠ è¦æ ¼ä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨ã™ã‚‹');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('MAX_EXTRA_CLASS', '5', (SELECT MAX(rank)+1 FROM mtb_constants), 'è¿½åŠ è¦æ ¼ç™»éŒ²æœ€å¤§æ•°');
 CREATE TABLE dtb_extra_class(
   extra_class_id serial,
   "name" text,
@@ -58,11 +58,11 @@ CREATE TABLE dtb_products_extra_class(
   CONSTRAINT dtb_products_extra_class_pkey PRIMARY KEY (product_extra_class_id)
 );
 
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_MULTIPLE_DELIV', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), '•¡””z‘—g—pƒtƒ‰ƒO|true:g—p‚·‚é');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_MULTIPLE_DELIV', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), 'è¤‡æ•°é…é€ä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨ã™ã‚‹');
 ALTER TABLE dtb_order_detail ADD COLUMN extra_info text;
 
-/*######## ŒÚ‹q–@lŠÇ— ########*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_CUSTOMER_COMPANY',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'ŒÚ‹q–@lg—pƒtƒ‰ƒO|true:g—p');
+/*######## é¡§å®¢æ³•äººç®¡ç† ########*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_CUSTOMER_COMPANY',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'é¡§å®¢æ³•äººä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 ALTER TABLE dtb_customer ADD COLUMN company text;
 ALTER TABLE dtb_customer ADD COLUMN company_kana text;
 ALTER TABLE dtb_customer ADD COLUMN company_department text;
@@ -83,22 +83,22 @@ ALTER TABLE dtb_order_temp ADD COLUMN order_company text;
 ALTER TABLE dtb_order_temp ADD COLUMN order_company_kana text;
 ALTER TABLE dtb_order_temp ADD COLUMN order_company_department text;
 
-/*######## ŒÚ‹qŠÇ—‰æ–Ê‚É‚¨“Í‚¯æˆê——•\¦ ########*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_DELIV_LIST',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'ŒÚ‹qŠÇ—‰æ–Ê‚É‚¨“Í‚¯æˆê——‚ğ•\¦‚·‚éƒtƒ‰ƒO|true:•\¦');
+/*######## é¡§å®¢ç®¡ç†ç”»é¢ã«ãŠå±Šã‘å…ˆä¸€è¦§è¡¨ç¤º ########*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_DELIV_LIST',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'é¡§å®¢ç®¡ç†ç”»é¢ã«ãŠå±Šã‘å…ˆä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ãƒ•ãƒ©ã‚°|true:è¡¨ç¤º');
 
-/*######################¡”z‘—ƒ‰ƒ“ƒN¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_DELIV_RANK', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '”z‘—ƒ‰ƒ“ƒN‚ğg—p‚·‚éƒtƒ‰ƒO|false:g—p‚µ‚È‚¢');
+/*######################â– é…é€ãƒ©ãƒ³ã‚¯â– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_DELIV_RANK', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'é…é€ãƒ©ãƒ³ã‚¯ã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|false:ä½¿ç”¨ã—ãªã„');
 CREATE TABLE mtb_deliv_rank (
   id serial,
   "name" text,
   rank smallint NOT NULL DEFAULT 0,
   CONSTRAINT mtb_deliv_rank_pkey PRIMARY KEY (id)
 );
-INSERT INTO mtb_deliv_rank(name, rank) VALUES('”z‘—ƒ‰ƒ“ƒNA', 0);
-INSERT INTO mtb_deliv_rank(name, rank) VALUES('”z‘—ƒ‰ƒ“ƒNB', 1);
-INSERT INTO mtb_deliv_rank(name, rank) VALUES('”z‘—ƒ‰ƒ“ƒNC', 1);
-INSERT INTO mtb_deliv_rank(name, rank) VALUES('”z‘—ƒ‰ƒ“ƒND', 1);
-INSERT INTO mtb_deliv_rank(name, rank) VALUES('”z‘—ƒ‰ƒ“ƒNE', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('é…é€ãƒ©ãƒ³ã‚¯A', 0);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('é…é€ãƒ©ãƒ³ã‚¯B', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('é…é€ãƒ©ãƒ³ã‚¯C', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('é…é€ãƒ©ãƒ³ã‚¯D', 1);
+INSERT INTO mtb_deliv_rank(name, rank) VALUES('é…é€ãƒ©ãƒ³ã‚¯E', 1);
 
 ALTER TABLE dtb_delivfee ADD COLUMN deliv_rank integer DEFAULT 1;
 ALTER TABLE dtb_delivfee DROP CONSTRAINT dtb_delivfee_pkey;
@@ -106,12 +106,12 @@ ALTER TABLE dtb_delivfee ADD CONSTRAINT dtb_delivfee_pkey PRIMARY KEY (deliv_id,
 
 ALTER TABLE dtb_products ADD COLUMN deliv_rank integer DEFAULT 1;
 
-/*######################¡¤•i–â‚¢‡‚í‚¹¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_CONTACT', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '¤•i–â‚¢‡‚í‚¹g—pƒtƒ‰ƒO');
-/*######################¡–—á–â‚¢‡‚í‚¹¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_JIREI_CONTACT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), '–—á–â‚¢‡‚í‚¹g—pƒtƒ‰ƒO');
+/*######################â– å•†å“å•ã„åˆã‚ã›â– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_CONTACT', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'å•†å“å•ã„åˆã‚ã›ä½¿ç”¨ãƒ•ãƒ©ã‚°');
+/*######################â– äº‹ä¾‹å•ã„åˆã‚ã›â– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_JIREI_CONTACT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), 'äº‹ä¾‹å•ã„åˆã‚ã›ä½¿ç”¨ãƒ•ãƒ©ã‚°');
 
-/*######## ƒJƒeƒSƒŠ‚¨Š©‚ß¤•i ########*/
+/*######## ã‚«ãƒ†ã‚´ãƒªãŠå‹§ã‚å•†å“ ########*/
 CREATE TABLE dtb_category_recommend (
   category_recommend_id serial,
   category_id INT NOT NULL,
@@ -120,20 +120,20 @@ CREATE TABLE dtb_category_recommend (
   PRIMARY KEY (category_recommend_id)
 );
 ALTER TABLE dtb_category_recommend ADD COLUMN comment text;
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CATEGORY_RECOMMEND_PRODUCT_MAX', '1', (SELECT MAX(rank)+1 FROM mtb_constants), 'ƒJƒeƒSƒŠ‚¨‚·‚·‚ß¤•iÅ‘å“o˜^”|”’l:Å‘å“o˜^”|false:g—p‚µ‚È‚¢');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CATEGORY_RECOMMEND_PRODUCT_MAX', '1', (SELECT MAX(rank)+1 FROM mtb_constants), 'ã‚«ãƒ†ã‚´ãƒªãŠã™ã™ã‚å•†å“æœ€å¤§ç™»éŒ²æ•°|æ•°å€¤:æœ€å¤§ç™»éŒ²æ•°|false:ä½¿ç”¨ã—ãªã„');
 
-/*######## ƒJƒeƒSƒŠ’Ç‰Áî•ñ ########*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_CATEGORY_INFO', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'ƒJƒeƒSƒŠ’Ç‰Áî•ñg—pƒtƒ‰ƒO|true:g—p‚·‚é');
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CAT_MAINIMAGE_WIDTH', '600', (SELECT MAX(rank)+1 FROM mtb_constants), 'ƒJƒeƒSƒŠ‰æ‘œ•');
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CAT_MAINIMAGE_HEIGHT', '600', (SELECT MAX(rank)+1 FROM mtb_constants), 'ƒJƒeƒSƒŠ‰æ‘œc');
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('PRODUCT_LIST_MAX', '4', (SELECT MAX(rank)+1 FROM mtb_constants), '¤•iˆê——Å‘å•\¦”');
+/*######## ã‚«ãƒ†ã‚´ãƒªè¿½åŠ æƒ…å ± ########*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_CATEGORY_INFO', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'ã‚«ãƒ†ã‚´ãƒªè¿½åŠ æƒ…å ±ä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨ã™ã‚‹');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CAT_MAINIMAGE_WIDTH', '600', (SELECT MAX(rank)+1 FROM mtb_constants), 'ã‚«ãƒ†ã‚´ãƒªç”»åƒå¹…');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('CAT_MAINIMAGE_HEIGHT', '600', (SELECT MAX(rank)+1 FROM mtb_constants), 'ã‚«ãƒ†ã‚´ãƒªç”»åƒç¸¦');
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('PRODUCT_LIST_MAX', '4', (SELECT MAX(rank)+1 FROM mtb_constants), 'å•†å“ä¸€è¦§æœ€å¤§è¡¨ç¤ºæ•°');
 
 ALTER TABLE dtb_category ADD COLUMN category_info text;
 ALTER TABLE dtb_category ADD COLUMN category_main_image_alt text;
 ALTER TABLE dtb_category ADD COLUMN category_main_image text;
 
-/*######################¡¤•ix•¥•û–@w’è¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_PAYMENT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), '¤•i‚Ìx•¥•û–@w’è‚ğg—p‚·‚éƒtƒ‰ƒO|false:g—p‚µ‚È‚¢');
+/*######################â– å•†å“æ”¯æ‰•æ–¹æ³•æŒ‡å®šâ– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_PAYMENT', 'false', (SELECT MAX(rank)+1 FROM mtb_constants), 'å•†å“ã®æ”¯æ‰•æ–¹æ³•æŒ‡å®šã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|false:ä½¿ç”¨ã—ãªã„');
 CREATE TABLE dtb_product_payment
 (
   product_id integer NOT NULL,
@@ -141,8 +141,8 @@ CREATE TABLE dtb_product_payment
   CONSTRAINT dtb_product_payment_pkey PRIMARY KEY (product_id, payment_id)
 );
 
-/*######################¡¤•i”z‘—•û–@w’è¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_DELIV', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '¤•i‚Ì”z‘—•û–@w’è‚ğg—p‚·‚éƒtƒ‰ƒO|false:g—p‚µ‚È‚¢');
+/*######################â– å•†å“é…é€æ–¹æ³•æŒ‡å®šâ– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_DELIV', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'å•†å“ã®é…é€æ–¹æ³•æŒ‡å®šã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|false:ä½¿ç”¨ã—ãªã„');
 CREATE TABLE dtb_product_deliv
 (
   product_id integer NOT NULL,
@@ -150,28 +150,28 @@ CREATE TABLE dtb_product_deliv
   CONSTRAINT dtb_product_deliv_pkey PRIMARY KEY (product_id, deliv_id)
 );
 
-/*######################¡¤•iˆêŠ‡•À‚Ñ‘Ö‚¦¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_BULK_RANK', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '¤•iˆêŠ‡•À‚Ñ‘Ö‚¦‚ğg—p‚·‚éƒtƒ‰ƒO|false:g—p‚µ‚È‚¢');
+/*######################â– å•†å“ä¸€æ‹¬ä¸¦ã³æ›¿ãˆâ– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_BULK_RANK', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'å•†å“ä¸€æ‹¬ä¸¦ã³æ›¿ãˆã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|false:ä½¿ç”¨ã—ãªã„');
 
-/*######################¡¤•i•À‚Ñ‘Ö‚¦‚Å•\¦Œ”w’è¡######################*/
-INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_RANK_PMAX', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), '¤•i•À‚Ñ‘Ö‚¦‚Å•\¦Œ”w’è‚ğg—p‚·‚éƒtƒ‰ƒO|false:g—p‚µ‚È‚¢');
+/*######################â– å•†å“ä¸¦ã³æ›¿ãˆã§è¡¨ç¤ºä»¶æ•°æŒ‡å®šâ– ######################*/
+INSERT INTO mtb_constants(id, name, rank, remarks) VALUES('USE_PRODUCT_RANK_PMAX', 'true', (SELECT MAX(rank)+1 FROM mtb_constants), 'å•†å“ä¸¦ã³æ›¿ãˆã§è¡¨ç¤ºä»¶æ•°æŒ‡å®šã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|false:ä½¿ç”¨ã—ãªã„');
 
-/*######################¡ŒÚ‹q‚¨“Í‚¯æFAX¡######################*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_OTHER_DELIV_FAX',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'ŒÚ‹q‚¨“Í‚¯æFAXg—pƒtƒ‰ƒO|true:g—p');
+/*######################â– é¡§å®¢ãŠå±Šã‘å…ˆFAXâ– ######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_OTHER_DELIV_FAX',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'é¡§å®¢ãŠå±Šã‘å…ˆFAXä½¿ç”¨ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
-/*######################¡¤•iƒ}ƒXƒ^ˆê——‚ÅŒöŠJó‘Ô•ÏX¡######################*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_DISP_EDIT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '¤•iƒ}ƒXƒ^ˆê——‚ÅŒöŠJó‘Ô•ÏX‹@”\‚ğg—p‚·‚éƒtƒ‰ƒO|true:g—p');
+/*######################â– å•†å“ãƒã‚¹ã‚¿ä¸€è¦§ã§å…¬é–‹çŠ¶æ…‹å¤‰æ›´â– ######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_DISP_EDIT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'å•†å“ãƒã‚¹ã‚¿ä¸€è¦§ã§å…¬é–‹çŠ¶æ…‹å¤‰æ›´æ©Ÿèƒ½ã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
-/*######################¡¤•iƒ}ƒXƒ^ˆê——‚Å‹KŠi•\¦¡######################*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_SHOW_CLASS',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '¤•iƒ}ƒXƒ^ˆê——‚Å‹KŠi•\¦‹@”\‚ğg—p‚·‚éƒtƒ‰ƒO|true:g—p');
+/*######################â– å•†å“ãƒã‚¹ã‚¿ä¸€è¦§ã§è¦æ ¼è¡¨ç¤ºâ– ######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_SHOW_CLASS',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'å•†å“ãƒã‚¹ã‚¿ä¸€è¦§ã§è¦æ ¼è¡¨ç¤ºæ©Ÿèƒ½ã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
-/*######################¡¤•iƒ}ƒXƒ^ˆê——‚ÅİŒÉ•ÏX¡######################*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_STOCK_EDIT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '¤•iƒ}ƒXƒ^ˆê——‚ÅİŒÉ•ÏX‹@”\‚ğg—p‚·‚éƒtƒ‰ƒO|true:g—p');
+/*######################â– å•†å“ãƒã‚¹ã‚¿ä¸€è¦§ã§åœ¨åº«å¤‰æ›´â– ######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_MASTER_STOCK_EDIT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'å•†å“ãƒã‚¹ã‚¿ä¸€è¦§ã§åœ¨åº«å¤‰æ›´æ©Ÿèƒ½ã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
-/*######################¡ƒJƒeƒSƒŠˆê——‚ÅƒJƒS•\¦ŠÇ—¡######################*/
+/*######################â– ã‚«ãƒ†ã‚´ãƒªä¸€è¦§ã§ã‚«ã‚´è¡¨ç¤ºç®¡ç†â– ######################*/
 ALTER TABLE dtb_category ADD COLUMN hide_list_cart integer DEFAULT 0;
 
-/*######################¡¤•iƒXƒe[ƒ^ƒX2AƒXƒe[ƒ^ƒX3‚ğ’Ç‰Á¡######################*/
+/*######################â– å•†å“ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹2ã€ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹3ã‚’è¿½åŠ â– ######################*/
 CREATE TABLE mtb_status2(
   id serial,
   "name" text,
@@ -198,9 +198,9 @@ CREATE TABLE mtb_status_image3(
   CONSTRAINT mtb_status_image3_pkey PRIMARY KEY (id)
 );
 
-INSERT INTO mtb_status2(name, rank) VALUES('”½Ë‹@”\', 1);
-INSERT INTO mtb_status2(name, rank) VALUES('ñ—§‚Ä•t‚«', 3);
-INSERT INTO mtb_status2(name, rank) VALUES('ƒAƒCƒRƒ“', 3);
+INSERT INTO mtb_status2(name, rank) VALUES('åå°„æ©Ÿèƒ½', 1);
+INSERT INTO mtb_status2(name, rank) VALUES('æ–ç«‹ã¦ä»˜ã', 3);
+INSERT INTO mtb_status2(name, rank) VALUES('ã‚¢ã‚¤ã‚³ãƒ³', 3);
 
 INSERT INTO mtb_status_image2(name, rank) VALUES('img/page/detail/icon_01.png', 1);
 INSERT INTO mtb_status_image2(name, rank) VALUES('img/page/detail/icon_02.png', 3);
@@ -226,10 +226,10 @@ CREATE TABLE dtb_product_status3(
   CONSTRAINT dtb_product_status3_pkey PRIMARY KEY (product_id, status3_id)
 );
 
-/*######################¡¤•i”ñ‰ÛÅw’è¡######################*/
+/*######################â– å•†å“éèª²ç¨æŒ‡å®šâ– ######################*/
 ALTER TABLE dtb_products ADD COLUMN taxfree integer DEFAULT 0;
 
-/*######################¡‰ïˆõ“o˜^€–ÚƒJƒXƒ^ƒ}ƒCƒY¡######################*/
+/*######################â– ä¼šå“¡ç™»éŒ²é …ç›®ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºâ– ######################*/
 ALTER TABLE dtb_customer ADD COLUMN company_no text NOT NULL;
 ALTER TABLE dtb_customer ADD COLUMN company_certified_date timestamp without time zone NOT NULL;
 ALTER TABLE dtb_customer ADD COLUMN company_open_date timestamp without time zone;
@@ -249,26 +249,26 @@ CREATE TABLE mtb_company_type(
   CONSTRAINT mtb_company_type_pkey PRIMARY KEY (id)
 );
 
-INSERT INTO mtb_company_type(name, rank) VALUES('‹‘î‰îŒìx‰‡', 1);
-INSERT INTO mtb_company_type(name, rank) VALUES('–K–â‰îŒì', 2);
-INSERT INTO mtb_company_type(name, rank) VALUES('–K–â“ü—', 3);
-INSERT INTO mtb_company_type(name, rank) VALUES('–K–âƒŠƒnƒsƒŠ', 4);
-INSERT INTO mtb_company_type(name, rank) VALUES('’ÊŠ‰îŒì', 5);
-INSERT INTO mtb_company_type(name, rank) VALUES('’ÊŠƒŠƒnƒsƒŠ', 6);
-INSERT INTO mtb_company_type(name, rank) VALUES('—Ã—{’ÊŠ‰îŒì', 7);
-INSERT INTO mtb_company_type(name, rank) VALUES('”F’mÇ‘Î‰Œ^’ÊŠ‰ğœ', 8);
-INSERT INTO mtb_company_type(name, rank) VALUES('¬‹K–Í‘½‹@”\Œ^‹‘î‰îŒì', 9);
-INSERT INTO mtb_company_type(name, rank) VALUES('’ZŠú“üŠ—Ã—{‰îŒì', 10);
-INSERT INTO mtb_company_type(name, rank) VALUES('‰îŒì˜Vl•Ÿƒ{İi“Á•Ê—{Œì˜Vlƒz[ƒ€j', 11);
-INSERT INTO mtb_company_type(name, rank) VALUES('‰îŒì˜Vl•ÛŒ’{İ', 12);
+INSERT INTO mtb_company_type(name, rank) VALUES('å±…å®…ä»‹è­·æ”¯æ´', 1);
+INSERT INTO mtb_company_type(name, rank) VALUES('è¨ªå•ä»‹è­·', 2);
+INSERT INTO mtb_company_type(name, rank) VALUES('è¨ªå•å…¥æµ´', 3);
+INSERT INTO mtb_company_type(name, rank) VALUES('è¨ªå•ãƒªãƒãƒ”ãƒª', 4);
+INSERT INTO mtb_company_type(name, rank) VALUES('é€šæ‰€ä»‹è­·', 5);
+INSERT INTO mtb_company_type(name, rank) VALUES('é€šæ‰€ãƒªãƒãƒ”ãƒª', 6);
+INSERT INTO mtb_company_type(name, rank) VALUES('ç™‚é¤Šé€šæ‰€ä»‹è­·', 7);
+INSERT INTO mtb_company_type(name, rank) VALUES('èªçŸ¥ç—‡å¯¾å¿œå‹é€šæ‰€è§£é™¤', 8);
+INSERT INTO mtb_company_type(name, rank) VALUES('å°è¦æ¨¡å¤šæ©Ÿèƒ½å‹å±…å®…ä»‹è­·', 9);
+INSERT INTO mtb_company_type(name, rank) VALUES('çŸ­æœŸå…¥æ‰€ç™‚é¤Šä»‹è­·', 10);
+INSERT INTO mtb_company_type(name, rank) VALUES('ä»‹è­·è€äººç¦ç¥‰æ–½è¨­ï¼ˆç‰¹åˆ¥é¤Šè­·è€äººãƒ›ãƒ¼ãƒ ï¼‰', 11);
+INSERT INTO mtb_company_type(name, rank) VALUES('ä»‹è­·è€äººä¿å¥æ–½è¨­', 12);
 
-UPDATE mtb_customer_status SET name='–@l‰¼“o˜^' WHERE id=1;
-UPDATE mtb_customer_status SET name='–@l‰ïˆõ' WHERE id=2;
+UPDATE mtb_customer_status SET name='æ³•äººä»®ç™»éŒ²' WHERE id=1;
+UPDATE mtb_customer_status SET name='æ³•äººä¼šå“¡' WHERE id=2;
 UPDATE mtb_constants SET name='false' WHERE id='USE_CUSTOMER_COMPANY';
 
-/*######################¡–{‰ïˆõ³”F¡######################*/
-INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_APPROVAL',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'ŠÇ—‘¤‚Å–{‰ïˆõ³”F‚ğg—p‚·‚éƒtƒ‰ƒO|true:g—p');
+/*######################â– æœ¬ä¼šå“¡æ‰¿èªâ– ######################*/
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_APPROVAL',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  'ç®¡ç†å´ã§æœ¬ä¼šå“¡æ‰¿èªã‚’ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°|true:ä½¿ç”¨');
 
-/*######## ƒTƒCƒgHTML‰» ########*/
-INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('P_LIST_URLPATH',  'ROOT_URLPATH."products/list.php?category_id=%p"',  (SELECT MAX(rank)+1 FROM mtb_constants),  '¤•iˆê——HTMLo—Í');
+/*######## ã‚µã‚¤ãƒˆHTMLåŒ– ########*/
+INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('P_LIST_URLPATH',  'ROOT_URLPATH."products/list.php?category_id=%p"',  (SELECT MAX(rank)+1 FROM mtb_constants),  'å•†å“ä¸€è¦§HTMLå‡ºåŠ›');
 UPDATE mtb_constants SET name='ROOT_URLPATH. "products/detail.php?product_id=%p"' WHERE id='P_DETAIL_URLPATH';
