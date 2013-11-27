@@ -230,25 +230,27 @@
           <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
           <input type="hidden" name="product_class_id" id="product_class_id<!--{$id|h}-->" value="<!--{$tpl_product_class_id[$id]}-->" />
                 <div class="warp">
-                    <h3><!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
-                                  <!--{$arrProduct.product_code_min|h}-->
-                              <!--{else}-->
-                                  <!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->
-                              <!--{/if}--></h3>
-                    <div class="img">
-                      <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">
-                        <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="165" />
-                      </a><!--{* 商品画像 *}-->
+                    <div class="heightLine">
+                      <h3><!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
+                                    <!--{$arrProduct.product_code_min|h}-->
+                                <!--{else}-->
+                                    <!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->
+                                <!--{/if}--></h3>
+                      <p class="icon">
+                        <!--▼商品ステータス-->
+                        <!--{assign var=ps value=$productStatus[$id]}-->
+                        <!--{foreach from=$ps item=status}-->
+                          <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE[$status]}-->" width="46" alt="<!--{$arrSTATUS[$status]}-->"/>
+                        <!--{/foreach}-->
+                        <!--▲商品ステータス-->
+                      </p>
+                      <div class="img">
+                        <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">
+                          <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="165" />
+                        </a><!--{* 商品画像 *}-->
+                      </div>
+                      <p class="content"><!--{$arrProduct.name|h}--></p>
                     </div>
-                    <p class="icon">
-                      <!--▼商品ステータス-->
-                      <!--{assign var=ps value=$productStatus[$id]}-->
-                      <!--{foreach from=$ps item=status}-->
-                        <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE[$status]}-->" width="50" height="14" alt="<!--{$arrSTATUS[$status]}-->"/>
-                      <!--{/foreach}-->
-                      <!--▲商品ステータス-->
-                    </p>
-                    <p class="content"><!--{$arrProduct.name|h}--></p>
                     <p class="price">一般価格　￥<!--{if $price01_min == $price01_max}-->
                                   <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{else}-->
