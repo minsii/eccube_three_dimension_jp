@@ -282,7 +282,7 @@
                           <!--{else}-->
                             <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
                             <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">
-                              <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" />
+                              <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="96" height="23" alt="カゴへ入れる" />
                             </a>
                           <!--{/if}-->
                           <!--{else}-->
