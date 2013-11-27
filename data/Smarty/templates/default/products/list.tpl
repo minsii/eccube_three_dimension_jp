@@ -266,23 +266,25 @@
                                   <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
                               <!--{/if}-->pt</p>
                       </div>
-                      <div class="count">
-                        <!--{if $tpl_stock_find[$id]}-->
-                        <!--{if $arrErr.quantity != ""}-->
-                        <span class="attention"><!--{$arrErr.quantity}--></span><br />
-                        <!--{/if}-->
-                        <!--{if $tpl_classcat_find1[$id]}--><!--{ *バリエーション一覧へ* }-->
-                          <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">バリエーション一覧へ</a>
-                        <!--{else}-->
-                          <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
-                          <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">
-                            <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" />
-                          </a>
-                        <!--{/if}-->
-                        <!--{else}-->
-                        <span class="attention">申し訳ございませんが、只今品切れ中です。</span>
-                        <!--{/if}-->
-                      </div>
+                      <!--{if $arrCategory.hide_list_cart != 1}--><!--{* カゴ非表示 *}-->
+                        <div class="count">
+                          <!--{if $tpl_stock_find[$id]}-->
+                          <!--{if $arrErr.quantity != ""}-->
+                          <span class="attention"><!--{$arrErr.quantity}--></span><br />
+                          <!--{/if}-->
+                          <!--{if $tpl_classcat_find1[$id]}--><!--{ *バリエーション一覧へ* }-->
+                            <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">バリエーション一覧へ</a>
+                          <!--{else}-->
+                            <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
+                            <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">
+                              <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" />
+                            </a>
+                          <!--{/if}-->
+                          <!--{else}-->
+                          <span class="attention">申し訳ございませんが、只今品切れ中です。</span>
+                          <!--{/if}--><!--{* /カゴ非表示 *}-->
+                        </div>
+                      <!--{/if}-->
                       <!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1}-->
                       <div class="btn_favorite">
                         <!--{if $arrFavorites[$id]}-->
