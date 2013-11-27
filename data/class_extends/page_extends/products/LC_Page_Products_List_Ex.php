@@ -102,8 +102,8 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
         //ページング設定
         $this->tpl_pageno   = $this->arrForm['pageno'];
         /*## CATEGORY 情報 ## MDF BEGIN*/
-        //$this->disp_number  = $this->lfGetDisplayNum($this->arrForm['disp_number']);
-        $this->disp_number = PRODUCT_LIST_MAX;
+      	$this->disp_number  = $this->lfGetDisplayNum($this->arrForm['disp_number']);
+//        $this->disp_number = PRODUCT_LIST_MAX;
         /*## CATEGORY 情報 ## MDF END*/
 
         // 画面に表示するサブタイトルの設定
@@ -121,6 +121,7 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
 
         /*## CATEGORY 情報 ## ADD BEGIN*/
 		$this->arrPagenavi = $this->objNavi->arrPagenavi;
+		
 		/*## CATEGORY 情報 ## ADD END*/
 		
         switch($this->getMode()){
@@ -277,12 +278,13 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
     		$objProduct = new SC_Product_Ex();
     		$objQuery =& SC_Query_Ex::getSingletonInstance();
     			
-    		$objQuery->setOrder("rank DESC");
-    		$arrRecommendData = $objQuery->select("product_id", "dtb_category_recommend", "category_id = ?", array($category_id));
+    		$objQuery->setOrder("rank ASC");
+    		$arrRecommendData = $objQuery->select("product_id, comment AS recommend_comment", "dtb_category_recommend", "category_id = ?", array($category_id));
 
     		$arrRecommendProductId = array();
     		foreach($arrRecommendData as $recommend){
     			$arrRecommendProductId[] = $recommend["product_id"];
+    			$arrComments[ $recommend['product_id'] ] = $recommend["recommend_comment"];
     		}
 
     		$objQuery =& SC_Query_Ex::getSingletonInstance();
@@ -300,6 +302,7 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
     		$arrRecommend = array();
     		foreach($arrRecommendProductId as $product_id) {
     			$arrProducts2[$product_id]['product_status'] = $arrPdctStatus[$product_id];
+    			$arrProducts2[$product_id]['recommend_comment'] = $arrComments[$product_id];
     			$arrRecommend[] = $arrProducts2[$product_id];
     		}
     		$this->arrRecommend = $arrRecommend;

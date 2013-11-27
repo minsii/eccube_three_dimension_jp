@@ -42,9 +42,10 @@
         fnSubmit();
     }
     // カゴに入れる
-    function fnInCart(productForm) {
+    function fnInCart(productForm_name) {
         var searchForm = $("#form1");
-        var cartForm = $(productForm);
+        var cartForm = $("form[name="+productForm_name+"]");
+        
         // 検索条件を引き継ぐ
         var hiddenValues = ['mode','category_id','maker_id','name','orderby','disp_number','pageno','rnd'];
         $.each(hiddenValues, function(){
@@ -66,6 +67,7 @@
     <form name="form1" id="form1" method="get" action="?">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
         <input type="hidden" name="mode" value="<!--{$mode|h}-->" />
+        <input type="hidden" name="favorite_product_id" value="<!--{$mode|h}-->" />
         <!--{* ▼検索条件 *}-->
         <input type="hidden" name="category_id" value="<!--{$arrSearchData.category_id|h}-->" />
         <input type="hidden" name="maker_id" value="<!--{$arrSearchData.maker_id|h}-->" />
@@ -96,242 +98,97 @@
       <section class="osusume_point_box">
       	<div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/img_01.png" width="111" height="111" /></div>
         <h3><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/title.png" width="293" height="19" alt="オススメポイント" /></h3>
-        <p>テキストテキスト</p>
+        <p><!--{$arrCategory.category_info}--><!--{* カテゴリ説明1 *}--> </p>
         <div class="clear"></div>
       </section>
-      
+
+      <!-- ▼お勧め商品 -->
+      <!--{if count($arrRecommend)}-->
       <section class="osusume_shouhin_box pure-g">
       	<h2><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/title.png" width="742" height="48" alt="コンシェルジュオオススメ商品" /></h2>
-        
+        <!--{section name=cnt loop=$arrRecommend}-->
+        <!--{assign var=price01_min value=`$arrRecommend[cnt].price01_min`}-->
+        <!--{assign var=price01_max value=`$arrRecommend[cnt].price01_max`}-->
+        <!--{assign var=price02_min value=`$arrRecommend[cnt].price02_min`}-->
+        <!--{assign var=price02_max value=`$arrRecommend[cnt].price02_max`}-->
+        <!--{assign var=point_rate value=`$arrRecommend[cnt].point_rate`}-->
         <div class="box">
-       	  <div class="pure-u-1-2"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/main_img.png" width="300" height="300" /></div>
+       	  <div class="pure-u-1-2">
+            <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrRecommend[cnt].product_id}-->"><img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrRecommend[cnt].main_image|h}-->" width="300" /></a><!--{* 商品画像 *}--> 
+          </div>
           <div class="pure-u-1-2">
-          	<h5>No.B0779</h5>
-          	<h3>オススメキャッチコピー</h3>
-            <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/icon_01.png" width="64" height="18" alt="new" /></p>
-            <p>スメキスメキ</p>
-            <p>スメキスメ \16,500(税込)キスメキ</p>
-            <div class="btn">
-            <p>お得な価格は会員のみ公開</p>
-            <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/btn_regist.png" width="308" height="44" alt="会員登録" /></a></div>
+          	<h5><!--{if $arrRecommend[cnt].product_code_min == $arrRecommend[cnt].product_code_max}-->
+                                  <!--{$arrRecommend[cnt].product_code_min|h}-->
+                              <!--{else}-->
+                                  <!--{$arrRecommend[cnt].product_code_min|h}-->～<!--{$arrRecommend[cnt].product_code_max|h}-->
+                              <!--{/if}--></h5>
+            <!--{if $arrRecommend[cnt].recommend_comment}-->
+            <h3><!--{$arrRecommend[cnt].recommend_comment|h}--><!--{* キャッチコピー *}--></h3>
+            <!--{/if}-->
+            <p class="icon">
+              <!--▼商品ステータス-->
+              <!--{assign var=ps value=$arrRecommend[cnt].product_status}-->
+              <!--{foreach from=$ps item=status}-->
+                <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE[$status]}-->" width="64" height="18" alt="<!--{$arrSTATUS[$status]}-->"/>
+              <!--{/foreach}-->
+              <!--▲商品ステータス-->
+            </p>
+            <p><!--{$arrRecommend[cnt].name|h}--></p>
+            <p>一般価格 ￥<!--{if $price01_min == $price01_max}-->
+                                  <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                              <!--{/if}-->(税込)</p>
+            <!--{if $tpl_is_login}-->
+              <div class="member_price">
+                  <p><em>会員特別価格</em>
+                      <strong>￥<!--{if $price02_min == $price02_max}-->
+                                  <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                              <!--{/if}--></strong><em>(税込)</em>
+                  </p>
+                  <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
+                                <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->
+                            <!--{else}-->
+                                <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
+                            <!--{/if}-->pt</p>
+                  <p><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrRecommend[cnt].product_id}-->">詳細を見る</a></p>
+              </div>
+            <!--{else}-->
+              <div class="btn">
+              <p>お得な価格は会員のみ公開</p>
+              <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/btn_regist.png" width="308" height="44" alt="会員登録" /></a></div>
+            <!--{/if}-->
           </div>
         </div>
+        <!--{/section}-->
       </section>
+      <!--{/if}-->
+      <!-- ▲お勧め商品 -->
       
       <div class="product_list_box pure-form pure-form-stacked">
         <div class="paginator_box">
           <section class="sort_box pure-g">
-                <span class="count pure-u-2-5">000件の商品がございます。</span>
-                <span class="sort pure-u-2-5"><a href="#">価格が安い順</a> | <a href="#">価格が高い順</a> | <a href="#">新着順</a></span>
-              <span class="page_max">表示件数<select class=""> </select></span>
-          </section>
-            <section class="paging pure-paginator pure-g-r">
-                <span class="pure-u-1-2">1～50件/1000件中</span>
-                <ul class="pure-u-1-2">
-                    <li class="prev"><a href="#"><<前へ</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li class="next"><a href="#">次へ>></a></li>
-                </ul>
-            </section>
-        </div>
-        
-        <div class="body pure-g-r">
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="icon"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_new.png" width="50" height="14" alt="NEW" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_sale.png" width="50" height="14" alt="SALE" /><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/icon_gentei.png" width="50" height="14" alt="限定" /></p>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="count"><span>数量:<input type="text" class="box30"/></span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" /></a></div>
-                    <div class="btn_favorite"><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" /></a></div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        </div>
-      </div>
-      
-    <!--★タイトル★-->
-    <h2 class="title"><!--{$tpl_subtitle|h}--></h2>
-
-    <!--▼検索条件-->
-    <!--{if $tpl_subtitle == "検索結果"}-->
-        <ul class="pagecond_area">
-            <li><strong>商品カテゴリ：</strong><!--{$arrSearch.category|h}--></li>
-        <!--{if $arrSearch.maker|strlen >= 1}--><li><strong>メーカー：</strong><!--{$arrSearch.maker|h}--></li><!--{/if}-->
-            <li><strong>商品名：</strong><!--{$arrSearch.name|h}--></li>
-        </ul>
-    <!--{/if}-->
-    <!--▲検索条件-->
-
-    <!--▼ページナビ(本文)-->
-    <!--{capture name=page_navi_body}-->
-        <div class="pagenumber_area clearfix">
-            <div class="change">
-                <!--{if $orderby != 'price'}-->
-                    <a href="javascript:fnChangeOrderby('price');">価格順</a>
+                <span class="count pure-u-2-5"><!--{$tpl_linemax}-->件の商品がございます。</span>
+                <span class="sort pure-u-2-5">
+                <!--{if $orderby != 'price_up'}-->
+                    <a href="javascript:fnChangeOrderby('price_up');">価格が安い順</a>
                 <!--{else}-->
-                    <strong>価格順</strong>
-                <!--{/if}-->&nbsp;
-                <!--{if $orderby != "date"}-->
-                        <a href="javascript:fnChangeOrderby('date');">新着順</a>
-                <!--{else}-->
-                    <strong>新着順</strong>
+                    <strong>価格が安い順</strong>
                 <!--{/if}-->
-                表示件数
+                <!--{if $orderby != 'price_down'}-->
+                    <a href="javascript:fnChangeOrderby('price_down');">価格が高い順</a>
+                <!--{else}-->
+                    | <strong>価格が高い順</strong>
+                <!--{/if}-->
+                <!--{if $orderby != "date"}-->
+                     | <a href="javascript:fnChangeOrderby('date');">新着順</a>
+                <!--{else}-->
+                     | <strong>新着順</strong>
+                <!--{/if}-->
+                </span>
+              <span class="page_max">表示件数
                 <select name="disp_number" onchange="javascript:fnChangeDispNumber(this.value);">
                     <!--{foreach from=$arrPRODUCTLISTMAX item="dispnum" key="num"}-->
                         <!--{if $num == $disp_number}-->
@@ -341,156 +198,153 @@
                         <!--{/if}-->
                     <!--{/foreach}-->
                 </select>
-            </div>
-            <div class="navi"><!--{$tpl_strnavi}--></div>
+              </span>
+          </section>
+
+            <section class="paging pure-paginator pure-g-r">
+                <span class="pure-u-1-2"><!--{$arrPagenavi.start_row|h}-->～<!--{$arrPagenavi.end_row|h}-->件/<!--{$tpl_linemax}-->件中</span>
+                <!--{include file="list_pager.tpl"}-->
+            </section>
         </div>
-    <!--{/capture}-->
-    <!--▲ページナビ(本文)-->
-
-    <!--{foreach from=$arrProducts item=arrProduct name=arrProducts}-->
-
-        <!--{if $smarty.foreach.arrProducts.first}-->
-            <!--▼件数-->
-            <div>
-                <span class="attention"><!--{$tpl_linemax}-->件</span>の商品がございます。
-            </div>
-            <!--▲件数-->
-
-            <!--▼ページナビ(上部)-->
-            <form name="page_navi_top" id="page_navi_top" action="?">
-                <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-                <!--{if $tpl_linemax > 0}--><!--{$smarty.capture.page_navi_body|smarty:nodefaults}--><!--{/if}-->
-            </form>
-            <!--▲ページナビ(上部)-->
-        <!--{/if}-->
-
-        <!--{assign var=id value=$arrProduct.product_id}-->
-        <!--{assign var=arrErr value=$arrProduct.arrErr}-->
-        <!--▼商品-->
-        <form name="product_form<!--{$id|h}-->" action="?" onsubmit="return false;">
-        <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-        <div class="list_area clearfix">
-            <a name="product<!--{$id|h}-->"></a>
-            <div class="listphoto">
-                <!--★画像★-->
-                <a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->">
-                    <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" class="picture" /></a>
-            </div>
-
-            <div class="listrightbloc">
-                <!--▼商品ステータス-->
-                <!--{if count($productStatus[$id]) > 0}-->
-                    <ul class="status_icon clearfix">
-                        <!--{foreach from=$productStatus[$id] item=status}-->
-                            <li>
-                                <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE[$status]}-->" width="60" height="17" alt="<!--{$arrSTATUS[$status]}-->"/>
-                            </li>
-                        <!--{/foreach}-->
-                    </ul>
-                <!--{/if}-->
-                <!--▲商品ステータス-->
-
-                <!--★商品名★-->
-                <h3>
-                    <a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->"><!--{$arrProduct.name|h}--></a>
-                </h3>
-                <!--★価格★-->
-                <div class="pricebox sale_price">
-                    <!--{$smarty.const.SALE_PRICE_TITLE}-->(税込)：
-                    <span class="price">
-                        <span id="price02_default_<!--{$id}-->"><!--{strip}-->
-                            <!--{if $arrProduct.price02_min_inctax == $arrProduct.price02_max_inctax}-->
-                                <!--{$arrProduct.price02_min_inctax|number_format}-->
-                            <!--{else}-->
-                                <!--{$arrProduct.price02_min_inctax|number_format}-->～<!--{$arrProduct.price02_max_inctax|number_format}-->
-                            <!--{/if}-->
-                        </span><span id="price02_dynamic_<!--{$id}-->"></span><!--{/strip}-->
-                        円</span>
-                </div>
-
-                <!--★コメント★-->
-                <div class="listcomment"><!--{$arrProduct.main_list_comment|h|nl2br}--></div>
-
-                <!--★商品詳細を見る★-->
-                <div class="detail_btn">
-                    <!--{assign var=name value="detail`$id`"}-->
-                    <a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->" onmouseover="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_detail_on.jpg','<!--{$name}-->');" onmouseout="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_detail.jpg','<!--{$name}-->');">
-                    <img src="<!--{$TPL_URLPATH}-->img/button/btn_detail.jpg" alt="商品詳細を見る" name="<!--{$name}-->" id="<!--{$name}-->" /></a>
-                </div>
-
-                <!--▼買い物かご-->
-                <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
-                <input type="hidden" name="product_class_id" id="product_class_id<!--{$id|h}-->" value="<!--{$tpl_product_class_id[$id]}-->" />
-
-                <div class="cart_area clearfix">
-                    <!--{if $tpl_stock_find[$id]}-->
-                        <!--{if $tpl_classcat_find1[$id]}-->
-                            <div class="classlist">
-                                <dl class="size01 clearfix">
-                                        <!--▼規格1-->
-                                        <dt><!--{$tpl_class_name1[$id]|h}-->：</dt>
-                                        <dd>
-                                            <select name="classcategory_id1" style="<!--{$arrErr.classcategory_id1|sfGetErrorColor}-->">
-                                                <!--{html_options options=$arrClassCat1[$id] selected=$arrProduct.classcategory_id1}-->
-                                            </select>
-                                            <!--{if $arrErr.classcategory_id1 != ""}-->
-                                                <p class="attention">※ <!--{$tpl_class_name1[$id]}-->を入力して下さい。</p>
-                                            <!--{/if}-->
-                                        </dd>
-                                        <!--▲規格1-->
-                                </dl>
-                                <!--{if $tpl_classcat_find2[$id]}-->
-                                    <dl class="size02 clearfix">
-                                        <!--▼規格2-->
-                                        <dt><!--{$tpl_class_name2[$id]|h}-->：</dt>
-                                        <dd>
-                                            <select name="classcategory_id2" style="<!--{$arrErr.classcategory_id2|sfGetErrorColor}-->">
-                                            </select>
-                                            <!--{if $arrErr.classcategory_id2 != ""}-->
-                                                <p class="attention">※ <!--{$tpl_class_name2[$id]}-->を入力して下さい。</p>
-                                            <!--{/if}-->
-                                        </dd>
-                                        <!--▲規格2-->
-                                    </dl>
-                                <!--{/if}-->
-                            </div>
+        
+        <div class="body pure-g-r">
+          <!--▼商品一覧-->
+          <!--{foreach from=$arrProducts item=arrProduct name=arrProducts}-->
+          <!--{assign var=id value=$arrProduct.product_id}-->
+          <!--{assign var=price01_min value=`$arrProduct.price01_min`}-->
+          <!--{assign var=price01_max value=`$arrProduct.price01_max`}-->
+          <!--{assign var=price02_min value=`$arrProduct.price02_min`}-->
+          <!--{assign var=price02_max value=`$arrProduct.price02_max`}-->
+          <!--{assign var=point_rate value=`$arrProduct.point_rate`}-->
+        	<section class="pure-u-1-4">
+          <a name="product<!--{$id|h}-->">
+          <form name="product_form<!--{$id|h}-->" action="?" onsubmit="return false;">
+          <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+          <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
+          <input type="hidden" name="product_class_id" id="product_class_id<!--{$id|h}-->" value="<!--{$tpl_product_class_id[$id]}-->" />
+                <div class="warp">
+                    <h3><!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
+                                  <!--{$arrProduct.product_code_min|h}-->
+                              <!--{else}-->
+                                  <!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->
+                              <!--{/if}--></h3>
+                    <div class="img">
+                      <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">
+                        <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="165" />
+                      </a><!--{* 商品画像 *}-->
+                    </div>
+                    <p class="icon">
+                      <!--▼商品ステータス-->
+                      <!--{assign var=ps value=$productStatus[$id]}-->
+                      <!--{foreach from=$ps item=status}-->
+                        <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE[$status]}-->" width="50" height="14" alt="<!--{$arrSTATUS[$status]}-->"/>
+                      <!--{/foreach}-->
+                      <!--▲商品ステータス-->
+                    </p>
+                    <p class="content"><!--{$arrProduct.name|h}--></p>
+                    <p class="price">一般価格　￥<!--{if $price01_min == $price01_max}-->
+                                  <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                              <!--{/if}-->(税込)</p>
+                    <!--{if $tpl_is_login}-->
+                      <div class="member_price">
+                          <p><em>会員特別価格</em></p>
+                          <p><strong>￥<!--{if $price02_min == $price02_max}-->
+                                    <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                                <!--{else}-->
+                                    <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                                <!--{/if}--></strong><em>(税込)</em>
+                          </p>
+                          <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
+                                  <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
+                              <!--{/if}-->pt</p>
+                      </div>
+                      <div class="count">
+                        <!--{if $tpl_stock_find[$id]}-->
+                        <!--{if $arrErr.quantity != ""}-->
+                        <span class="attention"><!--{$arrErr.quantity}--></span><br />
                         <!--{/if}-->
-                        <div class="cartin clearfix">
-                            <div class="quantity">
-                                数量：<input type="text" name="quantity" class="box" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
-                                <!--{if $arrErr.quantity != ""}-->
-                                    <br /><span class="attention"><!--{$arrErr.quantity}--></span>
-                                <!--{/if}-->
-                            </div>
-                            <div class="cartin_btn">
-                                <!--★カゴに入れる★-->
-                                <div id="cartbtn_default_<!--{$id}-->">
-                                    <input type="image" id="cart<!--{$id}-->" src="<!--{$TPL_URLPATH}-->img/button/btn_cartin.jpg" alt="カゴに入れる" onclick="fnInCart(this.form); return false;" onmouseover="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_cartin_on.jpg', this);" onmouseout="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_cartin.jpg', this);" />
-                                </div>
-                                <div class="attention" id="cartbtn_dynamic_<!--{$id}-->"></div>
-                            </div>
-                        </div>
+                        <!--{if $tpl_classcat_find1[$id]}--><!--{ *バリエーション一覧へ* }-->
+                          <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">バリエーション一覧へ</a>
+                        <!--{else}-->
+                          <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
+                          <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">
+                            <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="98" height="23" alt="カゴへ入れる" />
+                          </a>
+                        <!--{/if}-->
+                        <!--{else}-->
+                        <span class="attention">申し訳ございませんが、只今品切れ中です。</span>
+                        <!--{/if}-->
+                      </div>
+                      <!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1}-->
+                      <div class="btn_favorite">
+                        <!--{if $arrFavorites[$id]}-->
+                        お気に入りに登録済みです。
+                        <!--{else}-->
+                        <a href="#" onclick="fnModeSubmit('add_favorite','favorite_product_id','<!--{$arrProduct.product_id|h}-->'); return false;">
+                          <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_favorite.png" width="162" height="23" alt="お気に入り追加" />
+                        </a>
+                        <!--{/if}-->
+                      </div>
+                      <!--{/if}-->
                     <!--{else}-->
-                        <div class="cartbtn attention">申し訳ございませんが、只今品切れ中です。</div>
+                      <div class="btn_regist">
+                          <p>お得な価格は会員のみ公開</p>
+                          <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                      </div>
                     <!--{/if}-->
                 </div>
-                <!--▲買い物かご-->
-            </div>
-        </div>
-        </form>
-        <!--▲商品-->
-
-        <!--{if $smarty.foreach.arrProducts.last}-->
-            <!--▼ページナビ(下部)-->
-            <form name="page_navi_bottom" id="page_navi_bottom" action="?">
-                <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-                <!--{if $tpl_linemax > 0}--><!--{$smarty.capture.page_navi_body|smarty:nodefaults}--><!--{/if}-->
             </form>
-            <!--▲ページナビ(下部)-->
-        <!--{/if}-->
-
-    <!--{foreachelse}-->
-        <!--{include file="frontparts/search_zero.tpl"}-->
-    <!--{/foreach}-->
-
+            </section>
+            <!--{foreachelse}-->
+                <!--{include file="frontparts/search_zero.tpl"}-->
+            <!--{/foreach}-->
+            <!--▲商品一覧-->
+        </div>
+        
+      <div class="product_list_box pure-form pure-form-stacked">
+        <div class="paginator_box">
+          <section class="paging pure-paginator pure-g-r">
+              <span class="pure-u-1-2"><!--{$arrPagenavi.start_row|h}-->～<!--{$arrPagenavi.end_row|h}-->件/<!--{$tpl_linemax}-->件中</span>
+              <!--{include file="list_pager.tpl"}-->
+          </section>
+          
+          <section class="sort_box pure-g">
+                <span class="count pure-u-2-5"><!--{$tpl_linemax}-->件の商品がございます。</span>
+                <span class="sort pure-u-2-5">
+                <!--{if $orderby != 'price_up'}-->
+                    <a href="javascript:fnChangeOrderby('price_up');">価格が安い順</a>
+                <!--{else}-->
+                    <strong>価格が安い順</strong>
+                <!--{/if}-->
+                <!--{if $orderby != 'price_down'}-->
+                    <a href="javascript:fnChangeOrderby('price_down');">価格が高い順</a>
+                <!--{else}-->
+                    | <strong>価格が高い順</strong>
+                <!--{/if}-->
+                <!--{if $orderby != "date"}-->
+                     | <a href="javascript:fnChangeOrderby('date');">新着順</a>
+                <!--{else}-->
+                     | <strong>新着順</strong>
+                <!--{/if}-->
+                </span>
+              <span class="page_max">表示件数
+                <select name="disp_number" onchange="javascript:fnChangeDispNumber(this.value);">
+                    <!--{foreach from=$arrPRODUCTLISTMAX item="dispnum" key="num"}-->
+                        <!--{if $num == $disp_number}-->
+                            <option value="<!--{$num}-->" selected="selected" ><!--{$dispnum}--></option>
+                        <!--{else}-->
+                            <option value="<!--{$num}-->" ><!--{$dispnum}--></option>
+                        <!--{/if}-->
+                    <!--{/foreach}-->
+                </select>
+              </span>
+          </section>
+        </div>
+      </div>
+  
+  </div>
 </div>

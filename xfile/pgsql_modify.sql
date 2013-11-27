@@ -272,3 +272,10 @@ INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER
 /*######## サイトHTML化 ########*/
 INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('P_LIST_URLPATH',  'ROOT_URLPATH."products/list.php?category_id=%p"',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品一覧HTML出力');
 UPDATE mtb_constants SET name='ROOT_URLPATH. "products/detail.php?product_id=%p"' WHERE id='P_DETAIL_URLPATH';
+
+/*######## 商品一覧カスタマイズ ########*/
+DELETE FROM mtb_product_list_max;
+INSERT INTO mtb_product_list_max(id, name, rank) VALUES(12, '12件', 1);
+INSERT INTO mtb_product_list_max(id, name, rank) VALUES(24, '24件', 2);
+INSERT INTO mtb_product_list_max(id, name, rank) VALUES(48, '48件', 3);
+INSERT INTO mtb_product_list_max(id, name, rank) VALUES(60, '60件', 4);

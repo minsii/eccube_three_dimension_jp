@@ -279,6 +279,48 @@ class SC_Product_Ex extends SC_Product {
         return $results;
     }
     /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
+    
+    /*## 商品一覧カスタマイズ ADD BEGIN ##*/
+    /**
+     * SC_Queryインスタンスに設定された検索条件をもとに商品一覧の配列を取得する.
+     *
+     * 主に SC_Product::findProductIds() で取得した商品IDを検索条件にし,
+     * SC_Query::setOrder() や SC_Query::setLimitOffset() を設定して, 商品一覧
+     * の配列を取得する.
+     *
+     * @param SC_Query $objQuery SC_Query インスタンス
+     * @return array 商品一覧の配列
+     */
+    function lists(&$objQuery) {
+        $col = <<< __EOS__
+             product_id
+            ,product_code_min
+            ,product_code_max
+            ,name
+            ,comment1
+            ,comment2
+            ,comment3
+            ,main_list_comment
+            ,main_image
+            ,main_list_image
+            ,price01_min
+            ,price01_max
+            ,price02_min
+            ,price02_max
+            ,stock_min
+            ,stock_max
+            ,stock_unlimited_min
+            ,stock_unlimited_max
+            ,deliv_date_id
+            ,status
+            ,del_flg
+            ,update_date
+            ,point_rate
+__EOS__;
+        $res = $objQuery->select($col, $this->alldtlSQL());
+        return $res;
+    }
+    /*## 商品一覧カスタマイズ ADD END ##*/
 }
 
 ?>
