@@ -72,6 +72,12 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
      * @return void
      */
     function action() {
+    	/* ## 商品一覧画面でお気に入り商品登録 ADD BEGIN ## */
+    	$objCustomer = new SC_Customer_Ex();
+    	$this->just_added_favorite = 0;
+    	$this->exist_favorite = 0;
+    	/* ## 商品一覧画面でお気に入り商品登録 ADD END ## */
+
         $objQuery   =& SC_Query_Ex::getSingletonInstance();
         $objProduct = new SC_Product_Ex();
 
@@ -118,7 +124,6 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
 		/*## CATEGORY 情報 ## ADD END*/
 		
         switch($this->getMode()){
-
             case "json":
                    $this->arrProducts = $this->setStatusDataTo($this->arrProducts, $this->arrSTATUS, $this->arrSTATUS_IMAGE);
                    $this->arrProducts = $objProduct->setPriceTaxTo($this->arrProducts);
@@ -131,7 +136,23 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
                    echo SC_Utils_Ex::jsonEncode($this->arrProducts);
                    exit;
                break;
-
+               
+			/* ## 商品一覧画面でお気に入り商品登録 ADD BEGIN ## */
+            case "add_favorite":        		
+        		// ログイン中のユーザが商品をお気に入りにいれる処理
+        		if ($objCustomer->isLoginSuccess() === true &&
+        		$this->arrForm['favorite_product_id'] > 0 ) {
+        			// 商品IDの正当性チェック
+        			if (!SC_Utils_Ex::sfIsInt($this->arrForm['favorite_product_id'])
+        			|| !SC_Helper_DB_Ex::sfIsRecord("dtb_products", "product_id", $this->arrForm['favorite_product_id'], "del_flg = 0 AND status = 1")) {
+        				SC_Utils_Ex::sfDispSiteError(PRODUCT_NOT_FOUND);
+        			}
+        			$this->lfRegistFavoriteProduct($this->arrForm['favorite_product_id'], $objCustomer->getValue('customer_id'));
+        			$anchor_hash = $this->getAnchorHash("product". $this->arrForm['favorite_product_id']);
+        			$this->tpl_onload .= $anchor_hash;
+        		}
+        		/* ## 商品一覧画面でお気に入り商品登録 ADD END ## */
+        		
             default:
 
                 //商品一覧の表示処理
@@ -198,6 +219,13 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
         }
 
         $this->tpl_rnd          = SC_Utils_Ex::sfGetRandomString(3);
+        
+        /* ## 商品一覧画面でお気に入り商品登録 ADD BEGIN ## */
+        if ($objCustomer->isLoginSuccess() === true){
+        	$arrFavorites = $objCustomer->getFavoriteProducts($objCustomer->getValue("customer_id"));
+        	$this->arrFavorites = array_fill_keys($arrFavorites, "1");
+        }
+        /* ## 商品一覧画面でお気に入り商品登録 ADD END ## */
         
         /*## SEO管理 ## ADD BEGIN*/
         $this->lfSetPageInfo($this->arrSearchData['category_id']);
@@ -279,8 +307,7 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
     }
 	/*## カテゴリお勧め商品 ADD END ##*/
     
-        
-
+    
     /**
      * 検索条件のwhere文とかを取得
      *
@@ -393,5 +420,47 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
     	return $arrSelectForm;
     }
     /*## カテゴリで商品検索 ADD END ##*/
+
+    /* ## 商品一覧画面でお気に入り商品登録 ADD BEGIN ## */
+    /*
+     * お気に入り商品登録
+     * @return void
+     */
+    function lfRegistFavoriteProduct($favorite_product_id,$customer_id) {
+
+    	$objQuery =& SC_Query_Ex::getSingletonInstance();
+    	$exists = $objQuery->exists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($customer_id, $favorite_product_id));
+
+    	if (!$exists) {
+    		$sqlval['customer_id'] = $customer_id;
+    		$sqlval['product_id'] = $favorite_product_id;
+    		$sqlval['update_date'] = 'CURRENT_TIMESTAMP';
+    		$sqlval['create_date'] = 'CURRENT_TIMESTAMP';
+
+    		$objQuery->begin();
+    		$objQuery->insert('dtb_customer_favorite_products', $sqlval);
+    		$objQuery->commit();
+
+    		$this->just_added_favorite = $favorite_product_id;
+    	}else{
+    		$this->exist_favorite = $favorite_product_id;
+    	}
+    }
+    
+    /**
+     * アンカーハッシュ文字列を取得する
+     * アンカーキーをサニタイジングする
+     *
+     * @param string $anchor_key フォーム入力パラメーターで受け取ったアンカーキー
+     * @return <type>
+     */
+    function getAnchorHash($anchor_key) {
+        if ($anchor_key != '') {
+            return "location.hash='#" . htmlspecialchars($anchor_key) . "';";
+        } else {
+            return '';
+        }
+    }
+    /* ## 商品一覧画面でお気に入り商品登録 ADD END ## */
 }
 ?>

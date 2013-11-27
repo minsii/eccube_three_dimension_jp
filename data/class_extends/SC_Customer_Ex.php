@@ -128,6 +128,14 @@ __EOS__;
         return false;
     }
     /*## 事業者番号でログイン ADD END ##*/
+    
+    function getFavoriteProducts($customer_id) {
+
+    	$objQuery =& SC_Query_Ex::getSingletonInstance();
+    	$arrFavorites = $objQuery->getCol("product_id", "dtb_customer_favorite_products", "customer_id = ?", array($customer_id));
+    	
+		return $arrFavorites;
+    }
 }
 
 ?>
