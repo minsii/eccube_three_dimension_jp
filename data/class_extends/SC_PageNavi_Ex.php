@@ -23,5 +23,24 @@
 
 require_once CLASS_REALDIR . 'SC_PageNavi.php';
 
+
 class SC_PageNavi_Ex extends SC_PageNavi {
+	
+	/*## ページ繰り最終レコード ADD BEGIN ##*/
+	var $end_row;     // 最終レコード
+	
+	    // コンストラクタ
+    function __construct($now_page, $all_row, $page_row, $func_name, $navi_max = NAVI_PMAX, $urlParam = '', $display_number = true) {
+    	parent::__construct($now_page, $all_row, $page_row, $func_name, $navi_max, $urlParam, $display_number);
+    	
+    	// 最終ページ
+    	if($this->now_page == $this->max_page){
+    		$this->end_row = $this->all_row;
+    	}else{
+    		$this->end_row = $this->start_row + $page_row * $this->now_page;
+    	}
+    	$this->arrPagenavi['start_row'] = $this->start_row + 1;
+    	$this->arrPagenavi['end_row'] = $this->end_row;
+    }
+    /*## ページ繰り最終レコード ADD END ##*/
 }
