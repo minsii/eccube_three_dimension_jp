@@ -98,6 +98,31 @@ class SC_Helper_DB_Ex extends SC_Helper_DB {
     		}
     	}
     	return $arrExtraClassCat;
-    }    
+    } 
+
+    /*## 商品一覧で子カテゴリを表示 ADD BEGIN ##*/
+    /**
+     * カテゴリツリーの取得を行う.
+     *
+     * @param integer $parent_category_id 親カテゴリID
+     * @param bool $count_check 登録商品数のチェックを行う場合 true
+     * @return array カテゴリツリーの配列
+     */
+    function sfGetChildCats($parent_category_id, $count_check = false) {
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $col = 'cat.*, ttl.product_count';
+        $from = 'dtb_category as cat left join dtb_category_total_count as ttl on ttl.category_id = cat.category_id';
+        $where = 'parent_category_id = ? AND del_flg = 0';
+        // 登録商品数のチェック
+        if ($count_check) {
+            $where .= ' AND product_count > 0';
+        }
+        $objQuery->setOption('ORDER BY rank DESC');
+        $arrRet = $objQuery->select($col, $from, $where, array($parent_category_id));
+
+        return $arrRet;
+    }
+    /*## 商品一覧で子カテゴリを表示 ADD END ##*/
+    
 }
 ?>

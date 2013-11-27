@@ -228,6 +228,11 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
         }
         /* ## 商品一覧画面でお気に入り商品登録 ADD END ## */
         
+        /*## 商品一覧で子カテゴリを表示 ADD BEGIN ##*/
+        $objDb = new SC_Helper_DB_Ex();
+        $this->arrChildCats = $objDb->sfGetChildCats($this->arrSearchData['category_id']);
+        /*## 商品一覧で子カテゴリを表示 ADD END ##*/
+        
         /*## SEO管理 ## ADD BEGIN*/
         $this->lfSetPageInfo($this->arrSearchData['category_id']);
         /*## SEO管理 ## ADD END*/

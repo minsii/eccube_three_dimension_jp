@@ -82,17 +82,21 @@
     </form>
 
       <!-- ▼一覧画面 -->
-      <h2 class="title">食事用品</h2>
+      <h2 class="title"><!--{$arrCategory.category_name|h}--></h2>
       
       <section class="sub_category">
-      	<h2>食事用品 カテゴリー</h2>
+      	<h2><!--{$arrCategory.category_name|h}--> カテゴリー</h2>
+        <!--{if is_array($arrChildCats) && count($arrChildCats) > 0}-->
         <ul>
-        	<li><a href="#">介護職・嚥下補助</a></li>
-        	<li><a href="#">自助具(薬関係)</a></li>
-        	<li><a href="#">食事用エプロン</a></li>
-        	<li><a href="#">口</a></li>
-        	<li><a href="#">衛生用品</a></li>
+          <!--{section name=cnt loop=$arrChildCats}-->
+        	<li>
+            <a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrChildCats[cnt].category_id}-->">
+              <!--{$arrChildCats[cnt].category_name|h}-->
+            </a>
+          </li>
+          <!--{/section}-->
         </ul>
+        <!--{/if}-->
       </section>
       
       <section class="osusume_point_box">
