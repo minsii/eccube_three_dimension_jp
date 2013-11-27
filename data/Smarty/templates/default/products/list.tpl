@@ -204,13 +204,16 @@
                 </select>
               </span>
           </section>
-
+            
+            <!--{if $tpl_linemax > 0}-->
             <section class="paging pure-paginator pure-g-r">
                 <span class="pure-u-1-2"><!--{$arrPagenavi.start_row|h}-->～<!--{$arrPagenavi.end_row|h}-->件/<!--{$tpl_linemax}-->件中</span>
                 <!--{include file="list_pager.tpl"}-->
             </section>
+            <!--{/if}-->
         </div>
         
+        <!--{if is_array($arrProducts) && count($arrProducts) > 0}-->
         <div class="body pure-g-r">
           <!--▼商品一覧-->
           <!--{foreach from=$arrProducts item=arrProduct name=arrProducts}-->
@@ -305,18 +308,22 @@
                 </div>
             </form>
             </section>
-            <!--{foreachelse}-->
-                <!--{include file="frontparts/search_zero.tpl"}-->
             <!--{/foreach}-->
             <!--▲商品一覧-->
         </div>
+        <!--{else}-->
+            <!--{include file="frontparts/search_zero.tpl"}-->
+        <!--{/if}-->
+
         
       <div class="product_list_box pure-form pure-form-stacked">
         <div class="paginator_box">
+          <!--{if $tpl_linemax > 0}-->
           <section class="paging pure-paginator pure-g-r">
               <span class="pure-u-1-2"><!--{$arrPagenavi.start_row|h}-->～<!--{$arrPagenavi.end_row|h}-->件/<!--{$tpl_linemax}-->件中</span>
               <!--{include file="list_pager.tpl"}-->
           </section>
+          <!--{/if}-->
           
           <section class="sort_box pure-g">
                 <span class="count pure-u-2-5"><!--{$tpl_linemax}-->件の商品がございます。</span>
