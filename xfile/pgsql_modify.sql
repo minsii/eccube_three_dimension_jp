@@ -268,3 +268,7 @@ UPDATE mtb_constants SET name='false' WHERE id='USE_CUSTOMER_COMPANY';
 
 /*######################■本会員承認■######################*/
 INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_ADMIN_CUSTOMER_APPROVAL',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '管理側で本会員承認を使用するフラグ|true:使用');
+
+/*######## サイトHTML化 ########*/
+INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('P_LIST_URLPATH',  'ROOT_URLPATH."products/list.php?category_id=%p"',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品一覧HTML出力');
+UPDATE mtb_constants SET name='ROOT_URLPATH. "products/detail.php?product_id=%p"' WHERE id='P_DETAIL_URLPATH';

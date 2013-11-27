@@ -24,4 +24,10 @@
 require_once CLASS_REALDIR . 'SC_View.php';
 
 class SC_View_Ex extends SC_View {
+	/*## サイトHTML化 ADD BEGIN ##*/
+	function init() {
+		parent::init();
+		$this->_smarty->register_modifier('sfGetFormattedUrl', array("SC_Utils_Ex", 'sfGetFormattedUrl'));
+	}
+	/*## サイトHTML化 ADD END ##*/
 }

@@ -67,6 +67,39 @@ class SC_Utils_Ex extends SC_Utils {
 
         return $arrRet;
     }
-    /*## 追加規格 ADD END ##*/    
+    /*## 追加規格 ADD END ##*/     
+    
+    /*## サイトHTML化 ADD BEGIN ##*/
+    /**
+     * フォーマットURLにパラメータを入れ替えた文字列を取得
+     * パラメータは1個から複数個指定できる
+     * 
+     * @param $format
+     * @param $param1
+     * @param $paramn
+     */
+    function sfGetFormattedUrl(){
+    	$numargs = func_num_args();
+    	if($numargs < 1){
+    		return "";
+    	}
+
+    	$format = func_get_arg(0);
+    	if($numargs == 1){
+    		$param = "";
+    		$search = "%p";
+    	}
+    	else{
+    		$param = array();
+    		$search = array();
+    		for($i=1; $i<$numargs; $i++){
+    			$param[] = func_get_arg($i);
+    			$search[] = "%p";
+    		}
+    	}
+    	$url = str_replace($search, $param, $format);
+    	return $url;
+    }
+    /*## サイトHTML化 ADD END ##*/
 }
 ?>
