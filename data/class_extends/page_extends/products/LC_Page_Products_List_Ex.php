@@ -395,6 +395,8 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
             }
         }
 
+        $searchCondition['where_for_count'] = $searchCondition['where'];
+        
         // メーカーらのWHERE文字列取得
         if ($arrSearchData['maker_id']) {
             $searchCondition['where']   .= " AND alldtl.maker_id = ? ";
