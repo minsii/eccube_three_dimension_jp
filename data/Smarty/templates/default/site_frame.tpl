@@ -43,6 +43,9 @@
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/site.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/heightLine.js"></script>
+<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/jquery.lightbox-0.5.js"></script>
+<link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/jquery.lightbox-0.5.css" type="text/css" media="all" />
+
 <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
 <!--{if $arrPageLayout.author|strlen >= 1}-->
     <meta name="author" content="<!--{$arrPageLayout.author|h}-->" />
@@ -57,6 +60,11 @@
 <link rel="icon" type="image/vnd.microsoft.icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
 
 <script type="text/javascript">//<![CDATA[
+    var lightbox_dir = "<!--{$TPL_URLPATH}-->";
+    $(function() {
+      $('a.lightbox').lightBox();  //(' ')内を変更することができます e.g.) a[@rel*=lightbox]、a.lightboxなど
+      $('a.lightbox1').lightBox();
+    });
     <!--{$tpl_javascript}-->
     $(function(){
         <!--{$tpl_onload}-->
