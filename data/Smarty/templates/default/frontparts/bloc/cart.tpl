@@ -34,7 +34,11 @@
     <dl>
       <!--{assign var=arrProducts value=$arrCartList.0.products}-->
       <!--{section name=cnt loop=$arrProducts}-->
-    	<dt><a href="#"><!--{$arrProducts[cnt].productsClass.name|h}--></a></dt>
+    	<dt>
+        <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProducts[cnt].productsClass.product_id}-->">
+          <!--{$arrProducts[cnt].productsClass.name|h}-->
+        </a>
+      </dt>
     	<dd><!--{$arrProducts[cnt].quantity|h}--> ￥<!--{$arrProducts[cnt].productsClass.price02|sfCalcIncTax|number_format}--></dd>
       <!--{/section}-->
     </dl>
