@@ -188,7 +188,13 @@ class SC_Helper_Purchase_Ex extends SC_Helper_Purchase {
             $arrDetail[$i]['point_rate'] = $item['point_rate'];
             $arrDetail[$i]['price'] = $item['price'];
             $arrDetail[$i]['quantity'] = $item['quantity'];
-
+			
+			/*## 商品非課税 ADD BEGIN ##*/
+            if(USE_TAXFREE_PRODUCT === true){
+            	$arrDetail[$i]['taxfree'] = $p['taxfree'];
+            }
+            /*## 商品非課税 ADD END ##*/
+            
             /*## 追加規格 ADD BEGIN ##*/
             if(USE_EXTRA_CLASS === true){
             	$arrDetail[$i]['extra_info'] = serialize($item['extra_info']);
@@ -240,6 +246,11 @@ __EOS__;
         	$col .= "extra_info,";
         }
 /*## 追加規格 ADD END ##*/
+/*## 商品非課税 ADD BEGIN ##*/
+        if(USE_TAXFREE_PRODUCT === true){
+        	$col .= "taxfree,";
+        }
+/*## 商品非課税 ADD END ##*/
         if ($has_order_status) {
             $col .= 'T1.status AS status, T1.payment_date AS payment_date,';
 

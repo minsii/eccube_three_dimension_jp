@@ -228,6 +228,9 @@ CREATE TABLE dtb_product_status3(
 
 /*######################■商品非課税指定■######################*/
 ALTER TABLE dtb_products ADD COLUMN taxfree integer DEFAULT 0;
+ALTER TABLE dtb_order_detail ADD COLUMN taxfree integer DEFAULT 0;
+INSERT INTO  mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_TAXFREE_PRODUCT',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品非課税機能を使用するフラグ|true:使用');
+
 
 /*######################■会員登録項目カスタマイズ■######################*/
 ALTER TABLE dtb_customer ADD COLUMN company_no text NOT NULL;

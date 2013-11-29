@@ -332,6 +332,11 @@
         <span class="attention">※ 商品が選択されていません。</span>
     <!--{/if}-->
 
+    <!--{*## 商品非課税 ADD BEGIN ##*}-->
+    <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true}-->
+    <p>※商品の非課税設定が変更されてこの受注に反映したい場合、既存受注商品を削除して再び商品をご追加ください。</p>
+    <!--{/if}-->
+    <!--{*## 商品非課税 ADD END ##*}-->
     <table class="list" id="order-edit-products">
         <tr>
             <th class="id">商品コード</th>
@@ -388,8 +393,27 @@
             </td>
             <!--{assign var=price value=`$arrForm.price.value[$product_index]`}-->
             <!--{assign var=quantity value=`$arrForm.quantity.value[$product_index]`}-->
-            <td class="right"><!--{$price|sfCalcIncTax|number_format}--> 円</td>
-            <td class="right"><!--{$price|sfCalcIncTax|sfMultiply:$quantity|number_format}-->円</td>
+            <td class="right">
+              <!--{*## 商品非課税 MDF BEGIN ##*}-->
+              <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true}-->
+              <input type="hidden" name="taxfree[<!--{$product_index}-->]" value="<!--{$arrForm.taxfree.value[$product_index]|h}-->">
+              <!--{/if}-->
+              <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $arrForm.taxfree.value[$product_index] == 1}-->
+                <!--{$price|number_format}--> 円<br />（非課税）
+              <!--{else}-->
+                <!--{$price|sfCalcIncTax|number_format}--> 円
+              <!--{/if}-->
+              <!--{*## 商品非課税 MDF END ##*}-->
+            </td>
+            <td class="right">
+              <!--{*## 商品非課税 MDF BEGIN ##*}-->
+              <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $arrForm.taxfree.value[$product_index] == 1}-->
+                <!--{$price|sfMultiply:$quantity|number_format}-->円
+              <!--{else}-->
+                <!--{$price|sfCalcIncTax|sfMultiply:$quantity|number_format}-->円
+              <!--{/if}-->
+              <!--{*## 商品非課税 MDF END ##*}-->
+            </td>
         </tr>
         <!--{/section}-->
         <tr>

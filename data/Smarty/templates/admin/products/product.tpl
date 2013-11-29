@@ -269,6 +269,7 @@ function fckeditorCreate(){
         <!--{/if}-->
 
         <!--{*# 商品非課税指定 ADD BEGIN #*}-->
+        <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true}-->
         <tr>
             <th>非課税</th>
             <td>
@@ -276,6 +277,7 @@ function fckeditorCreate(){
                 <input type="checkbox" name="taxfree" value="1" <!--{if $arrForm.taxfree == "1"}-->checked<!--{/if}--> />
             </td>
         </tr>
+        <!--{/if}-->
         <!--{*# 商品非課税指定 ADD END #*}-->
 
         <tr>

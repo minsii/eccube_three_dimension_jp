@@ -116,7 +116,13 @@ $(document).ready(function() {
                         </ul>
                     </td>
                     <td class="alignR">
-                        <!--{$item.price|sfCalcIncTax|number_format}-->円
+                        <!--{*## 商品非課税 MDF BEGIN ##*}-->
+                        <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $item.productsClass.taxfree == 1}-->
+                            <!--{$item.price|number_format}-->円（税抜）
+                        <!--{else}-->
+                            <!--{$item.price|sfCalcIncTax|number_format}-->円（税込）
+                        <!--{/if}-->
+                        <!--{*## 商品非課税 MDF END ##*}-->
                     </td>
                     <td class="alignR"><!--{$item.quantity|number_format}--></td>
                     <td class="alignR"><!--{$item.total_inctax|number_format}-->円</td>

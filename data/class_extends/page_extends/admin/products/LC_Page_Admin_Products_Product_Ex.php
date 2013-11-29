@@ -127,7 +127,9 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
         
         /*## 商品非課税指定 ADD BEGIN ##*/
-        $objFormParam->addParam('非課税', 'taxfree', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        if(USE_TAXFREE_PRODUCT === true){
+        	$objFormParam->addParam('非課税', 'taxfree', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        }
         /*## 商品非課税指定 ADD END ##*/
         
         if (!$arrPost['has_product_class']) {
@@ -263,7 +265,9 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         $sqlval['creator_id'] = $_SESSION['member_id'];
         
         /*## 商品非課税指定 ADD BEGIN ##*/
-        $sqlval['taxfree'] = $arrList['taxfree'];
+        if(USE_TAXFREE_PRODUCT === true){
+        	$sqlval['taxfree'] = $arrList['taxfree'];
+        }
         /*## 商品非課税指定 ADD END ##*/
         
         $arrRet = $objUpFile->getDBFileList();

@@ -316,11 +316,18 @@ class SC_Product_Ex extends SC_Product {
             ,del_flg
             ,update_date
             ,point_rate
-            ,taxfree
 __EOS__;
+
+        /*## 商品非課税指定 ADD BEGIN ##*/
+        if(USE_TAXFREE_PRODUCT === true){
+        	$col .= ", taxfree";
+        }
+        /*## 商品非課税指定 ADD END ##*/
+        
         $res = $objQuery->select($col, $this->alldtlSQL());
         return $res;
     }
+    /*## 商品一覧カスタマイズ ADD END ##*/
     
     /**
      * 商品詳細の SQL を取得する.
@@ -336,7 +343,7 @@ __EOS__;
          * point_rate, deliv_fee は商品規格(dtb_products_class)ごとに保持しているが,
          * 商品(dtb_products)ごとの設定なので MAX のみを取得する.
          */
-        $sql = <<< __EOS__
+        $col = <<< __EOS__
             (
                 SELECT
                      dtb_products.product_id
@@ -398,7 +405,8 @@ __EOS__;
                     ,T4.deliv_fee
                     ,T4.class_count
                     ,dtb_maker.name AS maker_name
-                    ,dtb_products.taxfree
+__EOS__;
+        $from = <<< __EOS__
                 FROM dtb_products
                     JOIN (
                         SELECT product_id,
@@ -424,9 +432,17 @@ __EOS__;
                         ON dtb_products.maker_id = dtb_maker.maker_id
             ) AS alldtl
 __EOS__;
+        
+        /*## 商品非課税指定 ADD BEGIN ##*/
+        if(USE_TAXFREE_PRODUCT === true){
+        	$col .= ",dtb_products.taxfree";
+        }
+        /*## 商品非課税指定 ADD END ##*/
+
+        $sql = $col . $from;
+        
         return $sql;
     }
-    /*## 商品一覧カスタマイズ ADD END ##*/
 }
 
 ?>

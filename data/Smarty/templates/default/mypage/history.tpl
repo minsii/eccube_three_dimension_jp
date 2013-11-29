@@ -85,9 +85,25 @@
                     </td>
                     <!--{assign var=price value=`$orderDetail.price`}-->
                     <!--{assign var=quantity value=`$orderDetail.quantity`}-->
-                    <td class="alignR"><!--{$price|sfCalcIncTax|number_format|h}-->円</td>
+                    <td class="alignR" nowrap>
+                    <!--{*## 商品非課税 MDF BEGIN ##*}-->
+                    <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $orderDetail.taxfree == 1}-->
+                        <!--{$price|number_format}-->円（税抜）
+                    <!--{else}-->
+                        <!--{$price|sfCalcIncTax|number_format}-->円（税込）
+                    <!--{/if}-->
+                    <!--{*## 商品非課税 MDF END ##*}-->
+                    </td>
                     <td class="alignR"><!--{$quantity|h}--></td>
-                    <td class="alignR"><!--{$price|sfCalcIncTax|sfMultiply:$quantity|number_format}-->円</td>
+                    <td class="alignR">
+                    <!--{*## 商品非課税 MDF BEGIN ##*}-->
+                    <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $orderDetail.taxfree == 1}-->
+                        <!--{$price|sfMultiply:$quantity|number_format}-->円
+                    <!--{else}-->
+                        <!--{$price|sfCalcIncTax|sfMultiply:$quantity|number_format}-->円
+                    <!--{/if}-->
+                    <!--{*## 商品非課税 MDF END ##*}-->
+                    </td>
                 </tr>
             <!--{/foreach}-->
             <tr>

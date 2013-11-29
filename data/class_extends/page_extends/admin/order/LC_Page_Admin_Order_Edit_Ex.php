@@ -407,22 +407,101 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
 			$objFormParam->addParam("用途", "use_select_id", INT_LEN, 'n', array("EXIST_CHECK", "MAX_LENGTH_CHECK", "NUM_CHECK"));
 			$objFormParam->addParam("用途", "use_select");
 		}
+		
+		/*## 商品非課税 ADD BEGIN ##*/
+		if(USE_TAXFREE_PRODUCT === true){
+			$objFormParam->addParam("非課税", "taxfree");
+		}
+		/*## 商品非課税 ADD END ##*/
 		/*## 写真希望・用途選択 ADD END	 ##*/
 	}
 
     function lfCheckError(&$objFormParam) {
-    	$arrErr = parent::lfCheckError($objFormParam);
-       
-    	$array = $objFormParam->getHashArray();
+        $objProduct = new SC_Product_Ex();
+
+        $arrErr = $objFormParam->checkError();
+
+        if (!SC_Utils_Ex::isBlank($objErr->arrErr)) {
+            return $arrErr;
+        }
+
+        $arrValues = $objFormParam->getHashArray();
+
+        // 商品の種類数
+        $max = count($arrValues['quantity']);
+        $subtotal = 0;
+        $totalpoint = 0;
+        $totaltax = 0;
+        for ($i = 0; $i < $max; $i++) {
+        	/*## 商品非課税 MDF BEGIN ##*/
+        	if(USE_TAXFREE_PRODUCT === true && $arrValues['taxfree'][$i] == 1){
+        		$subtotal += $arrValues['price'][$i] * $arrValues['quantity'][$i];
+        	}else{
+        		$subtotal += SC_Helper_DB_Ex::sfCalcIncTax($arrValues['price'][$i]) * $arrValues['quantity'][$i];
+        		// 小計の計算
+        		$totaltax += SC_Helper_DB_Ex::sfTax($arrValues['price'][$i]) * $arrValues['quantity'][$i];
+        	}
+        	/*## 商品非課税 MDF END ##*/
+            
+            // 加算ポイントの計算
+            $totalpoint += SC_Utils_Ex::sfPrePoint($arrValues['price'][$i], $arrValues['point_rate'][$i]) * $arrValues['quantity'][$i];
+
+            // 在庫数のチェック
+            $arrProduct = $objProduct->getDetailAndProductsClass($arrValues['product_class_id'][$i]);
+
+            // 編集前の値と比較するため受注詳細を取得
+            $objPurchase = new SC_Helper_Purchase_Ex();
+            $arrOrderDetail = SC_Utils_Ex::sfSwapArray($objPurchase->getOrderDetail($objFormParam->getValue('order_id'), false));
+
+            if ($arrProduct['stock_unlimited'] != '1'
+                && $arrProduct['stock'] < $arrValues['quantity'][$i] - $arrOrderDetail['quantity'][$i]) {
+                $class_name1 = $arrValues['classcategory_name1'][$i];
+                $class_name1 = SC_Utils_Ex::isBlank($class_name1) ? 'なし' : $class_name1;
+                $class_name2 = $arrValues['classcategory_name2'][$i];
+                $class_name2 = SC_Utils_Ex::isBlank($class_name2) ? 'なし' : $class_name2;
+                $arrErr['quantity'][$i] .= $arrValues['product_name'][$i]
+                    . '/(' . $class_name1 . ')/(' . $class_name2 . ') の在庫が不足しています。 設定できる数量は「'
+                    . ($arrOrderDetail['quantity'][$i] + $arrProduct['stock']) . '」までです。<br />';
+            }
+        }
+
+        // 消費税
+        $arrValues['tax'] = $totaltax;
+        // 小計
+        $arrValues['subtotal'] = $subtotal;
+        // 合計
+        $arrValues['total'] = $subtotal - $arrValues['discount'] + $arrValues['deliv_fee'] + $arrValues['charge'];
+        // お支払い合計
+        $arrValues['payment_total'] = $arrValues['total'] - ($arrValues['use_point'] * POINT_VALUE);
+
+        // 加算ポイント
+        $arrValues['add_point'] = SC_Helper_DB_Ex::sfGetAddPoint($totalpoint, $arrValues['use_point']);
+
+        // 最終保持ポイント
+        $arrValues['total_point'] = $objFormParam->getValue('point') - $arrValues['use_point'];
+
+        if ($arrValues['total'] < 0) {
+            $arrErr['total'] = '合計額がマイナス表示にならないように調整して下さい。<br />';
+        }
+
+        if ($arrValues['payment_total'] < 0) {
+            $arrErr['payment_total'] = 'お支払い合計額がマイナス表示にならないように調整して下さい。<br />';
+        }
+
+        if ($arrValues['total_point'] < 0) {
+            $arrErr['use_point'] = '最終保持ポイントがマイナス表示にならないように調整して下さい。<br />';
+        }
+
+        $objFormParam->setParam($arrValues);
 
 		/*## 写真希望・用途選択 ADD BEGIN ##*/
     	if(USE_ORDER_PHOTO_APPLY === true && empty($arrErr["photo_apply_id"])){
-        	if(!isset($this->arrPhotoApply[$array["photo_apply_id"]])){
+        	if(!isset($this->arrPhotoApply[$arrValues["photo_apply_id"]])){
         		$arrErr["photo_apply_id"] = "※ 写真希望を正しくご選択ください。<br/>";
         	}
         }
         if(USE_ORDER_USE_SELECT === true && empty($arrErr["use_select_id"])){
-            if(!isset($this->arrUseSelect[$array["use_select_id"]])){
+            if(!isset($this->arrUseSelect[$arrValues["use_select_id"]])){
         		$arrErr["use_select_id"] = "※ ご用途を正しくご選択ください。<br/>";
         	}      	
         }
@@ -514,7 +593,14 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
                 $extra_info["extra_classcategory"] = $extra_classcategory;
                 $arrProduct['extra_info'] = serialize($extra_info);
 			}
-            /*## 追加規格 ADD END ##*/			
+            /*## 追加規格 ADD END ##*/
+
+			/*## 商品非課税 ADD BEGIN ##*/
+			if(USE_TAXFREE_PRODUCT === true){
+				$arrUpdateKeys[] = 'taxfree';
+			}
+			/*## 商品非課税 ADD END ##*/
+		
 			foreach ($arrUpdateKeys as $key) {
 				$arrValues = $objFormParam->getValue($key);
 				if (isset($changed_no)) {
@@ -553,6 +639,13 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
 			$arrDeleteKeys[] = "extra_info";
         }
         /*## 追加規格 ADD END ##*/		
+        
+        /*## 商品非課税 ADD BEGIN ##*/
+        if(USE_TAXFREE_PRODUCT === true){
+        	$arrDeleteKeys[] = 'taxfree';
+        }
+        /*## 商品非課税 ADD END ##*/
+        
         foreach ($arrDeleteKeys as $key) {
             $arrNewValues = array();
             $arrValues = $objFormParam->getValue($key);
@@ -617,8 +710,16 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
         if(USE_EXTRA_CLASS === true){
         	$arrCols[] = "extra_info";
         }
-        $arrDetail = $objFormParam->getSwapArray($arrCols);
         /*## 追加規格 MDF END ##*/
+        
+        /*## 商品非課税 ADD BEGIN ##*/
+        if(USE_TAXFREE_PRODUCT === true){
+        	$arrCols[] = 'taxfree';
+        }
+        /*## 商品非課税 ADD END ##*/
+		
+        $arrDetail = $objFormParam->getSwapArray($arrCols);
+        
         // 変更しようとしている商品情報とDBに登録してある商品情報を比較することで、更新すべき数量を計算
         $max = count($arrDetail);
         $k = 0;

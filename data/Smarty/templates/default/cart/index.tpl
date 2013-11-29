@@ -148,8 +148,14 @@
                 <!--{/if}-->
                 <!--{*## 追加規格 ADD END ##*}-->
                         </td>
-                        <td class="alignR">
-                            <!--{$item.price|sfCalcIncTax|number_format}-->円
+                        <td class="alignR" nowrap>
+                        <!--{*## 商品非課税 MDF BEGIN ##*}-->
+                        <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $item.productsClass.taxfree == 1}-->
+                            <!--{$item.price|number_format}-->円（税抜）
+                        <!--{else}-->
+                            <!--{$item.price|sfCalcIncTax|number_format}-->円（税込）
+                        <!--{/if}-->
+                        <!--{*## 商品非課税 MDF END ##*}-->
                         </td>
                         <td class="alignC"><!--{$item.quantity}-->
                             <ul id="quantity_level">

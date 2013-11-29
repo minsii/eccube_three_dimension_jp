@@ -63,7 +63,11 @@
     <!--{/foreach}-->
 <!--{/if}-->
 <!--{*## 追加規格 ADD END ##*}-->
-単価：￥ <!--{$arrOrderDetail[cnt].price|sfCalcIncTax:$arrInfo.tax:$arrInfo.tax_rule|number_format}-->
+<!--{*## 商品非課税 MDF BEGIN ##*}-->
+単価：￥ <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $arrOrderDetail[cnt].taxfree == 1}--><!--{$arrOrderDetail[cnt].price|number_format}-->円（税抜）
+<!--{else}--><!--{$arrOrderDetail[cnt].price|sfCalcIncTax:$arrInfo.tax:$arrInfo.tax_rule|number_format}-->円（税込）
+<!--{/if}-->
+<!--{*## 商品非課税 MDF END ##*}-->
 数量：<!--{$arrOrderDetail[cnt].quantity}-->
 
 <!--{/section}-->
@@ -112,7 +116,11 @@
 <!--{foreach item=item name=item from=$shipping.shipment_item}-->
 商品コード: <!--{$item.product_code}-->
 商品名: <!--{$item.product_name}--> <!--{$item.classcategory_name1}--> <!--{$item.classcategory_name2}-->
-単価：￥ <!--{$item.price|sfCalcIncTax|number_format}-->
+<!--{*## 商品非課税 MDF BEGIN ##*}-->
+<!--{if $smarty.const.USE_TAXFREE_PRODUCT !== true}-->
+単価：￥ <!--{$item.price|sfCalcIncTax|number_format}-->円（税込）
+<!--{/if}-->
+<!--{*## 商品非課税 MDF END ##*}-->
 数量：<!--{$item.quantity}-->
 
 <!--{/foreach}-->

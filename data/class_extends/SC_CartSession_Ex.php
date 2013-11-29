@@ -81,15 +81,25 @@ class SC_CartSession_Ex extends SC_CartSession {
 				= $this->cartSession[$productTypeId][$i]['productsClass']['point_rate'];
 
 				$quantity = $this->cartSession[$productTypeId][$i]['quantity'];
-				$incTax = SC_Helper_DB_Ex::sfCalcIncTax($price);
+				
+				/*## 商品非課税 MDF BEGIN ##*/
+				if(USE_TAXFREE_PRODUCT === true && 
+					$this->cartSession[$productTypeId][$i]['productsClass']['taxfree'] == 1){
+					$incTax = $price;
+				}else{
+					$incTax = SC_Helper_DB_Ex::sfCalcIncTax($price);
+				}
+				/*## 商品非課税 MDF END ##*/
 				$total = $incTax * $quantity;
 
 				/*## 追加規格 ADD BEGIN ##*/
 				$extra_classcategory = array();
-				foreach($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"]
-				as $extcls_id=>$extclscat_id){
-					$extra_classcategory["extra_class_name$extcls_id"] = $arrAllExtraClass[$extcls_id];
-					$extra_classcategory["extra_classcategory_name$extcls_id"] = $arrAllExtraClassCat[$extcls_id][$extclscat_id];
+				if(is_array($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"])){
+					foreach($this->cartSession[$productTypeId][$i]['extra_info']["extra_classcategory_id"]
+						as $extcls_id=>$extclscat_id){
+						$extra_classcategory["extra_class_name$extcls_id"] = $arrAllExtraClass[$extcls_id];
+						$extra_classcategory["extra_classcategory_name$extcls_id"] = $arrAllExtraClassCat[$extcls_id][$extclscat_id];
+					}
 				}
 				$this->cartSession[$productTypeId][$i]	["extra_info"]["extra_classcategory"] = $extra_classcategory;
 				/*## 追加規格 ADD END ##*/
@@ -150,6 +160,12 @@ class SC_CartSession_Ex extends SC_CartSession {
         	'deliv_date_id' => true,
 		/*## お届け日付非表示のバグ修正 ADD END ##*/
 		);
+		
+		/*## 商品非課税 ADD BEGIN ##*/
+		if(USE_TAXFREE_PRODUCT === true){
+			$arrNecessaryItems["taxfree"] = true;
+		} 
+		/*## 商品非課税 ADD END ##*/
 
 		// 必要な項目以外を削除。
 		foreach (array_keys($arrProductsClass) as $key) {
@@ -221,6 +237,58 @@ __EOS__;
 		return $result;
 	}
 	/*## 配送ランク ADD END ##*/
+	
+    // 全商品の合計価格
+    function getAllProductsTotal($productTypeId) {
+        // 税込み合計
+        $total = 0;
+        $max = $this->getMax($productTypeId);
+        for ($i = 0; $i <= $max; $i++) {
+
+            if (!isset($this->cartSession[$productTypeId][$i]['price'])) {
+                $this->cartSession[$productTypeId][$i]['price'] = '';
+            }
+
+            $price = $this->cartSession[$productTypeId][$i]['price'];
+
+            if (!isset($this->cartSession[$productTypeId][$i]['quantity'])) {
+                $this->cartSession[$productTypeId][$i]['quantity'] = '';
+            }
+            $quantity = $this->cartSession[$productTypeId][$i]['quantity'];
+
+            /*## 商品非課税 MDF BEGIN ##*/
+            if(USE_TAXFREE_PRODUCT === true && 
+            	$this->cartSession[$productTypeId][$i]['productsClass']['taxfree'] == 1){
+            	$incTax = $price;
+            }
+            else{
+            	$incTax = SC_Helper_DB_Ex::sfCalcIncTax($price);
+            }
+            /*## 商品非課税 MDF END ##*/
+            $total += $incTax * $quantity;
+        }
+        return $total;
+    }
+    
+    // 全商品の合計税金
+    function getAllProductsTax($productTypeId) {
+        // 税合計
+        $total = 0;
+        $max = $this->getMax($productTypeId);
+        for ($i = 0; $i <= $max; $i++) {
+        	/*## 商品非課税 ADD BEGIN ##*/
+        	if(USE_TAXFREE_PRODUCT === true && 
+        		$this->cartSession[$productTypeId][$i]['productsClass']['taxfree'] == 1){
+        			continue;
+        	}
+        	/*## 商品非課税 ADD END ##*/
+        	$price = $this->cartSession[$productTypeId][$i]['price'];
+        	$quantity = $this->cartSession[$productTypeId][$i]['quantity'];
+        	$tax = SC_Helper_DB_Ex::sfTax($price);
+        	$total+= ($tax * $quantity);
+        }
+        return $total;
+    }
 }
 
 ?>
