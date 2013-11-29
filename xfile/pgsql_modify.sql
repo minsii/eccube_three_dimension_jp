@@ -279,6 +279,28 @@ INSERT INTO mtb_product_list_max(id, name, rank) VALUES(12, '12件', 1);
 INSERT INTO mtb_product_list_max(id, name, rank) VALUES(24, '24件', 2);
 INSERT INTO mtb_product_list_max(id, name, rank) VALUES(48, '48件', 3);
 INSERT INTO mtb_product_list_max(id, name, rank) VALUES(60, '60件', 4);
+UPDATE mtb_constants SET name='160' WHERE id='SMALL_IMAGE_WIDTH';
+UPDATE mtb_constants SET name='160' WHERE id='SMALL_IMAGE_HEIGHT';
+
 
 /*######## 商品詳細で在庫表示 ########*/
 INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_CLASS_STOCK_TABLE',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品詳細で在庫表示を使用するフラグ|true:使用');
+
+
+/*######## 商品詳細カスタマイズ ########*/
+UPDATE mtb_constants SET name='360' WHERE id='NORMAL_IMAGE_WIDTH';
+UPDATE mtb_constants SET name='360' WHERE id='NORMAL_IMAGE_HEIGHT';
+UPDATE mtb_constants SET name='84' WHERE id='NORMAL_SUBIMAGE_WIDTH';
+UPDATE mtb_constants SET name='84' WHERE id='NORMAL_SUBIMAGE_HEIGHT';
+UPDATE mtb_constants SET name='500' WHERE id='LARGE_SUBIMAGE_WIDTH';
+UPDATE mtb_constants SET name='500' WHERE id='LARGE_SUBIMAGE_HEIGHT';
+UPDATE mtb_constants SET name='8' WHERE id='PRODUCTSUB_MAX';
+
+ALTER TABLE dtb_products ADD COLUMN sub_title7 text;
+ALTER TABLE dtb_products ADD COLUMN sub_comment7 text;
+ALTER TABLE dtb_products ADD COLUMN sub_image7 text;
+ALTER TABLE dtb_products ADD COLUMN sub_large_image7 text;
+ALTER TABLE dtb_products ADD COLUMN sub_title8 text;
+ALTER TABLE dtb_products ADD COLUMN sub_comment8 text;
+ALTER TABLE dtb_products ADD COLUMN sub_image8 text;
+ALTER TABLE dtb_products ADD COLUMN sub_large_image8 text;

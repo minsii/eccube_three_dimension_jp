@@ -152,11 +152,13 @@
                                   <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{/if}--></strong><em>(税込)</em>
                   </p>
+                  <!--{if $smarty.const.USE_POINT === true}-->
                   <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
                                 <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->
                             <!--{else}-->
                                 <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
                             <!--{/if}-->pt</p>
+                  <!--{/if}-->
                   <p><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrRecommend[cnt].product_id}-->">詳細を見る</a></p>
               </div>
             <!--{else}-->
@@ -265,11 +267,13 @@
                                     <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                                 <!--{/if}--></strong><em>(税込)</em>
                           </p>
+                          <!--{if $smarty.const.USE_POINT === true}-->
                           <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
                                   <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->
                               <!--{else}-->
                                   <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
                               <!--{/if}-->pt</p>
+                          <!--{/if}-->
                       </div>
                       <!--{if $arrCategory.hide_list_cart != 1}--><!--{* カゴ非表示 *}-->
                         <div class="count">

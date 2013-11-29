@@ -98,7 +98,7 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
      */
     function action() {
     	parent::action();
-    	
+
     	/*# 商品登録日表示 ADD BEGIN #*/
     	if(!empty($_POST["product_id"])){
     		$objProduct = new SC_Product_Ex();
@@ -162,8 +162,8 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         
         /*## その他商品項目カスタマイズ MDF BEGIN ##*/
         $objFormParam->addParam('詳細-メインコメント1', 'main_comment', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('詳細-メインコメント', 'comment5', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('詳細-メインコメント', 'comment6', LLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('詳細-メインコメント2', 'comment5', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('詳細-メインコメント3', 'comment6', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         /*## その他商品項目カスタマイズ MDF END ##*/
         
         $objFormParam->addParam('save_main_list_image', 'save_main_list_image', '', '', array());

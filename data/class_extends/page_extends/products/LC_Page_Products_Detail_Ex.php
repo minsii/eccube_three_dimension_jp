@@ -52,6 +52,14 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
         	$this->arrAllExtraClassCat = $objDb->lfGetAllExtraClassCategory();
         }
         /*## 追加規格 ADD END ##*/
+		
+		/*## 商品ステータス2、ステータス3を追加 ADD BEGIN ##*/
+        $masterData = new SC_DB_MasterData();
+		$this->arrSTATUS2 = $masterData->getMasterData('mtb_status2');
+		$this->arrSTATUS_IMAGE2 = $masterData->getMasterData('mtb_status_image2');
+		$this->arrSTATUS3 = $masterData->getMasterData('mtb_status3');
+		$this->arrSTATUS_IMAGE3 = $masterData->getMasterData('mtb_status_image3');
+		/*## 商品ステータス2、ステータス3を追加 ADD END ##*/
     }
 
     /**
@@ -307,11 +315,20 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
         // 商品ステータスを取得
         $this->productStatus = $objProduct->getProductStatus($product_id);
         
+        /*## 商品ステータス2、ステータス3を追加 ## ADD BEGIN*/
+        $this->productStatus2 = $objProduct->getProductStatus2($product_id);
+        $this->productStatus3 = $objProduct->getProductStatus2($product_id);
+        /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
+
         // 画像ファイル指定がない場合の置換処理
         $this->arrProduct['main_image']
             = SC_Utils_Ex::sfNoImageMain($this->arrProduct['main_image']);
 
-        $this->subImageFlag = $this->lfSetFile($this->objUpFile,$this->arrProduct,$this->arrFile);
+        /*## 商品詳細カスタマイズ ## MDF BEGIN*/
+//        $this->subImageFlag = $this->lfSetFile($this->objUpFile,$this->arrProduct,$this->arrFile);
+		$this->subImageFlag = $this->lfSetFile($this->objUpFile,$this->arrProductOther,$this->arrFile);
+		/*## 商品詳細カスタマイズ ## MDF END */
+		
         //レビュー情報の取得
         $this->arrReview = $this->lfGetReviewData($product_id);
 
