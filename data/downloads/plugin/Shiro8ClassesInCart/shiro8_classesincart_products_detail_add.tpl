@@ -33,7 +33,7 @@
 	    <!--{if $tpl_classcat_find2}-->
 	    <th><!--{$tpl_class_name2}--></th>
 	    <!--{/if}-->
-      <th>価格(税込)</th>
+      <th>価格<!--{if $arrProductOther.taxfree == 1}-->(税抜)<!--{else}-->(税込)<!--{/if}--></th>
       <th>在庫</th>
       <th>個数</th>
       <th>購入</th>
@@ -56,7 +56,11 @@
       <!--{/if}-->
       <td>
         <!--{if $tpl_is_login == true}-->
-        <!--{$arrProductsClass[cnt].price02|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+        <!--{if $arrProductOther.taxfree == 1}-->
+          ￥<!--{$arrProductsClass[cnt].price02|number_format}-->
+        <!--{else}-->
+          ￥<!--{$arrProductsClass[cnt].price02|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+        <!--{/if}-->
         <!--{else}-->
         <span style="color:#FB6C04">会員のみ公開</span>
         <!--{/if}-->

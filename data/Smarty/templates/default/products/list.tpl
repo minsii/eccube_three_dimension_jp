@@ -138,19 +138,37 @@
               <!--▲商品ステータス-->
             </p>
             <p><!--{$arrRecommend[cnt].name|h}--></p>
-            <p>一般価格 ￥<!--{if $price01_min == $price01_max}-->
+            <p>一般価格 
+            <!--{if $arrRecommend[cnt].taxfree == 1}-->
+            ￥<!--{if $price01_min == $price01_max}-->
+                                  <!--{$price01_min|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price01_min|number_format}-->～<!--{$price01_max|number_format}-->
+                              <!--{/if}-->(税抜)
+            <!--{else}-->
+            ￥<!--{if $price01_min == $price01_max}-->
                                   <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{else}-->
                                   <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                              <!--{/if}-->(税込)</p>
+                              <!--{/if}-->(税込)
+            <!--{/if}-->
+            </p>
             <!--{if $tpl_is_login}-->
               <div class="member_price">
                   <p><em>会員特別価格</em>
+                      <!--{if $arrRecommend[cnt].taxfree == 1}-->
+                      <strong>￥<!--{if $price02_min == $price02_max}-->
+                                  <!--{$price02_min|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
+                              <!--{/if}--></strong><em>(税抜)</em>
+                      <!--{else}-->
                       <strong>￥<!--{if $price02_min == $price02_max}-->
                                   <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{else}-->
                                   <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{/if}--></strong><em>(税込)</em>
+                      <!--{/if}-->
                   </p>
                   <!--{if $smarty.const.USE_POINT === true}-->
                   <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
@@ -253,19 +271,38 @@
                       </div>
                       <p class="content"><!--{$arrProduct.name|h}--></p>
                     </div>
-                    <p class="price">一般価格　￥<!--{if $price01_min == $price01_max}-->
+                    <p class="price">一般価格　
+                    <!--{if $arrProduct.taxfree == 1}-->
+                    ￥<!--{if $price01_min == $price01_max}-->
+                                  <!--{$price01_min|number_format}-->
+                              <!--{else}-->
+                                  <!--{$price01_min|number_format}-->～<!--{$price01_max|number_format}-->
+                              <!--{/if}-->(税抜)
+                    <!--{else}-->
+                    ￥<!--{if $price01_min == $price01_max}-->
                                   <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{else}-->
                                   <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                              <!--{/if}-->(税込)</p>
+                              <!--{/if}-->(税込)
+                    <!--{/if}-->
+                    </p>
                     <!--{if $tpl_is_login}-->
                       <div class="member_price">
                           <p><em>会員特別価格</em></p>
-                          <p><strong>￥<!--{if $price02_min == $price02_max}-->
+                          <p>
+                          <!--{if $arrProduct.taxfree == 1}-->
+                          <strong>￥<!--{if $price02_min == $price02_max}-->
+                                        <!--{$price02_min|number_format}-->
+                                    <!--{else}-->
+                                        <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
+                                    <!--{/if}--></strong><em>(税抜)</em>
+                          <!--{else}-->
+                          <strong>￥<!--{if $price02_min == $price02_max}-->
                                     <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                                 <!--{else}-->
                                     <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                                 <!--{/if}--></strong><em>(税込)</em>
+                          <!--{/if}-->
                           </p>
                           <!--{if $smarty.const.USE_POINT === true}-->
                           <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->

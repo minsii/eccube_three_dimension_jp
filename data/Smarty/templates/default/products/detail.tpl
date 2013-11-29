@@ -148,20 +148,36 @@
               <!--{/if}-->
             	<li class="info">
                 <span style="width:70px">一般価格</span>
-                ￥<!--{if $price01_min == $price01_max}-->
-                    <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                <!--{if $arrProductOther.taxfree == 1}-->
+                  ￥<!--{if $price01_min == $price01_max}-->
+                      <!--{$price01_min|number_format}-->
+                  <!--{else}-->
+                      <!--{$price01_min|number_format}-->～<!--{$price01_max|number_format}-->
+                  <!--{/if}-->(税抜)
                 <!--{else}-->
-                    <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                <!--{/if}-->(税込)
+                  ￥<!--{if $price01_min == $price01_max}-->
+                      <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                  <!--{else}-->
+                      <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                  <!--{/if}-->(税込)
+                <!--{/if}-->
               </li>
               <!--{if $tpl_is_login}-->
             	<li class="price">
                 <span style="width:80px">会員価格</span>
-                ￥<!--{if $price02_min == $price02_max}-->
-                    <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                <!--{if $arrProductOther.taxfree == 1}-->
+                  ￥<!--{if $price02_min == $price02_max}-->
+                      <!--{$price02_min|number_format}-->
+                  <!--{else}-->
+                      <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
+                  <!--{/if}-->(税抜)
                 <!--{else}-->
-                    <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                <!--{/if}-->（税込）
+                  ￥<!--{if $price02_min == $price02_max}-->
+                      <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                  <!--{else}-->
+                      <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                  <!--{/if}-->（税込）
+                <!--{/if}-->
               </li>
               <!--{else}-->
               <div class="osusume_shouhin_box">
