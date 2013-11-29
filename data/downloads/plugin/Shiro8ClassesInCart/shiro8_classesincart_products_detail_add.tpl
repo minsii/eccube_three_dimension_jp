@@ -18,163 +18,74 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *}-->
 <!--PLG:Shiro8ClassesInCart↓-->
+
+<!--{if $tpl_classcat_find1}-->
 <div class="classlist">
 	<p class="red">※おまとめご購入は「まとめ買い」ボタンをクリックして、規格選択後「購入」にチェックを入れてカゴに入れて下さい。</p>
-	<table id="classTable" style="background:#FFF;">
-	 <thead>
+	<table id="classTable" class="product_style_tbl">
 	  <tr>
-	   <!--★規格1★-->
-	   <!--{if $tpl_classcat_find1}-->
-	    <th class="alignC"><!--{$tpl_class_name1}--></th>
-	   <!--{/if}-->
-
-	   <!--★規格2★-->
-	   <!--{if $tpl_classcat_find2}-->
-	    <th class="alignC"><!--{$tpl_class_name2}--></th>
-	   <!--{/if}-->
-	   <th class="alignC">単価(税抜)</th>
-	   <th class="alignC">個数</th>
-	   <th class="alignC">購入</th>
+		  <th>カタログ番号</th>
+	    <!--★規格1★-->
+	    <!--{if $tpl_classcat_find1}-->
+	    <th><!--{$tpl_class_name1}--></th>
+	    <!--{/if}-->
+	    <!--★規格2★-->
+	    <!--{if $tpl_classcat_find2}-->
+	    <th><!--{$tpl_class_name2}--></th>
+	    <!--{/if}-->
+      <th>価格(税込)</th>
+      <th>在庫</th>
+      <th>個数</th>
+      <th>購入</th>
 	  </tr>
 	  <tr id="clone" style="display: none;">
-	   <!--★規格1★-->
-	   <td>
-	    <select name="classcategory_id1_rowNum"
-	     id = "classcategory_id1_rowNum"
-	              style="<!--{$arrErr.classcategory_id1|sfGetErrorColor}-->"
-	              onchange="lnSetSelect('form1', 'classcategory_id1_rowNum', 'classcategory_id2_rowNum', '', 'rowNum'); getClassData(rowNum);">
-	         <!--{html_options options=$arrClassCat1 selected=$arrForm.classcategory_id1.value}-->
-	       </select>
-	       <!--{if $arrErr.classcategory_id1 != ""}-->
-	       <br /><span class="attention">※ <!--{$tpl_class_name1}-->を入力して下さい。</span>
-	      <!--{/if}-->
-	   </td>
-	   <!--★規格2★-->
-	   <!--{if $tpl_classcat_find2}-->
-	   <td>
-	    <select name="classcategory_id2_rowNum"
-	     id="classcategory_id2_rowNum"
-	              style="<!--{$arrErr.classcategory_id2|sfGetErrorColor}-->"
-	              onchange="getClassData('rowNum');">
-	       </select>
-	       <!--{if $arrErr.classcategory_id2 != ""}-->
-	       <br /><span class="attention">※ <!--{$tpl_class_name2}-->を入力して下さい。</span>
-	       <!--{/if}-->
-	   </td>
-	   <!--{/if}-->
-
-	   <td class="pricetd">
-	    <span id="price_rowNum"></span>
-	   </td>
-	   <td class="unittd">
-	    <input type="text" class="box40" name="quantity_rowNum" id="quantity_rowNum" value="<!--{$arrForm.quantity.value|default:1}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
-	    <!--{if $arrErr.quantity != ""}-->
-	        <br /><span class="attention"><!--{$arrErr.quantity}--></span>
-	    <!--{/if}-->
-	   </td>
-	   <td id="buyFlgArea_rowNum" class="checktd">&nbsp;
-
-	   </td>
-	  </tr>
-	 </thead>
-	 <tbody>
-	 </tbody>
+      <!--{section name=cnt loop=$arrProductsClass}-->
+      <!--{assign var=row value=$smarty.section.cnt.iteration}-->
+      <!--{assign var=key_quantity value="quantity_`$row`"}-->
+      <!--{assign var=key_classcategory1 value="classcategory_id1_`$row`"}-->
+      <!--{assign var=key_classcategory2 value="classcategory_id2_`$row`"}-->
+      <!--{assign var=find_stock value=$arrProductsClass[cnt].find_stock}-->
+      <td><!--{$arrProductsClass[cnt].product_code|h}--></td>
+	    <!--★規格1★-->
+      <!--{if $tpl_classcat_find1}-->
+      <td><!--{$arrProductsClass[cnt].classcategory_name1|h}--></td>
+      <!--{/if}-->
+      <!--★規格2★-->
+      <!--{if $tpl_classcat_find2}-->
+      <td><!--{$arrProductsClass[cnt].classcategory_name2|h}--></td>
+      <!--{/if}-->
+      <td><!--{$arrProductsClass[cnt].price02|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}--></td>
+      <td><!--{if $find_stock}-->○<!--{else}-->×<!--{/if}--></td>
+      <td>
+        <!--{if $arrErr[$key_quantity] != ""}-->
+        <span class="attention"><!--{$arrErr[$key_quantity]}--></span>
+        <!--{/if}-->
+        <!--{if $arrErr[$key_classcategory1] != ""}-->
+        <span class="attention"><!--{$arrErr[$key_classcategory1]}--></span>
+        <!--{/if}-->
+        <!--{if $arrErr[$key_classcategory2] != ""}-->
+        <span class="attention"><!--{$arrErr[$key_classcategory2]}--></span>
+        <!--{/if}-->
+        <input type="hidden" name="classcategory_id1_<!--{$row}-->" value="<!--{$arrProductsClass[cnt].classcategory_id1|h}-->" />
+        <input type="hidden" name="classcategory_id2_<!--{$row}-->" value="<!--{$arrProductsClass[cnt].classcategory_id2|h}-->" />
+        <input type="text" class="box30" name="<!--{$key_quantity}-->" value="<!--{$arrPluginForm[$key_quantity]|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr[$key_quantity]|sfGetErrorColor}-->" <!--{if !$find_stock}-->disabled<!--{/if}-->/>個
+      </td>
+      <td id="buyFlgArea_rowNum"><input type="checkbox" name="buyFlg[]" value="<!--{$row}-->" <!--{if !$find_stock}-->disabled<!--{else}--><!--{if $arrCheckedBuyFlg[$row]}-->checked<!--{/if}--><!--{/if}-->/></td>
+    </tr>
+    <!--{/section}-->
 	</table>
-	<p class="classaddBtn"><input type="button" value="まとめ買い" onclick="addRow();" /></p>
 </div>
-
-<script type="text/javascript">//<![CDATA[
-// セレクトボックスに項目を割り当てる。
-function lnSetSelect(form, name1, name2, val, rowNow) {
-		var $form = $("#" + form);
-        var sele11 = document[form][name1];
-        var sele12 = document[form][name2];
-        var $sele2 = $form.find('select[name=' + name2 + ']');
-        
-        // 規格1のみの場合
-        if ($sele2.is("*")) {
-            index = sele11.selectedIndex;
-
-            // セレクトボックスのクリア
-            var i = 0;
-            count = sele12.options.length;
-            for(i = count; i >= 0; i--) {
-                    sele12.options[i] = null;
-            }
-            
-            var classcat2 = classCategories[$(sele11).val()];
-            // セレクトボックスに値を割り当てる
-            i = 0;
-            for (var key in classcat2) {
-                var id = classcat2[key]['classcategory_id2'];
-                var name = classcat2[key]['name'];
-                sele12.options[i] = new Option(name, id);
-                if(val != "" && vals[index][i] == val) {
-                    sele12.options[i].selected = true;
-                }
-                i++;
-            }
-        }
-}
-//]]>
-//<![CDATA[
-//規格選択時に価格、在庫情報をAjaxで取得
-function getClassData(rowNo) {
- //パラメータオブジェクトの生成
- var pram = {};
- pram["classId1"] = $("#classcategory_id1_" + rowNo).val();
- if ($("#classcategory_id2_" + rowNo).is("*")) {
- 	pram["classId2"] = $("#classcategory_id2_" + rowNo).val();
- } else {
- 	pram["classId2"] = 0;
- }
- pram["productId"] = $("input[name=product_id]").val();
-
- $.ajax({
-    type: "POST",
-    async: false,
-    url: "<!--{$smarty.const.PLUGIN_HTML_URLPATH}-->Shiro8ClassesInCart/plg_shiro8ClassesInCart_get_class.php",
-    data: pram,
-    dataType: "json",
-    success: function(result){
-     //単価をセット
-     if (result.price != "0") {
-       $("#price_" + rowNo).html("￥" + result.price);
-     } else {
-      $("#price_" + rowNo).html("");
-     }
-   //在庫をセット
-     if (result.stock_unlimited == 1 || result.stock > 0) {
-      $("#buyFlgArea_" + rowNo).html("<input type=\"checkbox\" name=\"buyFlg[]\" id=\"buyFlg_" + rowNo + "\" value=\"" + result.product_class_id + "_" + rowNo + "\" />");
-     } else if (result.stock == 0 && result.product_class_id != 0) {
-      nonQty = "<p class=\"attention\">在庫0</p>";
-      $("#buyFlgArea_" + rowNo).html(nonQty);
-     } else {
-      $("#buyFlgArea_" + rowNo).html("&nbsp;");
-     }
-    }
-  });
-}
-
-//規格テーブルに列を追加
-function addRow() {
- var maxRow = $("#classTable tbody").children().length + 1;
- //id=cloneのtrを元に列をコピー追加
- var objSrcTr= $('#classTable thead > tr#clone');
- var htmlInsert = '<tr>'+objSrcTr.html().replace(/rowNum/g, maxRow)+'</tr>';
- $("#classTable tbody").append(htmlInsert);
-}
-
-//規格テーブルに1行目を追加
-$(function(){
- try {
-  addRow();
-  } catch(e) {
-
-  }
-});
-
-//]]>
-</script>
-
+<!--{else}-->
+  <!--{if $tpl_stock_find}-->
+  <!--★数量★-->
+  <dl class="quantity">
+      <dt>数量：</dt>
+      <dd><input type="text" class="box60" name="quantity" value="<!--{$arrForm.quantity.value|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
+          <!--{if $arrErr.quantity != ""}-->
+              <br /><span class="attention"><!--{$arrErr.quantity}--></span>
+          <!--{/if}-->
+      </dd>
+  </dl>
+  <!--{/if}-->
+<!--{/if}-->
 <!--PLG:Shiro8ClassesInCart↑-->

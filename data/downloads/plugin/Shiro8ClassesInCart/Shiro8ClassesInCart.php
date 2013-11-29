@@ -93,15 +93,30 @@ class Shiro8ClassesInCart extends SC_Plugin_Base {
                                             $objPage->tpl_classcat_find1,
                                             $objPage->tpl_classcat_find2);
 
+                    /*## まとめ買いカスタマイズ ## ADD BEGIN*/
+					$arrCheckedBuyFlg = array();
+					foreach ($_POST['buyFlg'] as $buyFlg) {
+						$arrCheckedBuyFlg[$buyFlg] = 1;
+					}
+					$objPage->arrCheckedBuyFlg = $arrCheckedBuyFlg;
+					
+					// パラメーター情報の初期化
+					$objPage->arrPluginForm = array();
+					foreach ($_POST['buyFlg'] as $rowNum) {
+						$objPage->arrPluginForm['quantity_'.$rowNum] = $_POST['quantity_'.$rowNum];
+					}
+                    /*## まとめ買いカスタマイズ ## ADD END*/
+                                            
                     if (count($objPage->arrErr) == 0) {
                         $objCartSess = new SC_CartSession_Ex();
-                        
                         //選択した規格の数だけ繰り返し
                         foreach ($_POST['buyFlg'] as $buyFlg) {
 
-                            $buyFlgs = explode('_', $buyFlg);
-                            $rowNum = $buyFlgs[1];
-
+                        	/*## まとめ買いカスタマイズ ## MDF BEGIN*/
+//                            $buyFlgs = explode('_', $buyFlg);
+                            $rowNum = $buyFlg;
+							/*## まとめ買いカスタマイズ ## MDF END*/
+                            
                             $classcategory_id1 = $_POST['classcategory_id1_'.$rowNum];
                             $classcategory_id2 = $_POST['classcategory_id2_'.$rowNum];
 
@@ -166,7 +181,9 @@ class Shiro8ClassesInCart extends SC_Plugin_Base {
                     $template_dir = PLUGIN_UPLOAD_REALDIR . $this->arrSelfInfo['plugin_code'] . '/';
                     $objTransform->select('div.classlist', NULL, false)->replaceElement(file_get_contents($template_dir . 'shiro8_classesincart_products_detail_add.tpl'));
                     $objTransform->select('dl.quantity', NULL, false)->removeElement();
-                    $objTransform->select('div#cartbtn_default', NULL, false)->replaceElement(file_get_contents($template_dir . 'shiro8_classesincart_cartbtn_replace.tpl'));
+                    /*## まとめ買いカスタマイズ ## MDF BEGIN*/
+//                    $objTransform->select('div#cartbtn_default', NULL, false)->replaceElement(file_get_contents($template_dir . 'shiro8_classesincart_cartbtn_replace.tpl'));
+                    /*## まとめ買いカスタマイズ ## MDF END*/  
                 }
                 break;
             case DEVICE_TYPE_ADMIN: // 管理画面
@@ -185,13 +202,15 @@ class Shiro8ClassesInCart extends SC_Plugin_Base {
         $arrRet =  $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex();
         //$objErr->arrErr = $objFormParam->checkError();
- 
+
         //選択した規格の数だけ繰り返し
         if (is_array($_POST['buyFlg'])) {
 
             foreach ($_POST['buyFlg'] as $buyFlg) {
-                $buyFlgs = explode('_', $buyFlg);
-                $rowNum = $buyFlgs[1];
+            	/*## まとめ買いカスタマイズ ## MDF BEGIN*/
+            	//$buyFlgs = explode('_', $buyFlg);
+            	$rowNum = $buyFlg;
+            	/*## まとめ買いカスタマイズ ## MDF END*/
 
                 $objErr->doFunc(array("個数", "quantity_".$rowNum), array("EXIST_CHECK", "ZERO_CHECK", "NUM_CHECK"));
 
@@ -204,7 +223,7 @@ class Shiro8ClassesInCart extends SC_Plugin_Base {
                 }
             }
         }
-
+           	
         return $objErr->arrErr;
     }
 }

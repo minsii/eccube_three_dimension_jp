@@ -157,6 +157,17 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
                 $this->arrErr = $this->lfCheckError($this->mode,$this->objFormParam,
                                                     $this->tpl_classcat_find1,
                                                     $this->tpl_classcat_find2);
+                /*## まとめ買いカスタマイズ ## ADD BEGIN*/
+				/*
+				 * FIXME:ここで呼ばれて正しい？
+				 * 今のロジックは：
+				 * 規格なしの場合、buyFlg変数がないため、そのまま続く
+				 * 規格ある場合、プラグインが処理し、エラーなしの場合そのまま終わる、エラーがある場合はここに返却して表示する
+				 */
+            	$objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+            	$objPlugin->doAction('LC_Page_Products_Detail_action_cart', array($this));
+            	/*## まとめ買いカスタマイズ ## ADD END*/
+
                 if (count($this->arrErr) == 0) {
                     $objCartSess = new SC_CartSession_Ex();
                     $product_class_id = $this->objFormParam->getValue('product_class_id');
