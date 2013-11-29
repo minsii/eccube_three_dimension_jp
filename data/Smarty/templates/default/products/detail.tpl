@@ -164,6 +164,14 @@
                 <!--{/if}-->（税込）
               </li>
               <!--{else}-->
+              <div class="osusume_shouhin_box">
+              <div class="btn">
+                <p>お得な価格は会員のみ公開</p>
+                <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php">
+                  <img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/btn_regist.png" width="308" height="44" alt="会員登録" />
+                </a>
+              </div>
+              </div>
               <!--{/if}-->
             	<li>
                 <h4>メーカー名：　<span style="font-weight:normal;"><!--{$arrProduct.comment1|h}--><span></h4>
@@ -239,21 +247,24 @@
           <div class="pure-u-1-4"></div>
           <div class="pure-u-1-4"></div>
           <div class="pure-u-1-4 r-btn">
-            <!--{if $tpl_stock_find}-->
-            <!--★数量★-->
-            <dl class="quantity">
-                <dt>数量：</dt>
-                <dd><input type="text" class="box60" name="quantity" value="<!--{$arrForm.quantity.value|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
-                    <!--{if $arrErr.quantity != ""}-->
-                        <br /><span class="attention"><!--{$arrErr.quantity}--></span>
-                    <!--{/if}-->
-                </dd>
-            </dl>
+          
+            <!--{if $tpl_is_login === true}-->
+              <!--{if $tpl_stock_find}-->
+              <!--★数量★-->
+              <dl class="quantity">
+                  <dt>数量：</dt>
+                  <dd><input type="text" class="box60" name="quantity" value="<!--{$arrForm.quantity.value|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
+                      <!--{if $arrErr.quantity != ""}-->
+                          <br /><span class="attention"><!--{$arrErr.quantity}--></span>
+                      <!--{/if}-->
+                  </dd>
+              </dl>
 
-            <a href="javascript:void(document.form1.submit())"><img src="<!--{$TPL_URLPATH}-->img/page/detail/btn_incart.png" width="212" height="45" alt="買い物カゴへ入れる" /></a>
-            <p>※お見積り用紙もプリントできます。</p>
-            <!--{else}-->
-            <div class="attention">申し訳ございませんが、只今品切れ中です。</div>
+              <a href="javascript:void(document.form1.submit())"><img src="<!--{$TPL_URLPATH}-->img/page/detail/btn_incart.png" width="212" height="45" alt="買い物カゴへ入れる" /></a>
+              <p>※お見積り用紙もプリントできます。</p>
+              <!--{else}-->
+              <div class="attention">申し訳ございませんが、只今品切れ中です。</div>
+              <!--{/if}-->
             <!--{/if}-->
             
             <!--★お気に入り登録★-->

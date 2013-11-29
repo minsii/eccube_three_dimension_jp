@@ -54,7 +54,13 @@
       <!--{if $tpl_classcat_find2}-->
       <td><!--{$arrProductsClass[cnt].classcategory_name2|h}--></td>
       <!--{/if}-->
-      <td><!--{$arrProductsClass[cnt].price02|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}--></td>
+      <td>
+        <!--{if $tpl_is_login == true}-->
+        <!--{$arrProductsClass[cnt].price02|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+        <!--{else}-->
+        <span style="color:#FB6C04">会員のみ公開</span>
+        <!--{/if}-->
+      </td>
       <td><!--{if $find_stock}-->○<!--{else}-->×<!--{/if}--></td>
       <td>
         <!--{if $arrErr[$key_quantity] != ""}-->
@@ -70,7 +76,15 @@
         <input type="hidden" name="classcategory_id2_<!--{$row}-->" value="<!--{$arrProductsClass[cnt].classcategory_id2|h}-->" />
         <input type="text" class="box30" name="<!--{$key_quantity}-->" value="<!--{$arrPluginForm[$key_quantity]|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr[$key_quantity]|sfGetErrorColor}-->" <!--{if !$find_stock}-->disabled<!--{/if}-->/>個
       </td>
-      <td id="buyFlgArea_rowNum"><input type="checkbox" name="buyFlg[]" value="<!--{$row}-->" <!--{if !$find_stock}-->disabled<!--{else}--><!--{if $arrCheckedBuyFlg[$row]}-->checked<!--{/if}--><!--{/if}-->/></td>
+      <td id="buyFlgArea_rowNum">
+      <!--{if $tpl_is_login == true}-->
+        <input type="checkbox" name="buyFlg[]" value="<!--{$row}-->" <!--{if !$find_stock}-->disabled<!--{else}--><!--{if $arrCheckedBuyFlg[$row]}-->checked<!--{/if}--><!--{/if}-->/>
+      <!--{else}-->
+      <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php">
+        <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" />
+      </a>
+      <!--{/if}-->
+      </td>
     </tr>
     <!--{/section}-->
 	</table>
@@ -78,14 +92,20 @@
 <!--{else}-->
   <!--{if $tpl_stock_find}-->
   <!--★数量★-->
-  <dl class="quantity">
-      <dt>数量：</dt>
-      <dd><input type="text" class="box60" name="quantity" value="<!--{$arrForm.quantity.value|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
-          <!--{if $arrErr.quantity != ""}-->
-              <br /><span class="attention"><!--{$arrErr.quantity}--></span>
-          <!--{/if}-->
-      </dd>
-  </dl>
+  <div class="pure-g-r">
+  <div class="pure-u-1-4"></div>
+  <div class="pure-u-1-4"></div>
+  <div class="pure-u-1-4"></div>
+  <div class="pure-u-1-4 r-btn">
+    <h3>数量：
+    <input type="text" class="box60" name="quantity" value="<!--{$arrForm.quantity.value|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
+        <!--{if $arrErr.quantity != ""}-->
+            <br /><span class="attention"><!--{$arrErr.quantity}--></span>
+        <!--{/if}-->
+    </h3>
+    <br />
+  </div>
+  </div>
   <!--{/if}-->
 <!--{/if}-->
 <!--PLG:Shiro8ClassesInCart↑-->
