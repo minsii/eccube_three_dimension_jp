@@ -306,7 +306,7 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
 
         // 商品ステータスを取得
         $this->productStatus = $objProduct->getProductStatus($product_id);
-
+        
         // 画像ファイル指定がない場合の置換処理
         $this->arrProduct['main_image']
             = SC_Utils_Ex::sfNoImageMain($this->arrProduct['main_image']);
@@ -325,6 +325,13 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
             $this->is_favorite = SC_Helper_DB_Ex::sfDataExists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($objCustomer->getValue('customer_id'), $product_id));
         }
                 
+        /*## 在庫表示 ADD BEGIN ##*/
+        if(USE_PRODUCT_CLASS_STOCK_TABLE === true){
+        	$objDb = new SC_Helper_DB_Ex();
+        	$objDb->lfSetClassCatStockRows($product_id, $this);
+        }
+		/*## 在庫表示 ADD END ##*/
+		
         /*## SEO管理 ## ADD BEGIN*/
         $this->lfSetPageInfo($product_id);
         /*## SEO管理 ## ADD END*/

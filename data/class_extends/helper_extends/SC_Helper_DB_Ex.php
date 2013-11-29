@@ -124,5 +124,85 @@ class SC_Helper_DB_Ex extends SC_Helper_DB {
     }
     /*## 商品一覧で子カテゴリを表示 ADD END ##*/
     
+	/*## 在庫表示 ADD BEGIN ##*/
+	/**
+	 * 規格IDで規格分類リストを取得する
+	 *
+	 * @param $class_id
+	 */
+	function sfGetClassCatList($class_id){
+		$objQuery = new SC_Query();
+		$arrList = array();
+		$objQuery->setOrder("rank DESC");
+		$arrRet = $objQuery->select("classcategory_id, name", "dtb_classcategory", "class_id=? AND del_flg=0", array($class_id));
+		foreach($arrRet as $row){
+			$arrList[$row["classcategory_id"]] = $row["name"];
+		}
+		return $arrList;
+	}
+	/*## 在庫表示 ADD END ##*/
+	
+	/*## 在庫表示 ADD BEGIN ##*/
+	/**
+	 * 在庫表示を設定する
+	 * 
+	 * 規格1と規格2の分類をそれぞれ取得し、各組合せの在庫を設定する
+	 * テンプレートが在庫表（eg. 規格1縦＋規格2横）を表示する時に使う
+	 */
+	function lfSetClassCatStockTable($product_id, &$objDetailPage){
+		// 規格管理の場合、在庫表を表示する
+		if($objDetailPage->tpl_classcat_find1){
+        	$objProduct = new SC_Product_Ex();
+        	
+        	// 商品規格情報の取得
+        	$arrProductsClass =  $objProduct->getProductsClassFullByProductId($product_id);
+        	
+			// 規格1分類名一覧
+			$arrAllClassCat1 = $this->sfGetClassCatList($arrProductsClass[0]['class_id1']);
+
+			$objDetailPage->arrStock = array();
+			$objDetailPage->arrStockClassCat1 = array();
+			$objDetailPage->arrStockClassCat2 = array();
+			foreach($arrProductsClass as $pdctCls){
+				$cls1 = $pdctCls["classcategory_id1"];
+				$cls2 = $objDetailPage->tpl_classcat_find2 ? $pdctCls["classcategory_id2"] : 0;
+				//在庫
+				$objDetailPage->arrStock[$cls1][$cls2] = $pdctCls["stock_unlimited"] ? "-1" : $pdctCls["stock"];
+				//表示する規格1分類
+				$objDetailPage->arrStockClassCat1[$cls1] = $arrAllClassCat1[$cls1];
+			}
+			
+			if($objDetailPage->tpl_classcat_find2){
+				// 規格2分類名一覧
+				$arrAllClassCat2 = $this->sfGetClassCatList($arrProductsClass[0]['class_id2']);
+				foreach($arrProductsClass as $pdctCls){
+					$cls2 = $pdctCls["classcategory_id2"];
+					//表示する規格2分類
+					$objDetailPage->arrStockClassCat2[$cls2] = $arrAllClassCat2[$cls2];
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 在庫表示を設定する
+	 * 
+	 * 規格1と規格2の組合せを取得し、各組合せの在庫を設定する
+	 * テンプレートが規格組合せの在庫一覧を表示する時に使う
+	 */
+	function lfSetClassCatStockRows($product_id, &$objDetailPage){
+		// 規格管理の場合、在庫表を表示する
+		if($objDetailPage->tpl_classcat_find1){
+        	$objProduct = new SC_Product_Ex();
+        	
+        	// 商品規格情報の取得
+        	$objDetailPage->arrProductsClass =  $objProduct->getProductsClassFullByProductId($product_id);
+        	foreach($objDetailPage->arrProductsClass as $cnt => $row){
+        		$objDetailPage->arrProductsClass[$cnt]["find_stock"] = 
+        			($row["stock_unlimited"] == 1 || $row["stock"] > 0) ? "1" : "0";
+        	}
+		}
+	}
+	/*## 在庫表示 ADD END ##*/
 }
 ?>

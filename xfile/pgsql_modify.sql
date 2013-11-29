@@ -279,3 +279,6 @@ INSERT INTO mtb_product_list_max(id, name, rank) VALUES(12, '12件', 1);
 INSERT INTO mtb_product_list_max(id, name, rank) VALUES(24, '24件', 2);
 INSERT INTO mtb_product_list_max(id, name, rank) VALUES(48, '48件', 3);
 INSERT INTO mtb_product_list_max(id, name, rank) VALUES(60, '60件', 4);
+
+/*######## 商品詳細で在庫表示 ########*/
+INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('USE_PRODUCT_CLASS_STOCK_TABLE',  'true',  (SELECT MAX(rank)+1 FROM mtb_constants),  '商品詳細で在庫表示を使用するフラグ|true:使用');
