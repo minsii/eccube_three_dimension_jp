@@ -307,3 +307,23 @@ ALTER TABLE dtb_products ADD COLUMN sub_title8 text;
 ALTER TABLE dtb_products ADD COLUMN sub_comment8 text;
 ALTER TABLE dtb_products ADD COLUMN sub_image8 text;
 ALTER TABLE dtb_products ADD COLUMN sub_large_image8 text;
+
+
+/*######## マイページ予算実績 ########*/
+INSERT INTO dtb_pagelayout VALUES (10, (SELECT MAX(page_id)+1 FROM dtb_pagelayout WHERE device_type_id=10), 'MYページ/予算実績確認', 'mypage/estimate.php', 'mypage/estimate', 1, 1, 2, NULL, NULL, NULL, NULL, 'now()', 'now()', NULL, NULL);
+
+CREATE TABLE dtb_customer_month_estimate(
+  customer_id integer,
+  month_est_start_date timestamp without time zone,
+  month_est_end_date timestamp without time zone,
+  month_est_total numeric NOT NULL default 0,
+  CONSTRAINT dtb_customer_month_estimate_pkey PRIMARY KEY (customer_id)
+);
+
+CREATE TABLE dtb_customer_year_estimate(
+  customer_id integer,
+  year_est_start_date timestamp without time zone,
+  year_est_end_date timestamp without time zone,
+  year_est_total numeric NOT NULL default 0,
+  CONSTRAINT dtb_customer_year_estimate_pkey PRIMARY KEY (customer_id)
+);

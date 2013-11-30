@@ -32,7 +32,7 @@
                 <!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1}-->
                     <li><a href="favorite.php" class="<!--{if $tpl_mypageno == 'favorite'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_favorite.png" alt="お気にいり一覧" width="138" height="45"></a></li>
                 <!--{/if}-->
-            <li><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_estimatemonth.png" alt="月額予算実績確認" width="138" height="45"></li>
+                <li><a href="estimate.php" class="<!--{if $tpl_mypageno == 'estimate'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_estimatemonth.png" alt="月額予算実績確認" width="138" height="45"></a></li>
                 <li><a href="change.php" class="<!--{if $tpl_mypageno == 'change'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_edituser.png" alt="会員登録内容変更" width="138" height="45"></a></li>
                 <li><a href="delivery.php" class="<!--{if $tpl_mypageno == 'delivery'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_address.png" width="138" height="45" alt="お届け先" /></a></li>
                 <li><a href="refusal.php" class="<!--{if $tpl_mypageno == 'refusal'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_unregist.png" width="138" height="45" alt="退会手続き" /></a></li>
