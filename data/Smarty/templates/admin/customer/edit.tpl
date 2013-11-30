@@ -367,6 +367,49 @@
             </ul>
         </div>
 
+<!--{*## 顧客管理画面に予算実績表示 ADD BEGIN ##*}-->
+        <h2>月額予算実績</h2>
+        <!--{if count($arrMonthEst) > 0}-->
+        <table class="list">
+            <tr>
+                <th>期間</th>
+                <th>予算金額</th>
+                <th>購入実績合計</th>
+                <th>予算残高</th>
+            </tr>
+            <tr>
+                <td style="text-align:center"><!--{$arrMonthEst.month_est_start_date|date_format:"%Y/%m/%d"}--> ～ <!--{$arrMonthEst.month_est_end_date|date_format:"%Y/%m/%d"}--></td>
+                <td align="center">￥<!--{$arrMonthEst.month_est_total|default:0|number_format}--></td>
+                <td align="center">￥<!--{$arrMonthEst.month_order_total|default:0|number_format}--></td>
+                <td align="center">￥<!--{$arrMonthEst.month_est_balance|default:0|number_format}--></td>
+            </tr>
+        </table>
+        <!--{else}-->
+        <div class="message">登録情報はありません。</div>
+        <!--{/if}-->
+        
+        <h2>年額予算実績</h2>
+        <!--{if count($arrYearEst) > 0}-->
+        <table class="list">
+            <tr>
+                <th>期間</th>
+                <th>予算金額</th>
+                <th>購入実績合計</th>
+                <th>予算残高</th>
+            </tr>
+            <tr>
+                <td style="text-align:center"><!--{$arrYearEst.year_est_start_date|date_format:"%Y/%m/%d"}--> ～ <!--{$arrYearEst.year_est_end_date|date_format:"%Y/%m/%d"}--></td>
+                <td align="center">￥<!--{$arrYearEst.year_est_total|default:0|number_format}--></td>
+                <td align="center">￥<!--{$arrYearEst.year_order_total|default:0|number_format}--></td>
+                <td align="center">￥<!--{$arrYearEst.year_est_balance|default:0|number_format}--></td>
+            </tr>
+        </table>
+        <!--{else}-->
+        <div class="message">登録情報はありません。</div>
+        <!--{/if}-->
+        <br />
+<!--{*## 顧客管理画面に予算実績表示 ADD END ##*}-->
+
 <!--{*## 顧客管理画面にお届け先一覧表示 ADD BEGIN ##*}-->
 <!--{if $smarty.const.USE_ADMIN_CUSTOMER_DELIV_LIST === true}-->
         <!--{assign var=multipager_prefix value="deliv"}-->

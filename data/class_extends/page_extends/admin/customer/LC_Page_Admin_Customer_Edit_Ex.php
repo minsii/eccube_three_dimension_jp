@@ -97,6 +97,24 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
                 $this->arrForm = SC_Helper_Customer_Ex::sfGetCustomerData($objFormSearchParam->getValue('edit_customer_id'), true);
                 // 購入履歴情報の取得
                 list($this->tpl_linemax, $this->arrPurchaseHistory, $this->objNavi) = $this->lfPurchaseHistory($objFormSearchParam->getValue('edit_customer_id'));
+                
+                /*## 顧客管理画面に予算実績表示 ADD BEGIN ##*/
+                $objCustomer = new SC_Customer_Ex();
+                $customer_id = $objFormSearchParam->getValue('edit_customer_id');
+                
+                $this->arrMonthEst = $objCustomer->getMonthEstimate($customer_id);
+                if($this->arrMonthEst){
+                	$arrRet = $objCustomer->getMonthEstOrderSummary($customer_id, $this->arrMonthEst);
+                	$this->arrMonthEst = array_merge($this->arrMonthEst, $arrRet);
+                }
+
+                $this->arrYearEst = $objCustomer->getYearEstimate($customer_id);
+                if($this->arrYearEst){
+                	$arrRet = $objCustomer->getYearEstOrderSummary($customer_id, $this->arrYearEst);
+                	$this->arrYearEst = array_merge($this->arrYearEst, $arrRet);
+                }
+                /*## 顧客管理画面に予算実績表示 ADD END ##*/
+                
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 $this->arrPagenavi['mode'] = 'return';
                 $this->tpl_pageno = '0';
@@ -138,6 +156,24 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
                 }
                 // 購入履歴情報の取得
                 list($this->tpl_linemax, $this->arrPurchaseHistory, $this->objNavi) = $this->lfPurchaseHistory($objFormParam->getValue('customer_id'), $objFormParam->getValue('search_pageno'));
+                
+                /*## 顧客管理画面に予算実績表示 ADD BEGIN ##*/
+                $objCustomer = new SC_Customer_Ex();
+                $customer_id = $objFormParam->getValue('customer_id');
+                
+         		$this->arrMonthEst = $objCustomer->getMonthEstimate($customer_id);
+                if($this->arrMonthEst){
+                	$arrRet = $objCustomer->getMonthEstOrderSummary($customer_id, $this->arrMonthEst);
+                	$this->arrMonthEst = array_merge($this->arrMonthEst, $arrRet);
+                }
+
+                $this->arrYearEst = $objCustomer->getYearEstimate($customer_id);
+                if($this->arrYearEst){
+                	$arrRet = $objCustomer->getYearEstOrderSummary($customer_id, $this->arrYearEst);
+                	$this->arrYearEst = array_merge($this->arrYearEst, $arrRet);
+                }
+                /*## 顧客管理画面に予算実績表示 ADD END ##*/
+                
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 $this->arrPagenavi['mode'] = 'return';
                 $this->tpl_pageno = $objFormParam->getValue('search_pageno');
