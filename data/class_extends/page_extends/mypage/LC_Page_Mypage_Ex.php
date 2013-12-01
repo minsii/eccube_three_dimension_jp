@@ -92,6 +92,10 @@ class LC_Page_Mypage_Ex extends LC_Page_Mypage {
 		}
 		/*## 最近のお気に入り ADD END ##*/
 	
+		/*## 会員新着情報 ADD BEGIN ##*/
+		$this->arrNews = $this->lfGetCustomerNews();
+		/*## 会員新着情報 ADD END ##*/
+		
 		/*## 最近のお気に入り商品を購入 ADD BEGIN ##*/
 		switch($this->getMode()){
 			case "cart":
@@ -251,4 +255,18 @@ class LC_Page_Mypage_Ex extends LC_Page_Mypage {
     }
     
     /*## 最近のお気に入り商品を購入 ADD END ##*/
+    
+    /**
+     * 新着情報を取得する.
+     *
+     * @return array $arrNewsList 新着情報の配列を返す
+     */
+    function lfGetCustomerNews() {
+    	$objQuery = SC_Query_Ex::getSingletonInstance();
+    	
+        $objQuery->setOrder('rank DESC ');
+        $arrNewsList = $objQuery->select('* , cast(news_date as date) as news_date_disp', 'dtb_customer_news' ,'del_flg = 0');
+
+        return $arrNewsList;
+    }
 }

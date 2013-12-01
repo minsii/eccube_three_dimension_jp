@@ -30,6 +30,29 @@
         <!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
     <!--{/if}-->
 
+    <!--{* 新着情報 ▼ *}--> 
+    <h3><!--{$CustomerName1|h}--> <!--{$CustomerName2|h}-->様へ、お知らせです。</h3>
+    <ul>
+    <!--{section name=data loop=$arrNews}-->
+      <!--{assign var=news_no value="`$smarty.section.data.iteration`"}-->
+      <li <!--{if $news_no % 2 == 0}--> class="row" <!--{/if}-->>
+          <!--{if $arrNews[data].news_url}-->
+          <a href="<!--{$arrNews[data].news_url}-->"
+            <!--{if $arrNews[data].link_method eq "2"}-->
+            target="_blank"
+            <!--{/if}-->>
+          <!--{/if}-->
+          >><!--{$arrNews[data].news_date_disp|date_format:"%Y.%m.%d"}-->&nbsp;<!--{$arrNews[data].news_title|escape|nl2br}-->
+          <!--{if $arrNews[data].news_url}-->
+          </a>
+          <!--{/if}-->
+      </li>
+    <!--{/section}-->
+    </ul>
+    <!--{* 新着情報 ▲ *}--> 
+    
+    <br />
+    <br />
     <!--{* 最近の購入履歴 ▼ *}-->
     <h3>最近の購入履歴
         <span class="order_detail"><a href="#">購入履歴詳細はこちら</a></span>

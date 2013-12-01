@@ -334,3 +334,27 @@ INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('LATEST_ORDER_MAX', 
 
 /*######## 最近のお気に入り ########*/
 INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('LATEST_FAVORITE_PRODUCT_MAX',  '3',  (SELECT MAX(rank)+1 FROM mtb_constants),  '最近のお気に入り商品表示数|数値:最大登録数|false:使用しない');
+
+/*######## 会員新着情報 ########*/
+CREATE TABLE dtb_customer_news (
+  news_id integer NOT NULL,
+  news_date timestamp without time zone,
+  rank integer,
+  news_title text NOT NULL,
+  news_comment text,
+  news_url text,
+  news_select smallint NOT NULL DEFAULT 0,
+  link_method text,
+  creator_id integer NOT NULL,
+  create_date timestamp without time zone NOT NULL DEFAULT now(),
+  update_date timestamp without time zone NOT NULL,
+  del_flg smallint NOT NULL DEFAULT 0,
+  CONSTRAINT dtb_customer_news_pkey PRIMARY KEY (news_id)
+);
+
+CREATE SEQUENCE dtb_customer_news_news_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 4
+  CACHE 1;
