@@ -171,8 +171,7 @@ class LC_Page_Mypage_Ex extends LC_Page_Mypage {
 				foreach ($arrOrders[$no]["detail"] as $i => $arrOrderDetail) {
 					$objQuery =& SC_Query_Ex::getSingletonInstance();
 					$arrProduct = $objQuery->select('main_list_image', 'dtb_products', 'product_id = ?', array($arrOrderDetail['product_id']));
-					$arrOrderDetails[$i]['main_list_image'] = $arrProduct[0]['main_list_image'];
-				}
+					$arrOrders[$no]["detail"][$i]['main_list_image'] = $arrProduct[0]['main_list_image'];				}
 			}
 		}
 		

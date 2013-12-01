@@ -125,7 +125,11 @@
       <!--{foreach from=$lastOrder.detail item=orderDetail}-->
       <tr>
         <td><!--{$orderDetail.product_code|h}--></td>
-        <td class="alignC"><!--{$orderDetail.product_name|h}--></td>
+        <td class="alignC">
+          <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->">
+            <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$orderDetail.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$orderDetail.product_name|h}-->" width="60">
+          </a>
+        </td>
         <td>
           <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->">
           <!--{$orderDetail.product_name|h}-->
