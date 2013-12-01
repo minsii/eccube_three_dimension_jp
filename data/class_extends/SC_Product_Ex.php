@@ -316,6 +316,7 @@ class SC_Product_Ex extends SC_Product {
             ,del_flg
             ,update_date
             ,point_rate
+            ,class_count
 __EOS__;
 
         /*## 商品非課税指定 ADD BEGIN ##*/

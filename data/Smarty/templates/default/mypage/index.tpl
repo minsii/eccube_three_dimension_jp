@@ -29,75 +29,53 @@
     <!--{else}-->
         <!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
     <!--{/if}-->
-    
-    
-        <h3>購入履歴一覧</h3>
-    <section class="mypage_orderlist_condition">
-        <h3>ご注文を検索する</h3>
-        <div>
-            <h4><font color="4B99E3" size="+3">■</font>ご注文時期を指定する</h4>
-            <div>
-            <select class="pure-menu box100"></select>年
-            <select class="pure-menu box100"></select>月から
-            <select class="pure-menu box100"></select>年
-            <select class="pure-menu box100"></select>月まで
-            
-            <span class="btn"><input class="pure-button" type="button" value="クリア"/></span>
-            </div>
-            <h4><font color="4B99E3" size="+3">■</font>商品名/カタログ番号で検索する</h4>
-            <div>
-            <input class="" type="text" value="クリア"/>
-            <span class="btn"><input class="pure-button" type="button" value="クリア"/></span>
-            </div>
-        </div>
-        <div class="alignC"><span>この条件で</span><a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/btn_searchorders.png" width="122" height="33" alt="検索" /></a></div>
-    </section>
-    
-    <section class="paginator">
-      <p><span class="attention2">1件</span>の購入履歴があります。</p>
-        <ul class="paging">
-            <li class="first"><<前へ</li>
-            <li>01|</li>
-            <li>02|</li>
-            <li>03|</li>
-            <li class="last">次へ>></li>
-        </ul>
-    </section>
-    <div class="pagenumber_area"> 
-      <!--▼ページナビ--> 
-      
-      <!--▲ページナビ--> 
-    </div>
-    <h3>2013のご注文分
+
+    <!--{* 最近の購入履歴 ▼ *}-->
+    <h3>最近の購入履歴
         <span class="order_detail"><a href="#">購入履歴詳細はこちら</a></span>
     </h3>
     
+    <!--{section name=cnt loop=$arrLatestOrder}-->
+    <!--{assign var=lastOrder value=$arrLatestOrder[cnt]}-->
+    <!--{assign var=shipping value=$arrLatestOrder[cnt].shipping}-->
     <table>
-            <colgroup>
-            	<col width="20%" />
-                <col />
-                <col width="30%" />
-            </colgroup>
+        <colgroup>
+        	<col width="20%" />
+            <col />
+            <col width="30%" />
+        </colgroup>
         <tr>
             <th>購入日時</th>
-            <td>あああ</td>
-            <td rowspan="5" class="alignC"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/btn_copyorder.png" width="178" height="33" alt="この購入日時内容で再発注" /></td>
+            <td><!--{$lastOrder.create_date|date_format:"%Y/%m/%d"}--></td>
+            <td rowspan="5" class="alignC">
+              <form action="order.php" method="post">
+                <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+                <input type="hidden" name="order_id" value="<!--{$lastOrder.order_id|h}-->">
+                <input type="image" src="<!--{$TPL_URLPATH}-->img/page/mypage/btn_copyorder.png" alt="この購入内容で再注文する" name="submit" value="この購入内容で再注文する" width="178" height="33"/>
+              </form>
+            </td>
         </tr>
         <tr>
             <th>注文番号</th>
-            <td>あああ</td>
+            <td><!--{$lastOrder.order_id|h}--></td>
         </tr>
         <tr>
             <th>お支払い方法</th>
-            <td>あああ</td>
+            <td><!--{$arrPayment[$lastOrder.payment_id]|h}--></td>
         </tr>
+        <!--{foreach item=shippingItem name=shippingItem from=$shipping}-->
         <tr>
-            <th>お届け先</th>
-            <td>あああ</td>
+            <th>お届け先<!--{if $lastOrder.isMultiple}--><!--{$smarty.foreach.shippingItem.iteration}--><!--{/if}--></th>
+            <td>
+                〒<!--{$shippingItem.shipping_zip01}-->-<!--{$shippingItem.shipping_zip02}-->&nbsp;&nbsp;
+                <!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01|h}--><!--{$shippingItem.shipping_addr02|h}--> &nbsp;&nbsp;
+                <!--{$shippingItem.shipping_name01|h}-->&nbsp;<!--{$shippingItem.shipping_name02|h}--> 様
+            </td>
         </tr>
+        <!--{/foreach}-->
         <tr>
             <th>注文状況</th>
-            <td>あああ</td>
+            <td><!--{$arrCustomerOrderStatus[$lastOrder.status]|h}--></td>
         </tr>
     </table>
     
@@ -121,53 +99,189 @@
         <th class="alignC">詳細</th>
         <th class="alignC">小計</th>
       </tr>
+      <!--{foreach from=$lastOrder.detail item=orderDetail}-->
       <tr>
-        <td>1</td>
-        <td class="alignC"> 通常商品 </td>
-        <td><a href="/~three-dimension-jp/products/detail.php?product_id=19">Co-Co Life 全冊セット(Vol.2〜Vol.13)　(テスト用, CSV登録1)</a><br></td>
-        <td class="alignC">5,000円</td>
-        <td class="alignC">1</td>
-        <td class="alignC">1</td>
-        <td class="alignC">5,000円</td>
+        <td><!--{$orderDetail.product_code|h}--></td>
+        <td class="alignC"><!--{$orderDetail.product_name|h}--></td>
+        <td>
+          <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->">
+          <!--{$orderDetail.product_name|h}-->
+          </a>
+          <!--{if $orderDetail.classcategory_name1 != ""}-->
+              <br /><!--{$orderDetail.classcategory_name1|h}-->
+          <!--{/if}-->
+          <!--{if $orderDetail.classcategory_name2 != ""}-->
+              /<!--{$orderDetail.classcategory_name2|h}-->
+          <!--{/if}-->
+          <br>
+        </td>
+        <!--{assign var=price value=`$orderDetail.price`}-->
+        <!--{assign var=quantity value=`$orderDetail.quantity`}-->
+        <td class="alignC">
+          <!--{*## 商品非課税 MDF BEGIN ##*}-->
+          <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $orderDetail.taxfree == 1}-->
+              <!--{$price|number_format}-->円（税抜）
+          <!--{else}-->
+              <!--{$price|sfCalcIncTax|number_format}-->円（税込）
+          <!--{/if}-->
+          <!--{*## 商品非課税 MDF END ##*}-->
+        </td>
+        <td class="alignC"><!--{$quantity|h}--></td>
+        <td class="alignC"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->">商品詳細</a></td>
+        <td class="alignC">
+          <!--{*## 商品非課税 MDF BEGIN ##*}-->
+          <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $orderDetail.taxfree == 1}-->
+              <!--{$price|sfMultiply:$quantity|number_format}-->円
+          <!--{else}-->
+              <!--{$price|sfCalcIncTax|sfMultiply:$quantity|number_format}-->円
+          <!--{/if}-->
+          <!--{*## 商品非課税 MDF END ##*}-->
+        </td>
       </tr>
-      <tr>
-        <td>1</td>
-        <td class="alignC"> 通常商品 </td>
-        <td><a href="/~three-dimension-jp/products/detail.php?product_id=19">Co-Co Life 全冊セット(Vol.2〜Vol.13)　(テスト用, CSV登録1)</a><br></td>
-        <td class="alignC">5,000円</td>
-        <td class="alignC">1</td>
-        <td class="alignC">1</td>
-        <td class="alignC">5,000円</td>
-      </tr>
+      <!--{/foreach}-->
       <tr>
         <th colspan="6" class="alignR">小計</th>
-        <td class="alignC">5,000円</td>
+        <td class="alignC"><!--{$lastOrder.subtotal|number_format}-->円</td>
       </tr>
       <tr>
         <th colspan="6" class="alignR">送料</th>
-        <td class="alignC">900円</td>
+        <td class="alignC"><!--{$lastOrder.deliv_fee|number_format}-->円</td>
       </tr>
       <tr>
         <th colspan="6" class="alignR">手数料</th>
-        <td class="alignC">0円</td>
+        <td class="alignC"><!--{$lastOrder.charge|number_format}-->円</td>
       </tr>
       <tr>
         <th colspan="6" class="alignR">合計</th>
-        <td class="alignC"><span class="price">5,900円</span></td>
+        <td class="alignC"><span class="price"><!--{$lastOrder.payment_total|number_format}-->円</span></td>
       </tr>
     </tbody>
     </table>
-    <section class="paginator">
-      <p><span class="attention2">1件</span>の購入履歴があります。</p>
-        <ul class="paging">
-            <li class="first"><<前へ</li>
-            <li>01|</li>
-            <li>02|</li>
-            <li>03|</li>
-            <li class="last">次へ>></li>
-        </ul>
-    </section>
+    <!--{/section}-->
+    <!--{* 最近の購入履歴 ▲ *}-->
+    
+    <br />
+    <br />
+    <!--{* 最近お気に入り商品 ▼ *}-->
+    <h3>最近のお気に入り商品
+        <span class="order_detail"><a href="<!--{$smarty.const.TOP_URLPATH}-->mypage/favorite.php">お気に入り一覧はこちら</a></span>
+    </h3>
 
+    <!--{if is_array($arrLatestFavorite) && count($arrLatestFavorite) > 0}-->
+    <div class="review_product_list">
+      <div class="body pure-g-r" id="scrollbox">
+      <!--{foreach from=$arrLatestFavorite item=arrProduct}-->
+      <!--{assign var=id value=$arrProduct.product_id}-->
+      <!--{assign var=price01_min value=`$arrProduct.price01_min`}-->
+      <!--{assign var=price01_max value=`$arrProduct.price01_max`}-->
+      <!--{assign var=price02_min value=`$arrProduct.price02_min`}-->
+      <!--{assign var=price02_max value=`$arrProduct.price02_max`}-->
+      <!--{assign var=point_rate value=`$arrProduct.point_rate`}-->
+    	<section class="pure-u-1-4">
+      <form name="product_form<!--{$id|h}-->" action="?" onsubmit="return false;" method="POST">
+      <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+      <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
+      <input type="hidden" name="product_class_id" id="product_class_id<!--{$id|h}-->" value="<!--{$arrProduct.product_class_id|h}-->" />
+      <input type="hidden" name="mode" value="cart" />
+            <div class="warp">
+                <div class="heightLine">
+                  <h3><!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
+                                <!--{$arrProduct.product_code_min|h}-->
+                            <!--{else}-->
+                                <!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->
+                            <!--{/if}--></h3>
+                  <p class="icon">
+                    <!--▼商品ステータス-->
+                    <!--{assign var=ps value=$arrProduct.product_status}-->
+                    <!--{foreach from=$ps item=status}-->
+                      <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE[$status]}-->" width="46" alt="<!--{$arrSTATUS[$status]}-->"/>
+                    <!--{/foreach}-->
+                    <!--▲商品ステータス-->
+                  </p>
+                  <div class="img">
+                    <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">
+                      <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="165" />
+                    </a><!--{* 商品画像 *}-->
+                  </div>
+                  <p class="content">
+                    <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->"><!--{$arrProduct.name|h}--></a>
+                  </p>
+                </div>
+                <p class="price">一般価格　
+                <!--{if $arrProduct.taxfree == 1}-->
+                ￥<!--{if $price01_min == $price01_max}-->
+                              <!--{$price01_min|number_format}-->
+                          <!--{else}-->
+                              <!--{$price01_min|number_format}-->～<!--{$price01_max|number_format}-->
+                          <!--{/if}-->(税抜)
+                <!--{else}-->
+                ￥<!--{if $price01_min == $price01_max}-->
+                              <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                          <!--{else}-->
+                              <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                          <!--{/if}-->(税込)
+                <!--{/if}-->
+                </p>
+                <!--{if $tpl_is_login}-->
+                  <div class="member_price">
+                      <p><em>会員特別価格</em></p>
+                      <p>
+                      <!--{if $arrProduct.taxfree == 1}-->
+                      <strong>￥<!--{if $price02_min == $price02_max}-->
+                                    <!--{$price02_min|number_format}-->
+                                <!--{else}-->
+                                    <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
+                                <!--{/if}--></strong><em>(税抜)</em>
+                      <!--{else}-->
+                      <strong>￥<!--{if $price02_min == $price02_max}-->
+                                <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                            <!--{else}-->
+                                <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                            <!--{/if}--></strong><em>(税込)</em>
+                      <!--{/if}-->
+                      </p>
+                      <!--{if $smarty.const.USE_POINT === true}-->
+                      <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
+                              <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->
+                          <!--{else}-->
+                              <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
+                          <!--{/if}-->pt</p>
+                      <!--{/if}-->
+                  </div>
+                    <div class="count">
+                      <!--{if $arrProduct.stock_min != 0 || $arrProduct.stock_max != 0 || 
+                          $arrProduct.stock_unlimited_min == 1 || $arrProduct.stock_unlimited_max == 1}-->
+                      <!--{if $arrErr.quantity != ""}-->
+                      <span class="attention"><!--{$arrErr.quantity}--></span><br />
+                      <!--{/if}-->
+                      <!--{if $arrProduct.product_class_id == -1}--><!--{ *バリエーション一覧へ* }-->
+                        <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">バリエーション一覧へ</a>
+                      <!--{else}-->
+                        <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$smarty.post.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
+                          <input type="image" onclick="this.form.submit();" src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="96" height="23" alt="カゴへ入れる" />
+                      <!--{/if}-->
+                      <!--{else}-->
+                      <span class="attention">申し訳ございませんが、只今品切れ中です。</span>
+                    </div>
+                  <!--{/if}-->
+                <!--{else}-->
+                  <div class="btn_regist">
+                      <p>お得な価格は会員のみ公開</p>
+                      <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                  </div>
+                <!--{/if}-->
+            </div>
+        </form>
+        </section>
+        <!--{/foreach}-->
+      </div>
+    </div>
+<!--{else}-->
+    <!--{include file="frontparts/search_zero.tpl"}-->
+<!--{/if}-->
+<!--{* 最近お気に入り商品 ▲ *}-->
+        
+        
     <!--特集一覧-->
     <section class="special_list">
     <h3>特集一覧

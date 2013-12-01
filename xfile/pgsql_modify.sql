@@ -327,3 +327,10 @@ CREATE TABLE dtb_customer_year_estimate(
   year_est_total numeric NOT NULL default 0,
   CONSTRAINT dtb_customer_year_estimate_pkey PRIMARY KEY (customer_id)
 );
+
+/*######## 最近の受注履歴 ########*/
+INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('LATEST_ORDER_MAX',  '１',  (SELECT MAX(rank)+1 FROM mtb_constants),  '最近の受注履歴表示数|数値:最大登録数|false:使用しない');
+
+
+/*######## 最近のお気に入り ########*/
+INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('LATEST_FAVORITE_PRODUCT_MAX',  '3',  (SELECT MAX(rank)+1 FROM mtb_constants),  '最近のお気に入り商品表示数|数値:最大登録数|false:使用しない');
