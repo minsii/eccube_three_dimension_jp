@@ -358,3 +358,7 @@ CREATE SEQUENCE dtb_customer_news_news_id_seq
   MAXVALUE 9223372036854775807
   START 4
   CACHE 1;
+
+/*######## マイページ特集一覧ブロック化 ########*/
+INSERT INTO dtb_bloc VALUES (10, (SELECT MAX(bloc_id)+1 FROM dtb_bloc WHERE device_type_id=10), 【マイページ】特集一覧', 'mypage_bloc_special_list.tpl', 'mypage_bloc_special_list', 'now()', 'now()', NULL, 0, NULL);
+
