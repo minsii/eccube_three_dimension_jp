@@ -9,11 +9,13 @@
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 <link rel="stylesheet" href="css/import.css" type="text/css" media="all" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost../rss/" />
-<script type="text/javascript" src="../js/css.js"></script>
-<script type="text/javascript" src="../js/navi.js"></script>
-<script type="text/javascript" src="../js/win_op.js"></script>
-<script type="text/javascript" src="../js/site.js"></script>
-<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/css.js"></script>
+<script type="text/javascript" src="js/navi.js"></script>
+<script type="text/javascript" src="js/win_op.js"></script>
+<script type="text/javascript" src="js/site.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <title>three</title>
 <link rel="shortcut icon" href="./img/common/favicon.ico" />
 <link rel="icon" type="image/vnd.microsoft.icon" href="./img/common/favicon.ico" />
@@ -63,11 +65,58 @@
     </nav>
   </div>
   <!--▲HEADER-->
-  <div class="top_image"> <img src="img/page/top/main_img.png" width="960" height="260" alt="メイン画像" /> </div>
+  <!--メイン画像-->
+  <div class="top_image"> <img src="img/page/top/main_img.png" width="960"  alt="メイン画像" /> </div>
+  <!--画面パス-->
   <div class="page_path"> <span>トップ</span> / <a href="#">ああ</a> / <a href="#">ううう</a> </div>
+  <!--登録ナビ-->
   <div class="unmember_box">
     <p>ユーザ登録後にご注文可能です。ログイン後商品価格も表示されます</p>
     <span><a href="#"><img src="img/page/navi/btn_member_regist.png" width="387" height="45" alt="指定事業者様ユーザ登録はこちら" /></a></span> </div>
+    
+
+  <!--検索ボックス-->
+  <section class="search_navi_box">
+  	<div>
+        <label>カタログ品番検索</label>
+    	<span>
+        <input type="text" id="aaaa" name="catalog_inputbox"  value="カタログ品番検索"/>
+        <input type="image" src="img/page/common/btn_search_navi_btn.png"/>
+        </span>
+        <label>キーワード検索</label>
+        <span>
+        <input type="text" name="keyword_inputbox"  value="キーワード検索"/>
+        <input type="image" src="img/page/common/btn_search_navi_btn.png"/>
+        </span>
+        <label>メーカー検索</label>
+        <span>
+        <input type="text" name="maker_inputbox"  value="メーカー検索"/>
+        <input type="image" src="img/page/common/btn_search_navi_btn.png"/>
+        </span>
+    </div>
+  </section>
+  <script language="javascript">
+//jQuery(document).ready(function(){
+//	//  テキストボックスの総数
+//	var inputLength = $(":text").length;
+//	//  テキストボックス初期値　を格納
+//	var inputBox = new Array();
+//	for (i=0; i<inputLength; i++) {
+//		inputBox[i] = $("input[type='text']").eq(i).val();
+//	}
+//});
+$(function(){
+    $("#aaaa").focus(function() {
+        if($(this).val() == $(this).attr('defaultValue'))
+            $(this).val('');
+    }).blur(function() {
+        if(jQuery.trim($(this).val()) == "") {
+            $(this).val($(this).attr('defaultValue'));
+        }
+    });
+});
+
+</script>
   <div id="container" class="clearfix">
     <div id="leftcolumn" class="side_column"> 
       <!--▼検索ボックス-->
@@ -115,26 +164,64 @@
         </dl>
         <div class="btn"> <a href="#"><img src="img/page/bloc/cart_box/btn_kagokakunin.png" width="192" height="41" alt="カゴの確認" /></a> </div>
       </section>
+      <script type="text/javascript">//<![CDATA[
+  $(function() {
+	
+	$("#categorytree li").hover(function() {
+		$(this).children('ul').show();
+	}, function() {
+		$(this).children('ul').hide();
+	});
+
+  });
+//]]></script> 
       
       <!--▼カテゴリ-->
       <section class="category_box">
         <h2>カテゴリ</h2>
-        <ul>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_01.png" width="199" height="47" alt="食事用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_02.png" width="199" height="47" alt="健康用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_03.png" width="199" height="47" alt="リハビリ用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_04.png" width="199" height="47" alt="入浴用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_05.png" width="199" height="47" alt="周り用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_06.png" width="199" height="47" alt="衣料品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_07.png" width="199" height="47" alt="トイレ用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_08.png" width="199" height="47" alt="歩行補助用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_09.png" width="199" height="47" alt="車いす" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_10.png" width="199" height="47" alt="住宅関連用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_11.png" width="199" height="47" alt="施設用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_12.png" width="199" height="47" alt="職員様ケア用品" /></a></li>
-          <li><a href="#"><img src="img/page/bloc/category_box/bnr_category_13.png" width="199" height="47" alt="アウトレット・中古用品" /></a></li>
-        </ul>
+        
+        <div id="categoryarea">
+          <ul id="categorytree">
+            <li class="level1">
+              <p><a href="#"><img src="img/page/bloc/category_box/bnr_category_01.png" width="199" height="47" alt="食事用品" /></a></p>
+              <ul>
+              	<div class="submenu_icon"><img src="img/page/common/category/icon_02.png" width="11" height="13" /></div>
+                <li class="level2 onmark">
+                  <p><span> > </span><a href="#" class="onlink">なべ(2)</a></p>
+                </li>
+                <li class="level2">
+                  <p><span> > </span><a href="#">お菓子(1)</a></p>
+                </li>
+              </ul>
+            </li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_02.png" width="199" height="47" alt="健康用品" /></a>
+            
+              <ul>
+              	<div class="submenu_icon"><img src="img/page/common/category/icon_02.png" width="11" height="13" /></div>
+                <li class="level2 onmark">
+                  <p><span> > </span><a href="#" class="onlink">なべ(2)</a></p>
+                </li>
+                <li class="level2">
+                  <p><span> > </span><a href="#">お菓子(1)</a></p>
+                </li>
+              </ul>
+              </li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_03.png" width="199" height="47" alt="リハビリ用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_04.png" width="199" height="47" alt="入浴用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_05.png" width="199" height="47" alt="周り用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_06.png" width="199" height="47" alt="衣料品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_07.png" width="199" height="47" alt="トイレ用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_08.png" width="199" height="47" alt="歩行補助用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_09.png" width="199" height="47" alt="車いす" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_10.png" width="199" height="47" alt="住宅関連用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_11.png" width="199" height="47" alt="施設用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_12.png" width="199" height="47" alt="職員様ケア用品" /></a></li>
+            <li class="level1"><a href="#"><img src="img/page/bloc/category_box/bnr_category_13.png" width="199" height="47" alt="アウトレット・中古用品" /></a></li>
+          </ul>
+        </div>
       </section>
+      
+      
       
       <!--▼メルマガ登録-->
       <section>
@@ -538,7 +625,6 @@
     </div>
     <div id="two_maincolumn_right" class="main_column"> 
       
-      
       <!-- ▼トップ画面 -->
       <section>
         <div> <img src="img/page/banner/bnr_osusume.png" width="742" height="270" alt="オススメ" /> </div>
@@ -568,20 +654,20 @@
       <section class="atukaishouhin_box pure-g">
         <h2><img src="img/page/bloc/atukaishouhin_box/title.png" width="742" height="30" alt="取り扱い商品" /></h2>
         <ul class=" pure-u-1-2">
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_01.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_02.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_03.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_04.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_05.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_06.png" width="361" height="151" alt="食事用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=1"><img src="img/page/bloc/atukaishouhin_box/bnr_01.png" width="361" height="151" alt="食事用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=2"><img src="img/page/bloc/atukaishouhin_box/bnr_02.png" width="361" height="151" alt="健康用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=3"><img src="img/page/bloc/atukaishouhin_box/bnr_03.png" width="361" height="151" alt="リハビリ用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=4"><img src="img/page/bloc/atukaishouhin_box/bnr_04.png" width="361" height="151" alt="入浴用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=5"><img src="img/page/bloc/atukaishouhin_box/bnr_05.png" width="361" height="151" alt="床周り用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=6"><img src="img/page/bloc/atukaishouhin_box/bnr_06.png" width="361" height="151" alt="衣料品" /></a></li>
         </ul>
         <ul class=" pure-u-1-2 alignR">
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_07.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_08.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_09.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_10.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_11.png" width="361" height="151" alt="食事用品" /></a></li>
-          <li><a href=""><img src="img/page/bloc/atukaishouhin_box/bnr_12.png" width="361" height="151" alt="食事用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=7"><img src="img/page/bloc/atukaishouhin_box/bnr_07.png" width="361" height="151" alt="トイレ用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=8"><img src="img/page/bloc/atukaishouhin_box/bnr_08.png" width="361" height="151" alt="歩行補助用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=9"><img src="img/page/bloc/atukaishouhin_box/bnr_09.png" width="361" height="151" alt="車いす" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=10"><img src="img/page/bloc/atukaishouhin_box/bnr_10.png" width="361" height="151" alt="住宅関連用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=11"><img src="img/page/bloc/atukaishouhin_box/bnr_11.png" width="361" height="151" alt="施設用品" /></a></li>
+          <li><a href="http://wx03.wadax.ne.jp/~three-dimension-jp/products/list.php?category_id=12"><img src="img/page/bloc/atukaishouhin_box/bnr_12.png" width="361" height="151" alt="職員様ケア用品" /></a></li>
         </ul>
       </section>
       <div class="otoiawase_box pure-g">
