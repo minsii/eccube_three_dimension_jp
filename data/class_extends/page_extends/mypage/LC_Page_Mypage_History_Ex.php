@@ -45,6 +45,9 @@ class LC_Page_Mypage_History_Ex extends LC_Page_Mypage_History {
      */
     function init() {
         parent::init();
+        
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrCustomerOrderStatus = $masterData->getMasterData('mtb_customer_order_status');
     }
 
     /**

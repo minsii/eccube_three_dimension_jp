@@ -27,61 +27,74 @@
     <!--{include file=$tpl_navi}-->
     <div id="mycontents_area">
         <h3><!--{$tpl_subtitle|h}--></h3>
-        <div class="mycondition_area clearfix">
-            <p>
-                <span class="st">購入日時：&nbsp;</span><!--{$tpl_arrOrderData.create_date|sfDispDBDate}--><br />
-                <span class="st">注文番号：&nbsp;</span><!--{$tpl_arrOrderData.order_id}--><br />
-                <span class="st">お支払い方法：&nbsp;</span><!--{$arrPayment[$tpl_arrOrderData.payment_id]|h}-->
-            </p>
-            <form action="order.php" method="post">
-                <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-                <p class="btn">
-                    <input type="hidden" name="order_id" value="<!--{$tpl_arrOrderData.order_id|h}-->">
-                    <input type="image" onmouseover="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_order_re_on.jpg', this);" onmouseout="chgImg('<!--{$TPL_URLPATH}-->img/button/btn_order_re.jpg', this);" src="<!--{$TPL_URLPATH}-->img/button/btn_order_re.jpg" alt="この購入内容で再注文する" name="submit" value="この購入内容で再注文する" />
-                </p>
-            </form>
-        </div>
 
-        <table summary="購入商品詳細">
-            <col width="15%" />
-            <col width="25%" />
-            <col width="20%" />
-            <col width="15%" />
-            <col width="10%" />
-            <col width="15%" />
+        <form action="order.php" method="post">
+        <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+        <input type="hidden" name="order_id" value="<!--{$tpl_arrOrderData.order_id|h}-->">
+        <table>
+                <colgroup>
+                	<col width="20%" />
+                    <col />
+                    <col width="30%" />
+                </colgroup>
             <tr>
-                <th class="alignC">商品コード</th>
-                <th class="alignC">商品名</th>
-                <th class="alignC">商品種別</th>
-                <th class="alignC">単価</th>
-                <th class="alignC">数量</th>
-                <th class="alignC">小計</th>
+                <th>購入日時</th>
+                <td><!--{$tpl_arrOrderData.create_date|date_format:"%Y/%m/%d"}--></td>
+                <td rowspan="5" class="alignC">
+                  <input type="image" src="<!--{$TPL_URLPATH}-->img/page/mypage/btn_copyorder.png" width="178" height="33" alt="この購入内容で再発注" />
+                </td>
+            </tr>
+            <tr>
+                <th>注文番号</th>
+                <td><!--{$tpl_arrOrderData.order_id|h}--></td>
+            </tr>
+            <tr>
+                <th>お支払い方法</th>
+                <td><!--{$arrPayment[$tpl_arrOrderData.payment_id]|h}--></td>
+            </tr>
+            <tr>
+                <th>注文状況</th>
+                <!--{assign var=status value="`$tpl_arrOrderData.status`"}-->
+                <td><!--{$arrCustomerOrderStatus[$status]|h}--></td>
+            </tr>
+        </table>
+        </form>
+
+          <table summary="購入商品詳細">
+          <colgroup>
+          <col width="10%">
+          <col width="15%">
+          <col width="25%">
+          <col width="15%">
+          <col width="10%">
+          <col width="10%">
+          <col width="15%">
+          </colgroup>
+          <tbody>
+            <tr>
+              <th class="alignC">カテゴリ番号</th>
+              <th class="alignC">商品画像</th>
+              <th class="alignC">商品名</th>
+              <th class="alignC">単価</th>
+              <th class="alignC">数量</th>
+              <th class="alignC">詳細</th>
+              <th class="alignC">小計</th>
             </tr>
             <!--{foreach from=$tpl_arrOrderDetail item=orderDetail}-->
                 <tr>
                     <td><!--{$orderDetail.product_code|h}--></td>
-                    <td><a<!--{if $orderDetail.enable}--> href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$orderDetail.product_id|u}-->"<!--{/if}-->><!--{$orderDetail.product_name|h}--></a><br />
+                    <td class="alignC">
+                      <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->">
+                        <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$orderDetail.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$orderDetail.product_name|h}-->" width="60">
+                      </a>
+                    </td>
+                    <td><a< href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->"><!--{$orderDetail.product_name|h}--></a>
                         <!--{if $orderDetail.classcategory_name1 != ""}-->
-                            <!--{$orderDetail.classcategory_name1|h}--><br />
+                            <br /><!--{$orderDetail.classcategory_name1|h}-->
                         <!--{/if}-->
                         <!--{if $orderDetail.classcategory_name2 != ""}-->
-                            <!--{$orderDetail.classcategory_name2|h}-->
+                            /<!--{$orderDetail.classcategory_name2|h}-->
                         <!--{/if}-->
-                    </td>
-                    <td class="alignC">
-                    <!--{if $orderDetail.product_type_id == $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->
-                        <!--{if $orderDetail.is_downloadable}-->
-                            <a target="_self" href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/download.php?order_id=<!--{$tpl_arrOrderData.order_id}-->&product_id=<!--{$orderDetail.product_id}-->&product_class_id=<!--{$orderDetail.product_class_id}-->">ダウンロード</a>
-                        <!--{else}-->
-                            <!--{if $orderDetail.payment_date == "" && $orderDetail.effective == "0"}-->
-                                <!--{$arrProductType[$orderDetail.product_type_id]}--><BR />（入金確認中）
-                            <!--{else}-->
-                                <!--{$arrProductType[$orderDetail.product_type_id]}--><BR />（期限切れ）
-                            <!--{/if}-->
-                        <!--{/if}-->
-                    <!--{else}-->
-                        <!--{$arrProductType[$orderDetail.product_type_id]}-->
-                    <!--{/if}-->
                     </td>
                     <!--{assign var=price value=`$orderDetail.price`}-->
                     <!--{assign var=quantity value=`$orderDetail.quantity`}-->
@@ -95,6 +108,7 @@
                     <!--{*## 商品非課税 MDF END ##*}-->
                     </td>
                     <td class="alignR"><!--{$quantity|h}--></td>
+                    <td class="alignC"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$orderDetail.product_id}-->">商品詳細</a></td>
                     <td class="alignR">
                     <!--{*## 商品非課税 MDF BEGIN ##*}-->
                     <!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $orderDetail.taxfree == 1}-->
@@ -107,34 +121,34 @@
                 </tr>
             <!--{/foreach}-->
             <tr>
-                <th colspan="5" class="alignR">小計</th>
+                <th colspan="6" class="alignR">小計</th>
                 <td class="alignR"><!--{$tpl_arrOrderData.subtotal|number_format}-->円</td>
             </tr>
             <!--{assign var=point_discount value="`$tpl_arrOrderData.use_point*$smarty.const.POINT_VALUE`"}-->
             <!--{if $point_discount > 0}-->
             <tr>
-                <th colspan="5" class="alignR">ポイント値引き</th>
+                <th colspan="6" class="alignR">ポイント値引き</th>
                 <td class="alignR">&minus;<!--{$point_discount|number_format}-->円</td>
             </tr>
             <!--{/if}-->
             <!--{assign var=key value="discount"}-->
             <!--{if $tpl_arrOrderData[$key] != "" && $tpl_arrOrderData[$key] > 0}-->
             <tr>
-                <th colspan="5" class="alignR">値引き</th>
+                <th colspan="6" class="alignR">値引き</th>
                 <td class="alignR">&minus;<!--{$tpl_arrOrderData[$key]|number_format}-->円</td>
             </tr>
             <!--{/if}-->
             <tr>
-                <th colspan="5" class="alignR">送料</th>
+                <th colspan="6" class="alignR">送料</th>
                 <td class="alignR"><!--{assign var=key value="deliv_fee"}--><!--{$tpl_arrOrderData[$key]|number_format|h}-->円</td>
             </tr>
             <tr>
-                <th colspan="5" class="alignR">手数料</th>
+                <th colspan="6" class="alignR">手数料</th>
                 <!--{assign var=key value="charge"}-->
                 <td class="alignR"><!--{$tpl_arrOrderData[$key]|number_format|h}-->円</td>
             </tr>
             <tr>
-                <th colspan="5" class="alignR">合計</th>
+                <th colspan="6" class="alignR">合計</th>
                 <td class="alignR"><span class="price"><!--{$tpl_arrOrderData.payment_total|number_format}-->円</span></td>
             </tr>
         </table>
@@ -285,22 +299,6 @@
                 </li>
             </ul>
         </div>
-
-
-        <!--特集一覧-->
-        <section class="special_list">
-        <h3>特集一覧
-        </h3>
-        <ul class="pure-g">
-            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
-            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
-            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
-            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
-            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
-            <li class="pure-u-1-3"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/bnr_01.png" width="305" height="120" /></li>
-            
-        </ul>
-        </section>
 
 
     </div>
