@@ -28,7 +28,7 @@
             <li><a href="./" class=" "><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_top.png" alt="マイページトップ" width="138" height="45"></a></li>
             <!--{* 会員状態 *}-->
             <!--{if $tpl_login}-->
-                <li><a href="./<!--{$smarty.const.DIR_INDEX_PATH}-->" class="<!--{if $tpl_mypageno == 'index'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_orderlist.png" alt="購入履歴一覧" width="138" height="45"></a></li>
+                <li><a href="history_search.php" class="<!--{if $tpl_mypageno == 'history_search'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_orderlist.png" alt="購入履歴一覧" width="138" height="45"></a></li>
                 <!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1}-->
                     <li><a href="favorite.php" class="<!--{if $tpl_mypageno == 'favorite'}--> selected<!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->img/page/mypage/navi/btn_favorite.png" alt="お気にいり一覧" width="138" height="45"></a></li>
                 <!--{/if}-->
