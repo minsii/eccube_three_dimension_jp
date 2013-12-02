@@ -360,7 +360,7 @@ CREATE SEQUENCE dtb_customer_news_news_id_seq
   CACHE 1;
 
 /*######## マイページ特集一覧ブロック化 ########*/
-INSERT INTO dtb_bloc VALUES (10, (SELECT MAX(bloc_id)+1 FROM dtb_bloc WHERE device_type_id=10), 【マイページ】特集一覧', 'mypage_bloc_special_list.tpl', 'mypage_bloc_special_list', 'now()', 'now()', NULL, 0, NULL);
+INSERT INTO dtb_bloc VALUES (10, (SELECT MAX(bloc_id)+1 FROM dtb_bloc WHERE device_type_id=10), '【マイページ】特集一覧', 'mypage_bloc_special_list.tpl', 'mypage_bloc_special_list', 'now()', 'now()', NULL, 0, NULL);
 
 /*######## 購入履歴検索 ########*/
 INSERT INTO dtb_pagelayout VALUES (10, (SELECT MAX(page_id)+1 FROM dtb_pagelayout WHERE device_type_id=10), 'MYページ/購入履歴一覧', 'mypage/history_search.php', 'mypage/history_search', 1, 1, 2, NULL, NULL, NULL, NULL, 'now()', 'now()', NULL, NULL);
