@@ -55,7 +55,9 @@
     <br />
     <!--{* 最近の購入履歴 ▼ *}-->
     <h3>最近の購入履歴
+        <!--{if $arrLatestOrder[0].order_id}-->
         <span class="order_detail"><a target="blank" href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/history.php?order_id=<!--{$arrLatestOrder[0].order_id}-->">購入履歴詳細はこちら</a></span>
+        <!--{/if}-->
     </h3>
     
     <!--{section name=cnt loop=$arrLatestOrder}-->

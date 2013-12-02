@@ -329,7 +329,7 @@ CREATE TABLE dtb_customer_year_estimate(
 );
 
 /*######## 最近の受注履歴 ########*/
-INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('LATEST_ORDER_MAX',  '１',  (SELECT MAX(rank)+1 FROM mtb_constants),  '最近の受注履歴表示数|数値:最大登録数|false:使用しない');
+INSERT INTO mtb_constants (id ,name ,rank ,remarks) VALUES ('LATEST_ORDER_MAX',  '1',  (SELECT MAX(rank)+1 FROM mtb_constants),  '最近の受注履歴表示数|数値:最大登録数|false:使用しない');
 
 
 /*######## 最近のお気に入り ########*/

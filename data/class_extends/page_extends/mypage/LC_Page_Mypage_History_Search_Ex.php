@@ -22,7 +22,7 @@
  */
 
 // {{{ requires
-require_once CLASS_REALDIR . 'pages/mypage/LC_Page_MyPage.php';
+require_once CLASS_REALDIR . 'pages/mypage/LC_Page_Mypage.php';
 
 /**
  * 購入履歴一覧 のページクラス(拡張).
