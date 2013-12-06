@@ -20,15 +20,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 
-      <!-- ▼新着情報--> 
-      <div class="pure-g">
-          <section class="news_box pure-u-1-2">
-               <h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/news_box/title.png" width="359" height="30" alt="新着情報" /></h2>
-               <ul>
+<div class="center_box">
+ <div id="newsarea" class="center_inner">
+ <h2 class="center_ttl02"><img src="<!--{$TPL_URLPATH}-->img/top/main_news_ttl.gif" width="726" height="43" alt="ニュース・トピックス"></h2>
 <!--{section name=data loop=$arrNews}-->
-  <!--{assign var=news_no value="`$smarty.section.data.iteration`"}-->
-  <li <!--{if $news_no % 2 == 0}--> class="row" <!--{/if}-->>
-    <span><!--{$arrNews[data].news_date_disp|date_format:"%Y.%m.%d"}--></span> 
+  <dl>
+    <dt><!--{$arrNews[data].news_date_disp|date_format:"%Y&#24180;%m&#26376;%d&#26085;"}--></dt>
+    <dd>
       <!--{if $arrNews[data].news_url}-->
       <a href="<!--{$arrNews[data].news_url}-->"
         <!--{if $arrNews[data].link_method eq "2"}-->
@@ -38,19 +36,10 @@
       <!--{$arrNews[data].news_title|escape|nl2br}-->
         <!--{if $arrNews[data].news_url}-->
       </a>
-      <!--{/if}-->
-  </li>
+        <!--{/if}--><br />
+        <!--{$arrNews[data].news_comment|escape|nl2br}-->
+     </dd>
+  </dl>
 <!--{/section}-->
-          </ul>
-          </section>
-          <section class="campaign_box pure-u-1-2">
-               <h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/title.png" width="359" height="30" alt="開催中のキャンペーン" /></h2>
-               <ul>
-                   <li><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_sale.png" width="49" height="16" alt="SALE" /></span> ああああああああああ</li>
-                   <li class="row"><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_tokushu.png" width="49" height="16" alt="特集" /></span> ああああああああああ</li>
-                   <li><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_zaiko.png" width="49" height="16" alt="在庫市" /></span> ああああああああああ</li>
-                   <li class="row"><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_sale.png" width="49" height="16" alt="SALE" /></span> ああああああああああ</li>
-               </ul>
-          </section>
-      </div>
-      <!-- ▲新着情報 --> 
+ </div>
+</div>
