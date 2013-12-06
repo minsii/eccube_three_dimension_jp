@@ -1,4 +1,5 @@
-<!--{*
+<?php
+/*
  * This file is part of EC-CUBE
  *
  * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
@@ -18,18 +19,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *}-->
+ */
 
-      
-      <!-- ▼トップ画面 -->
-      <section class="top_bnr_box">
-      	<div>
-   	    <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_osusume.png" width="742" height="270" alt="オススメ" /> </div>
-        <div>
-        <a href="#">
-        <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_tourokuhe.png" width="742" height="30" alt="ユーザ登録はこちら" /></a></div>
-        <div>
-   	    <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_01.png" width="742" height="118" alt="バナー" /> </div>
-      </section>
-      <!-- ▲トップ画面 --> 
-      
+// rtrim は PHP バージョン依存対策
+define('HTML_REALDIR', rtrim(realpath(rtrim(realpath(dirname(__FILE__)), '/\\') . '/../'), '/\\') . '/');
+define('ADMIN_FUNCTION', true);
+
+require_once HTML_REALDIR . 'define.php';
+if (ob_get_level() > 0 && ob_get_length() > 0) {
+    while (ob_end_clean());
+}
+require_once HTML_REALDIR . HTML2DATA_DIR . 'require_base.php';
+ob_start();

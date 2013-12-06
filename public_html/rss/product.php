@@ -1,4 +1,5 @@
-<!--{*
+<?php
+/*
  * This file is part of EC-CUBE
  *
  * Copyright(c) 2000-2013 LOCKON CO.,LTD. All Rights Reserved.
@@ -18,18 +19,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *}-->
+ */
 
-      
-      <!-- ▼トップ画面 -->
-      <section class="top_bnr_box">
-      	<div>
-   	    <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_osusume.png" width="742" height="270" alt="オススメ" /> </div>
-        <div>
-        <a href="#">
-        <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_tourokuhe.png" width="742" height="30" alt="ユーザ登録はこちら" /></a></div>
-        <div>
-   	    <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_01.png" width="742" height="118" alt="バナー" /> </div>
-      </section>
-      <!-- ▲トップ画面 --> 
-      
+// {{{ requires
+require_once '../require.php';
+require_once CLASS_EX_REALDIR . 'page_extends/rss/LC_Page_Rss_Products_Ex.php';
+
+// }}}
+// {{{ generate page
+
+// @deprecated 2.12.3 html/rss/products.php が正しい。
+trigger_error('前方互換用ファイルが使用されました。', E_USER_WARNING);
+
+$objPage = new LC_Page_Rss_Products_Ex();
+register_shutdown_function(array($objPage, 'destroy'));
+$objPage->init();
+$objPage->process();

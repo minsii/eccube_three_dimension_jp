@@ -19,13 +19,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
-<!--現在のカゴの中ここから-->
-<div class="left_box">
- <div class="left_inner">
-  <h2 class="left_ttl"><img src="<!--{$TPL_URLPATH}-->img/side/left_ttl01.gif" width="206" height="45" alt="現在のカゴの中"></h2>
-  <div class="left_cont cartarea">
-    <p class="item">商品数：<!--{$arrCartList.0.TotalQuantity|number_format|default:0}-->点</p>
-    <p>合計：<span class="price"><!--{$arrCartList.0.ProductsTotal|number_format|default:0}-->円</span><br />
+<!--▼カゴ-->
+<section class="cart_box">
+	<h2>お買い物カゴ</h2>
+    <dl>
+    	<dt><strong>合計</strong>（税込）</dt>
+    	<dd class="price">￥<!--{$arrCartList.0.ProductsTotal|number_format|default:0}--></dd>
+    </dl>
+    <!--{if $arrCartList.0.TotalQuantity > 0}-->
+    <dl>
+    	<dt>商品名</dt>
+    	<dd>数 販売価格</dd>
+    </dl>
+    <dl>
+      <!--{assign var=arrProducts value=$arrCartList.0.products}-->
+      <!--{section name=cnt loop=$arrProducts}-->
+    	<dt>
+        <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProducts[cnt].productsClass.product_id}-->">
+          <!--{$arrProducts[cnt].productsClass.name|h}-->
+        </a>
+      </dt>
+    	<dd><!--{$arrProducts[cnt].quantity|h}--> ￥<!--{$arrProducts[cnt].productsClass.price02|sfCalcIncTax|number_format}--></dd>
+      <!--{/section}-->
+    </dl>
+    <!--{/if}-->
     <!-- カゴの中に商品がある場合にのみ表示 -->
     <!--{if $arrCartList.0.TotalQuantity > 0 and $arrCartList.0.free_rule > 0}-->
       <!--{if $arrCartList.0.deliv_free > 0}-->
@@ -34,12 +51,5 @@
       <br>現在、送料は「<span class="price">無料</span>」です。
       <!--{/if}-->
     <!--{/if}-->
-    </p>
-    <p class="btn">
-      <a href="<!--{$smarty.const.CART_URLPATH}-->" onmouseover="chgImg('<!--{$TPL_URLPATH}-->img/side/left_cart_btn.gif','button_cartin');" onmouseout="chgImg('<!--{$TPL_URLPATH}-->img/side/left_cart_btn.gif','button_cartin');">
-        <img src="<!--{$TPL_URLPATH}-->img/side/left_cart_btn.gif" width="142" height="25" alt="カゴの中を見る" border="0" name="button_cartin" id="button_cartin" /></a>
-     </p>
-  </div>
- </div>
-</div>
-<!--現在のカゴの中ここまで-->
+    <div class="btn"> <a href="<!--{$smarty.const.CART_URLPATH}-->"><img src="<!--{$TPL_URLPATH}-->img/page/bloc/cart_box/btn_kagokakunin.png" width="192" height="41" alt="カゴの確認" /></a> </div>
+</section>
