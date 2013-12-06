@@ -44,3 +44,5 @@ if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
         $objMobile->sfMobileInit();
     }
 }
+
+define('SHOW_DEBUG_TOOL', true);

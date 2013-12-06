@@ -31,5 +31,26 @@
         <div>
    	    <img src="<!--{$TPL_URLPATH}-->img/page/banner/bnr_01.png" width="742" height="118" alt="バナー" /> </div>
       </section>
+      <div class="pure-g">
+          <section class="news_box pure-u-1-2">
+               <h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/news_box/title.png" width="359" height="30" alt="新着情報" /></h2>
+               <ul>
+                <li><span>2012.6.01</span> 新商品入荷しました。</li>
+                <li class="row"><span>2012.6.01</span> 新商品入荷しました。</li>
+                <li><span>2012.6.01</span> 新商品入荷しました。</li>
+                <li class="row"><span>2012.6.01</span> 新商品入荷しました。</li>
+               </ul>
+          </section>
+          <section class="campaign_box pure-u-1-2">
+               <h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/title.png" width="359" height="30" alt="開催中のキャンペーン" /></h2>
+               <ul>
+                   <li><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_sale.png" width="49" height="16" alt="SALE" /></span> ああああああああああ</li>
+                   <li class="row"><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_tokushu.png" width="49" height="16" alt="特集" /></span> ああああああああああ</li>
+                   <li><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_zaiko.png" width="49" height="16" alt="在庫市" /></span> ああああああああああ</li>
+                   <li class="row"><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_sale.png" width="49" height="16" alt="SALE" /></span> ああああああああああ</li>
+               </ul>
+          </section>
+      </div>
+      
       <!-- ▲トップ画面 --> 
       

@@ -31,3 +31,9 @@ $objPage = new LC_Page_Index_Ex();
 register_shutdown_function(array($objPage, 'destroy'));
 $objPage->init();
 $objPage->process();
+
+if(SHOW_DEBUG_TOOL){
+    echo '<div style="position:fixed;top:0px;overflow:auto;width:100%;height:auto;max-height:100%;">';
+    +Kint::dump($objPage);
+    echo '</div>';
+}

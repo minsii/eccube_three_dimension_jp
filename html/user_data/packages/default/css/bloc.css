@@ -35,7 +35,11 @@
     background-color: #fff;
 }
 .side_column {
-    overflow-x: hidden; /* IE6 表示乱れ防止 */
+    /*overflow-x: hidden;*/ /* IE6 表示乱れ防止 */
+}
+
+.side_column section{
+	margin-top: 10px;
 }
 .side_column .block_outer {
     margin: 10px 7%;
@@ -887,7 +891,7 @@ div#search_area .block_body .btn {
 	padding-left:45px;
 }
 .product_detail_info ul li.info span{
-	width:60px;
+	width:75px;
 	background-color:#ccc;
 	font-weight:bold;
 	padding:5px;
@@ -896,7 +900,7 @@ div#search_area .block_body .btn {
 	text-align:center;
 }
 .product_detail_info ul li.price span{
-	width:60px;
+	width:75px;
 	font-weight:bold;
 	color:#fff;
 	background-color:#A40000;
@@ -951,6 +955,10 @@ div#search_area .block_body .btn {
 
 
 /*商品リスト*/
+.review_product_list{
+	overflow:hidden;
+	width:100%;
+}
 .review_product_list h2{
 	border:1px solid #ccc;
 	background-color:#EFEFEF;
@@ -965,9 +973,12 @@ div#search_area .block_body .btn {
 }
 .review_product_list .l-btn a{
 	display:block;
-	padding:5px;
+	padding:3px;
 	background-color:#EFEFEF;
 	color:#fff;
+}
+.review_product_list .l-btn a:hover{
+	text-decoration:none;
 }
 
 .review_product_list .r-btn{
@@ -977,13 +988,16 @@ div#search_area .block_body .btn {
 }
 .review_product_list .r-btn a{
 	display:block;
-	padding:5px;
+	padding:3px;
 	background-color:#EFEFEF;
 	color:#fff;
 }
+.review_product_list .r-btn a:hover{
+	text-decoration:none;
+}
 
 .review_product_list .body {
-	padding:30px;
+	margin:5px 30px;
 }
 .review_product_list .body section{
 	color:#000;
@@ -1045,12 +1059,15 @@ div#search_area .block_body .btn {
 }
 .review_product_list .body section .btn_regist{
 	text-align:center;
-	padding:10px;
+	padding:2px;
 	background-color:#FEEAD1;
 }
 .review_product_list .body .btn_regist p{
-	padding-bottom:10px;
+	padding:10px;
 }
+#scrollbox {overflow:hidden;width:719px;}
+#scrollbox section {FLOAT:left;width:170px;_width:170px;min-height:200px;_height:200px;vertical-align:top;min-height:18px;text-align:center;padding:0px;overflow:hidden;}
+.pointer {CURSOR: pointer}
 
 /*お問い合わせ画面*/
 
@@ -1137,4 +1154,103 @@ div#search_area .block_body .btn {
 
 #mypagecolumn .special_list > ul{
 	padding:15px 5px;
+}
+
+.search_navi_box{
+	background-color:#f9fdff;
+	border-radius:5px;
+	border:2px solid #4b99e3;
+	padding:5px 15px;
+	margin:3px auto;
+	width:926px;
+}
+.search_navi_box > div {
+	padding: 15px;
+}
+.search_navi_box > div > span {
+	display: inline-block;
+	position: relative;
+	margin-right: 20px;
+}
+
+.search_navi_box > div > label {
+	color: #4d93d9;
+	font-weight: bold;
+	font-size: 110%;
+	border-left: 5px solid #4d93d9;
+	padding-left: 7px;
+	padding-right: 25px;
+	display: inline-block;
+	text-align: left;
+}
+.search_navi_box > div > span > input[type="text"] {
+	background-color: #e9e9e9;
+	border-radius: 5px;
+	padding: 5px 30px 5px 10px;
+	width:90px;
+}
+.search_navi_box > div > span > input[type="image"] {
+	position: absolute;
+	top: 2px;
+	right: 3px;
+}
+
+
+
+#categorytree > li {
+  position: relative;
+  float: left;
+  margin: 0;
+  width: 200px;
+  height: 47px;
+  border: solid 1px #ccc;
+  font-weight: bold;
+}
+#categorytree > li:hover {
+  color: #fff;
+  background: #333;
+}
+#categorytree > li > ul {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 200px;
+  padding: 5px;
+  width: 200px;
+  background: #fff0eb;
+  border: solid 1px #ccc;
+  z-index:10;
+  border:1px solid #f78465;
+}
+#categorytree > li > ul > li {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  border-bottom:1px dashed #ccc;
+  
+}
+#categorytree > li > ul > li:last-child {
+  border:none;
+  
+}
+#categorytree > li > ul > .submenu_icon {
+  position:absolute;
+  left:-11px;
+  top:20px;
+}
+#categorytree > li > ul > li  span {
+  display: inline-block;
+  height: 20px;
+  color:#f78465;
+  font-weight:bold;
+  padding:0px 8x;
+}
+#categorytree > li > ul > li  a {
+  display: inline-block;
+  width: auto;
+  padding:8px 5px;
+}
+#categorytree > li > ul > li  a:hover {
+  background: #999;
+  color: #fff;
 }
