@@ -319,7 +319,7 @@
                           <span class="attention"><!--{$arrErr.quantity}--></span><br />
                           <!--{/if}-->
                           <!--{if $tpl_classcat_find1[$id]}--><!--{ *バリエーション一覧へ* }-->
-                            <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">バリエーション一覧へ</a>
+                            <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->"><img src="img/page/list/productlist/btn_variation.png" width="161" height="23" /></a>
                           <!--{else}-->
                             <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
                             <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">

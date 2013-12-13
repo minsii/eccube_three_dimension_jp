@@ -1151,6 +1151,14 @@ div#search_area .block_body .btn {
 #mypagecolumn .paginator > ul > li{
 	display:inline-block;
 }
+#mypagecolumn .paginator > ul > li > a:link{
+	color:#000;
+	text-decoration:underline;
+}
+#mypagecolumn .paginator > ul > li > a.current{
+	font-weight:bold;
+	text-decoration:none;
+}
 
 #mypagecolumn .special_list > ul{
 	padding:15px 5px;

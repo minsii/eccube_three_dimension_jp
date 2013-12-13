@@ -7,24 +7,29 @@
 ----------------------------------------------- */
 table {
     margin: 15px auto 20px auto;
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
+    border-top: 1px solid #ebebeb;
+    border-left: 1px solid #ebebeb;
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+	color:#000;
 }
 table th {
     padding: 8px;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
     color: #333;
     background-color: #EFEBF7;
     font-weight: normal;
 }
 table td {
     padding: 8px;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+}
+table td a:link{
+	color:#000;
+	text-decoration:underline;
 }
 
 /* 見出し
