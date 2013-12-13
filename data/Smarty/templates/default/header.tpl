@@ -26,8 +26,8 @@
     <div id="header_wrap">
         <div id="header" class="clearfix">
             <p id="site_description">
-                <em> <!--{$arrSiteInfo.shop_name|escape}-->/<!--{$tpl_title|escape}-->
-                </em>
+                <span> <!--{$arrSiteInfo.shop_name|escape}-->/<!--{$tpl_title|escape}-->
+                </span>
             </p>
             <div id="logo_area">
                 <h1>
@@ -60,8 +60,3 @@
         <!--{include file='./navi.tpl'}-->
     </div>
     <!--▲HEADER-->
-
-
-    <!--{include file='./pagepath.tpl'}-->
-    
-    <!--{include file='./search_navi_box.tpl'}-->

@@ -1216,7 +1216,7 @@ div#search_area .block_body .btn {
   top: 0px;
   left: 200px;
   padding: 5px;
-  width: 200px;
+  width: 220px;
   background: #fff0eb;
   border: solid 1px #ccc;
   z-index:10;
@@ -1225,7 +1225,7 @@ div#search_area .block_body .btn {
 #categorytree > li > ul > li {
   margin: 0;
   padding: 0;
-  width: 200px;
+  width: 220px;
   border-bottom:1px dashed #ccc;
   
 }
@@ -1345,4 +1345,42 @@ div#search_area .block_body .btn {
 /*top_bnr_box*/
 .top_bnr_box div{
 	padding:0px 0px 5px 0px;
+}
+
+
+
+.bottom_sitemap_box{
+	border-radius: 5px;
+	background-color: #F5F5F5;
+	width: 960px;
+	margin: 20px auto 30px auto;
+	padding:0px;
+}
+.bottom_sitemap_box section{
+	text-align:left;
+	padding:15px 23px;
+	border-bottom:1px solid #ddd;
+}
+.bottom_sitemap_box section:last-child{
+	border:none;	
+}
+.bottom_sitemap_box h3{
+	font-size:14px;
+	display:inline-block;
+	width:17%;
+	vertical-align:top;
+}
+.bottom_sitemap_box ul{
+	display:inline-block;
+	width:82%;
+}
+.bottom_sitemap_box ul li{
+	display:inline-block;
+	padding:0px 5px;
+	border-right:1px solid #ddd;
+}
+.bottom_sitemap_box ul li:last-child{
+	border-right:none;
+}
+.bottom_sitemap_box ul li a{
 }

@@ -6,7 +6,7 @@
 body {
     color: #666;
     font-family: Verdana,Arial,Helvetica,sans-serif;
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
     font-size: 72.5%;
     line-height: 150%;
     letter-spacing: 0.1em;
@@ -384,6 +384,7 @@ div#undercolumn_login .login_area h4 {
 	line-height: 32px;
 	font-weight: bold;
 	word-spacing: 3px;
+	text-decoration:underline;
 }
 #logo_area {
     float: left;
@@ -411,9 +412,10 @@ div#undercolumn_login .login_area h4 {
 /* ロゴ
 ----------------------------------------------- */
 #site_description {
-    font-size: 90%;
+    font-size: 100%;
 	text-align:left;
 	height:22px;
+	color:#fff;
 }
 #logo_area h1 {
 	padding:5px 0 0 0;
