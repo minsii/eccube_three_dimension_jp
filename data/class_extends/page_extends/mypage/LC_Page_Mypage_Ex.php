@@ -46,6 +46,10 @@ class LC_Page_Mypage_Ex extends LC_Page_Mypage {
 	function init() {
 		parent::init();
 		
+		/*## ページパス設定 ADD BEGIN ##*/
+		$this->tpl_subtitle = 'MYページ';
+        /*## ページパス設定 ADD END ##*/
+		
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrSTATUS = $masterData->getMasterData('mtb_status');
         $this->arrSTATUS_IMAGE = $masterData->getMasterData('mtb_status_image');
