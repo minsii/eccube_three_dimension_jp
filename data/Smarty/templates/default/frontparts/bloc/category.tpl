@@ -20,11 +20,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 <!--商品カテゴリここから-->
-<div class="left_box">
- <div class="left_inner">
-  <h2 class="left_ttl"><img src="<!--{$TPL_URLPATH}-->img/side/left_ttl03.gif" width="206" height="44" alt="商品カテゴリ"></h2>
-  <div id="categoryarea" class="left_cont">
-   <ul id="categorytree">
+
+
+<script type="text/javascript">//<![CDATA[
+  $(function() {
+	
+	$("#categorytree li").hover(function() {
+		$(this).children('ul').show();
+	}, function() {
+		$(this).children('ul').hide();
+	});
+
+  });
+//]]></script> 
+  <!--▼カテゴリここから-->
+  <section class="category_box">
+  <h2>カテゴリ</h2>
+
+  <div id="categoryarea">
+    <ul id="categorytree">
    <!--{assign var=preLev value=1}-->
    <!--{assign var=firstdone value=0}-->
    <!--{section name=cnt loop=$arrTree}-->
@@ -43,7 +57,16 @@
      <!--{/section}-->
      </li>
      <!--{/if}-->
-     <li class="level<!--{$level}--><!--{if in_array($arrTree[cnt].category_id, $tpl_category_id) }--> onmark<!--{/if}-->"><a href="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php?category_id=<!--{$arrTree[cnt].category_id}-->"<!--{if in_array($arrTree[cnt].category_id, $tpl_category_id) }--> class="onlink"<!--{/if}-->><!--{$arrTree[cnt].category_name|escape}-->(<!--{$arrTree[cnt].product_count|default:0}-->)</a>
+     <li class="level<!--{$level}--><!--{if in_array($arrTree[cnt].category_id, $tpl_category_id) }--> onmark<!--{/if}-->">
+      <!--{if $level == 1}-->
+        <p>
+          <a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrTree[cnt].category_id}-->">
+            <img src="<!--{$TPL_URLPATH}-->img/page/bloc/category_box/bnr_category_<!--{$arrTree[cnt].category_id|string_format:'%02d'}-->.png" width="199" height="47" alt="<!--{$arrTree[cnt].category_name|escape}-->" />
+          </a>
+        </p>
+      <!--{else}-->
+        <p><span> > </span><a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrTree[cnt].category_id}-->"><!--{$arrTree[cnt].category_name|escape}--></a></p>
+      <!--{/if}-->
      <!--{if $firstdone == 0}--><!--{assign var=firstdone value=1}--><!--{/if}-->
      <!--{assign var=preLev value=`$level`}-->
      <!--{/if}-->
@@ -60,8 +83,7 @@
    <!--{/if}-->
    <!--{/if}-->
    <!--{/section}-->
-   </ul>
+    </ul>
   </div>
- </div>
-</div>
-<!--商品カテゴリここまで-->
+  </section>
+<!--▲カテゴリここまで-->

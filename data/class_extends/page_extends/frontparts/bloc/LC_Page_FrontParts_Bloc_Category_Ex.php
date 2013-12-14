@@ -64,4 +64,79 @@ class LC_Page_FrontParts_Bloc_Category_Ex extends LC_Page_FrontParts_Bloc_Catego
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+
+        // モバイル判定
+        switch (SC_Display_Ex::detectDevice()) {
+            case DEVICE_TYPE_MOBILE:
+                // メインカテゴリの取得
+                $this->arrCat = $this->lfGetMainCat(true);
+                break;
+            default:
+                // 選択中のカテゴリID
+                $this->tpl_category_id = $this->lfGetSelectedCategoryId($_GET);
+                // カテゴリツリーの取得
+                $this->arrTree = $this->lfGetCatTree($this->tpl_category_id, false);
+                break;
+        }
+    }
+    
+    /**
+     * カテゴリツリーの取得.
+     *
+     * @param array $arrParentCategoryId 親カテゴリの配列
+     * @param boolean $count_check 登録商品数をチェックする場合はtrue
+     * @return array $arrRet カテゴリツリーの配列を返す
+     */
+    function lfGetCatTree($arrParentCategoryId, $count_check = false) {
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objDb = new SC_Helper_DB_Ex();
+        /*## 全カテゴリ表示 ## MDF BEGIN*/
+//		$col = '*';
+		$col = 'dtb_category.*, dtb_category_total_count.product_count';
+		/*## 全カテゴリ表示 ## MDF END*/
+        $from = 'dtb_category left join dtb_category_total_count ON dtb_category.category_id = dtb_category_total_count.category_id';
+        // 登録商品数のチェック
+        if ($count_check) {
+            $where = 'del_flg = 0 AND product_count > 0';
+        } else {
+            $where = 'del_flg = 0';
+        }
+        $objQuery->setOption('ORDER BY rank DESC');
+        $arrRet = $objQuery->select($col, $from, $where);
+        foreach ($arrParentCategoryId as $category_id) {
+            $arrParentID = $objDb->sfGetParents(
+                'dtb_category',
+                'parent_category_id',
+                'category_id',
+                $category_id
+            );
+            $arrBrothersID = SC_Utils_Ex::sfGetBrothersArray(
+                $arrRet,
+                'parent_category_id',
+                'category_id',
+                $arrParentID
+            );
+            $arrChildrenID = SC_Utils_Ex::sfGetUnderChildrenArray(
+                $arrRet,
+                'parent_category_id',
+                'category_id',
+                $category_id
+            );
+            $this->root_parent_id[] = $arrParentID[0];
+            $arrDispID = array_merge($arrBrothersID, $arrChildrenID);
+            foreach ($arrRet as &$arrCategory) {
+                if (in_array($arrCategory['category_id'], $arrDispID)) {
+                    $arrCategory['display'] = 1;
+                }
+            }
+        }
+        return $arrRet;
+    }
 }
