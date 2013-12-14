@@ -12,22 +12,24 @@ jQuery(document).ready(function(){
 });
 </script>
   <!--検索ボックス-->
+  <form name="product_search_form" id="product_search_form" method="get" action="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php">
   <section class="search_navi_box">
   	<div>
         <label>カタログ品番検索</label>
-    	<span>
-        <input type="text" name="catalog_inputbox" value="カタログ品番検索"/>
-        <input type="image" src="<!--{$TPL_URLPATH}-->img/page/common/btn_search_navi_btn.png"/>
-        </span>
-        <label>キーワード検索</label>
-        <span>
-        <input type="text" name="keyword_inputbox"  value="キーワード検索"/>
-        <input type="image" src="<!--{$TPL_URLPATH}-->img/page/common/btn_search_navi_btn.png"/>
-        </span>
-        <label>メーカー検索</label>
-        <span>
-        <input type="text" name="maker_inputbox"  value="メーカー検索"/>
-        <input type="image" src="<!--{$TPL_URLPATH}-->img/page/common/btn_search_navi_btn.png"/>
+      	<span>
+          <input type="text" name="name" value="<!--{$smarty.get.name|escape}-->"/>
+          <input type="image" src="<!--{$TPL_URLPATH}-->img/page/common/btn_search_navi_btn.png"/>
+          </span>
+          <label>キーワード検索</label>
+          <span>
+          <input type="text" name="keyword"  value="<!--{$smarty.get.keyword|escape}-->"/>
+          <input type="image" src="<!--{$TPL_URLPATH}-->img/page/common/btn_search_navi_btn.png"/>
+          </span>
+          <label>メーカー検索</label>
+          <span>
+          <input type="text" name="maker"  value="<!--{$smarty.get.maker|escape}-->"/>
+          <input type="image" src="<!--{$TPL_URLPATH}-->img/page/common/btn_search_navi_btn.png"/>
         </span>
     </div>
   </section>
+  </form>

@@ -70,7 +70,8 @@
         <input type="hidden" name="favorite_product_id" value="<!--{$mode|h}-->" />
         <!--{* ▼検索条件 *}-->
         <input type="hidden" name="category_id" value="<!--{$arrSearchData.category_id|h}-->" />
-        <input type="hidden" name="maker_id" value="<!--{$arrSearchData.maker_id|h}-->" />
+        <input type="hidden" name="maker" value="<!--{$arrSearchData.maker|h}-->" />
+        <input type="hidden" name="keyword" value="<!--{$arrSearchData.keyword|h}-->" />
         <input type="hidden" name="name" value="<!--{$arrSearchData.name|h}-->" />
         <!--{* ▲検索条件 *}-->
         <!--{* ▼ページナビ関連 *}-->

@@ -98,7 +98,13 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
         //表示条件の取得
         $this->arrSearchData = array(
             'category_id'   => $this->lfGetCategoryId(intval($this->arrForm['category_id'])),
-            'maker_id'      => intval($this->arrForm['maker_id']),
+//            'maker_id'      => intval($this->arrForm['maker_id']),
+			/*## メーカーで商品検索 ADD BEGIN ##*/
+			'maker'      => $this->arrForm['maker'],
+      		/*## メーカーで商品検索 ADD END ##*/
+        	/*## キーワードで商品検索 ADD BEGIN ##*/
+            'keyword'      => $this->arrForm['keyword'],
+        	/*## キーワードで商品検索 ADD END ##*/
             'name'          => $this->arrForm['name']
         );
         $this->orderby = $this->arrForm['orderby'];
@@ -450,19 +456,35 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
         // 分割したキーワードを一つずつwhere文に追加
         foreach ($names as $val) {
             if ( strlen($val) > 0 ) {
-                $searchCondition['where']    .= " AND ( alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ";
+            	/*## 商品コードで商品検索 MDF BEGIN ##*/
+//                $searchCondition['where']    .= " AND ( alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ";
+ 				$searchCondition['where']    .= " AND ( alldtl.name ILIKE ? OR alldtl.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code ILIKE ?)) ";
+ 				/*## 商品コードで商品検索 MDF END ##*/
                 $searchCondition['arrval'][]  = "%$val%";
-                $searchCondition['arrval'][]  = "%$val%";
+                $searchCondition['arrval'][]  = "%$val%";            	
             }
         }
-
-        $searchCondition['where_for_count'] = $searchCondition['where'];
         
+        /*## メーカーで商品検索 MDF BEGIN ##*/
         // メーカーらのWHERE文字列取得
-        if ($arrSearchData['maker_id']) {
-            $searchCondition['where']   .= " AND alldtl.maker_id = ? ";
-            $searchCondition['arrval'][] = $arrSearchData['maker_id'];
+//        if ($arrSearchData['maker_id']) {
+//            $searchCondition['where']   .= " AND alldtl.maker_id = ? ";
+//            $searchCondition['arrval'][] = $arrSearchData['maker_id'];
+//        }
+        if ($arrSearchData['maker']) {
+            $searchCondition['where']   .= " AND alldtl.comment1 ILIKE ? ";
+            $searchCondition['arrval'][] = "%". $arrSearchData['maker']. "%";
         }
+        /*## メーカーで商品検索 MDF END ##*/
+        
+        /*## キーワードで商品検索 ADD BEGIN ##*/
+        if ($arrSearchData['keyword']) {
+            $searchCondition['where']   .= " AND alldtl.comment3 ILIKE ? ";
+            $searchCondition['arrval'][] = "%". $arrSearchData['keyword']. "%";
+        }
+        /*## キーワードで商品検索 ADD END ##*/
+        
+        $searchCondition['where_for_count'] = $searchCondition['where'];
         return $searchCondition;
     }
     
