@@ -45,6 +45,10 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
      */
     function init() {
         parent::init();
+        
+        /*## パンくず ## ADD BEGIN*/
+        $this->tpl_mainno = "products";
+        /*## パンくず ## ADD END*/
     }
 
     /**
@@ -266,6 +270,55 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
     		}
     	}
     	/*## CATEGORY 情報 ## ADD END*/
+    	
+    	$this->is_html_url = strpos($_SERVER["REQUEST_URI"], ".html");
+    	
+    	/*## パンくず ## ADD BEGIN*/
+    	$this->tpl_navis = array();
+    	$query = $_GET;
+    	if ($query['mode'] == 'search') {
+    		$this->tpl_navis[] = array(
+    				"url" => $http_ref,
+    				"label" => "検索結果"
+    				);
+    	} elseif (empty($query["category_id"])) {
+  				$this->tpl_navis[] = array(
+    				"url" => $http_ref,
+    				"label" => "全商品"
+    				);
+    	} else {
+    		// 親カテゴリの上層カテゴリを全て取得
+    		$objQuery = new SC_Query();
+    		$level = $objQuery->get("level", "dtb_category", "category_id=?", array($query["category_id"]));
+    		$level_bk = $pref_level = $level;
+    		$where = "T{$level}.category_id = ? AND T{$level}.del_flg = 0";
+    		while($level > 0){
+    			$cols[] = "T{$level}.category_name AS category_name{$level}, T{$level}.category_id AS category_id{$level}";
+    			$from = "dtb_category T{$level}";
+    			if($level < $pref_level){
+    				$from .= " ON T{$level}.category_id = T{$pref_level}.parent_category_id AND T{$level}.del_flg = 0";
+    			}
+    			$froms[] = $from;
+    			$pref_level = $level;
+    			$level--;
+    		}
+    		$sqlcols = join(",", $cols);
+    		$sqlfroms = join(" LEFT JOIN ", $froms);
+
+    		$arrRet = $objQuery->select($sqlcols, $sqlfroms, $where, array($query["category_id"]));
+
+    		// 親カテゴリを2階層まで表示する
+    		if(is_array($arrRet[0])){
+    			// より上層の親カテゴリが先に表示
+    			for($i=1; $i<=$level_bk-1; $i++){
+    				$this->tpl_navis[] = array(
+    						"url" => SC_Utils_Ex::sfGetFormattedUrl(P_LIST_URLPATH, $arrRet[0]["category_id{$i}"]),
+    						"label"=> $arrRet[0]["category_name{$i}"]
+    				);    			}
+    			$this->tpl_navis[] = array("label" => $arrRet[0]["category_name{$level_bk}"]);
+    		}
+    	}
+    	/*## パンくず ## ADD END*/
     }
     /*## SEO管理 ## ADD END*/
 

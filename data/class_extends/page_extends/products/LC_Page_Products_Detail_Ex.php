@@ -45,6 +45,11 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
      */
     function init() {
         parent::init();
+        
+        /*## パンくず ## ADD BEGIN*/
+        $this->tpl_mainno = "products";
+        /*## パンくず ## ADD END*/
+        
         /*## 追加規格 ADD BEGIN ##*/
         if(USE_EXTRA_CLASS === true){
         	$objDb = new SC_Helper_DB_Ex();
@@ -395,6 +400,76 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
     		$objLayout->sfSetPageInfo($this, $this->arrProductOther);
     	}
 		/*## SEO管理 ## ADD END*/
+    	
+		/*## パンくず ## ADD BEGIN*/
+		$http_ref = $_SERVER["HTTP_REFERER"];
+
+		$this->is_navis_html_url = strpos($http_ref, ".html");
+			
+		$this->tpl_navis = array();
+		//商品一覧からの場合
+		if(substr_count($http_ref, "products/list") > 0){
+
+			$arr_temp = parse_url($http_ref);
+			if(!empty($arr_temp["query"])){
+				parse_str($arr_temp["query"], $query);
+			}
+			if($this->is_navis_html_url){
+				ereg("products/list([0-9]+)", $http_ref, $query_html);
+				$query["category_id"] = $query_html[1];
+			}
+			if ($query['mode'] == 'search') {
+				$this->tpl_navis[] = array(
+    				"url" => $http_ref,
+    				"label" => "検索結果"
+    				);
+			} elseif (empty($query["category_id"])) {
+				$this->tpl_navis[] = array(
+    				"url" => $http_ref,
+    				"label" => "全商品"
+    				);
+			} else {
+				// 親カテゴリの上層カテゴリを全て取得
+				$objQuery = new SC_Query();
+				$level = $objQuery->get("level", "dtb_category", "category_id=?", array($query["category_id"]));
+				$level_bk = $pref_level = $level;
+				$where = "T{$level}.category_id = ? AND T{$level}.del_flg = 0";
+				while($level > 0){
+					$cols[] = "T{$level}.category_name AS category_name{$level}, T{$level}.category_id AS category_id{$level}";
+					$from = "dtb_category T{$level}";
+					if($level < $pref_level){
+						$from .= " ON T{$level}.category_id = T{$pref_level}.parent_category_id AND T{$level}.del_flg = 0";
+					}
+					$froms[] = $from;
+					$pref_level = $level;
+					$level--;
+				}
+				$sqlcols = join(",", $cols);
+				$sqlfroms = join(" LEFT JOIN ", $froms);
+
+				$arrRet = $objQuery->select($sqlcols, $sqlfroms, $where, array($query["category_id"]));
+
+				// 親カテゴリを2階層まで表示する
+				if(is_array($arrRet[0])){
+					// より上層の親カテゴリが先に表示
+					for($i=1; $i<=$level_bk; $i++){
+						$this->tpl_navis[] = array(
+    						"url" => SC_Utils_Ex::sfGetFormattedUrl(P_LIST_URLPATH, $arrRet[0]["category_id{$i}"]),
+    						"label"=> $arrRet[0]["category_name{$i}"]
+						);
+					}
+					// 前ページのurlを最近の親ナビに設定
+					$this->tpl_navis[$level_bk-1]["url"] = $http_ref;
+				}
+			}
+		}
+		else{
+			$this->tpl_navis[0] = array(
+    			"url" => SC_Utils_Ex::sfGetFormattedUrl(P_LIST_URLPATH),
+    			"label" => "全商品");
+		}
+		$this->tpl_navis[] = array("label" => $this->arrProduct['name']);
+		/*## パンくず ## ADD END*/
     }
     
    /* 登録済み関連商品の読み込み */
