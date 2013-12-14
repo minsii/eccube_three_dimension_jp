@@ -60,11 +60,19 @@
           <!--{/if}--> 
           <!--{*## 事例問い合わせ ADD END ##*}-->
           <tr>
-            <th>お名前</th>
+              <th nowrap>介護保護サービス指定事業所名</th>
+              <td><!--{$arrForm.company.value|h}--></td>
+          </tr>
+          <tr>
+              <th nowrap>介護保護サービス指定事業所番号</th>
+              <td><!--{$arrForm.company_no.value|h}--></td>
+          </tr>
+          <tr>
+            <th>ご担当者名</th>
             <td><!--{$arrForm.name01.value|h}-->　<!--{$arrForm.name02.value|h}--></td>
           </tr>
           <tr>
-            <th>お名前(フリガナ)</th>
+            <th>ご担当者名(フリガナ)</th>
             <td><!--{$arrForm.kana01.value|h}-->　<!--{$arrForm.kana02.value|h}--></td>
           </tr>
           <tr>

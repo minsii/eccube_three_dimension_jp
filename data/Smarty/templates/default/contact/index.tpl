@@ -67,6 +67,22 @@
           <!--{/if}--> 
           <!--{*## 事例問い合わせ ADD END ##*}-->
           <tr>
+              <th nowrap>介護保護サービス指定事業所名<span class="attention">※</span></th>
+              <td>
+                  <!--{assign var=key value="company"}-->
+                  <span class="attention"><!--{$arrErr[$key]}--></span>
+                  <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|default:$arrData[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+              </td>
+          </tr>
+          <tr>
+              <th nowrap>介護保護サービス指定事業所番号<span class="attention">※</span></th>
+              <td>
+                  <!--{assign var=key value="company_no"}-->
+                  <span class="attention"><!--{$arrErr[$key]}--></span>
+                  <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|default:$arrData[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
+              </td>
+          </tr>
+          <tr>
             <th>お名前<span class="attention">※</span></th>
             <td><span class="attention"><!--{$arrErr.name01}--><!--{$arrErr.name02}--></span> 姓&nbsp;
               <input type="text" class="box120" name="name01" value="<!--{$arrForm.name01.value|default:$arrData.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr.name01|sfGetErrorColor}-->; ime-mode: active;" />

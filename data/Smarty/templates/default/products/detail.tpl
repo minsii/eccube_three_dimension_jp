@@ -297,7 +297,12 @@
                   <img src="<!--{$TPL_URLPATH}-->img/page/detail/btn_favorite.png" width="212" height="29" alt="お気に入り登録済" />
               <!--{/if}-->
             <!--{/if}-->
-            
+            <!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
+                <a href="<!--{$smarty.const.TOP_URLPATH}-->contact/index.php?product_name=<!--{$arrProductOther.name|h}-->【<!--{$arrProduct.product_code_min|h}-->】">
+            <!--{else}-->
+                <a href="<!--{$smarty.const.TOP_URLPATH}-->contact/index.php?product_name=<!--{$arrProductOther.name|h}-->【<!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->】">
+            <!--{/if}-->
+            この商品について問い合わせる</a>
           </div>
         </div>
       </section>

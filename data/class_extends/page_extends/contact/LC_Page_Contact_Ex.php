@@ -154,5 +154,8 @@ class LC_Page_Contact_Ex extends LC_Page_Contact {
     		$objFormParam->addParam("お問い合わせ対象事例名", 'example_name');
     	}
         /*## 事例問い合わせ ADD END ##*/
+    	
+        $objFormParam->addParam('介護保護サービス指定事業所名', 'company', STEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('介護保護サービス指定事業所番号', 'company_no', STEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
     }
 }
