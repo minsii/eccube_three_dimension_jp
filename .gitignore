@@ -8,3 +8,4 @@ data/Smarty/templates_c/default/*
 html/upload/*
 html/install
 dwsync.xml
+public_html/upload/*
