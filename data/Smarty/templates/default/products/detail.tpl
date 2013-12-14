@@ -308,116 +308,88 @@
       <!--{$arrProductOther.comment5}--><!--{*詳細コメント2*}-->
       </section>
       
-      <div class="review_product_list">
-      	<h2>この商品を買った人は、こんな商品にも興味を持っています</h2>
-        <div class="body pure-g-r" id="scrollbox">
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        	<section class="pure-u-1-4">
-                <div class="warp">
-                    <h3>No.B0779</h3>
-                    <div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/img_01.png" width="165" height="165" alt="画像" /></div>
-                    <p class="content">テキストテキスト</p>
-                    <p class="price">一般価格　￥16.500(税込)</p>
-                    <div class="member_price">
-                        <p><em>会員特別価格</em></p>
-                        <p><strong>￥16,500</strong><em>(税込)</em></p>
-                        <p>ポイント:165pt</p>
-                    </div>
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="#"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div class="l-btn" id="arrLeft"><a href="#">◀</a></div>
-        <div class="r-btn" id="arrRight"><a href="#">
-        ▶</a></div>
-      </div>
-
-
-</form>
-
-
     <!--▼関連商品-->
     <!--{if $arrRecommend}-->
-        <div id="whobought_area">
-            <h2><img src="<!--{$TPL_URLPATH}-->img/title/tit_product_recommend.jpg" alt="その他のオススメ商品" /></h2>
+      <div class="review_product_list">
+      	<h2>この商品を買った人は、こんな商品にも興味を持っています</h2>
+        <div class="body pure-g-r">
+          <div class="scrollable" id="scrollable"><div class="items">
             <!--{foreach from=$arrRecommend item=arrItem name="arrRecommend"}-->
-                <div class="product_item">
-                    <div class="productImage">
-                        <a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrItem.product_id|u}-->">
-                            <img src="<!--{$smarty.const.ROOT_URLPATH}-->resize_image.php?image=<!--{$arrItem.main_list_image|sfNoImageMainList|h}-->&amp;width=65&amp;height=65" alt="<!--{$arrItem.name|h}-->" /></a>
+            <!--{assign var=price01_min value=`$arrItem.price01_min`}-->
+            <!--{assign var=price01_max value=`$arrItem.price01_max`}-->
+            <!--{assign var=price02_min value=`$arrItem.price02_min`}-->
+            <!--{assign var=price02_max value=`$arrItem.price02_max`}-->
+            <!--{assign var=product_code_min value=`$arrItem.product_code_min`}-->
+            <!--{assign var=product_code_max value=`$arrItem.product_code_max`}-->
+            <!--{assign var=taxfree value=`$arrItem.taxfree`}-->
+            <!--{math equation="x % y == 0" x=$smarty.foreach.arrRecommend.iteration y=4 assign=right}-->
+            <!--{math equation="x % y == 1" x=$smarty.foreach.arrRecommend.iteration y=4 assign=left}-->
+
+            <!--{if $left}--><div id="<!--{$smarty.foreach.arrRecommend.iteration}-->"><!--{/if}-->
+            <section class="pure-u-1-4">
+                <div class="warp">
+                    <div class="heightLine">
+                      <h3><!--{if $product_code_min == $product_code_max}--><!--{$product_code_min|h}-->
+                          <!--{else}--><!--{$product_code_min|h}-->～<!--{$product_code_min|h}--><!--{/if}-->
+                      </h3>
+                      <div class="img">
+                        <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->">
+                          <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrItem.main_list_image|h}-->" width="165" alt="<!--{$arrItem.name|h}-->" />
+                        </a>
+                      </div>
+                      <p class="content" style="text-align:left"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->"><!--{$arrItem.name|h}--></a></p>
                     </div>
-                    <!--{assign var=price02_min value=`$arrItem.price02_min_inctax`}-->
-                    <!--{assign var=price02_max value=`$arrItem.price02_max_inctax`}-->
-                    <div class="productContents">
-                        <h3><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrItem.product_id|u}-->"><!--{$arrItem.name|h}--></a></h3>
-                        <p class="sale_price"><!--{$smarty.const.SALE_PRICE_TITLE}-->(税込)：<span class="price">
-                            <!--{if $price02_min == $price02_max}-->
-                                <!--{$price02_min|number_format}-->
-                            <!--{else}-->
-                                <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
-                            <!--{/if}-->円</span></p>
-                        <p class="mini"><!--{$arrItem.comment|h|nl2br}--></p>
+                    <p style="text-align:left">一般価格　
+                        <!--{if $taxfree == 1}-->
+                          ￥<!--{if $price01_min == $price01_max}-->
+                              <!--{$price01_min|number_format}-->
+                          <!--{else}-->
+                              <!--{$price01_min|number_format}-->～<!--{$price01_max|number_format}-->
+                          <!--{/if}-->(税抜)
+                        <!--{else}-->
+                          ￥<!--{if $price01_min == $price01_max}-->
+                              <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                          <!--{else}-->
+                              <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                          <!--{/if}-->(税込)
+                        <!--{/if}-->
+                            </p>
+                    <!--{if $tpl_is_login}-->
+                    <div class="member_price" style="text-align:left">
+                        <p><em>会員価格</em></p>
+                        <p>
+                        <!--{if $taxfree == 1}-->
+                          <strong>￥<!--{if $price02_min == $price02_max}-->
+                              <!--{$price02_min|number_format}-->
+                          <!--{else}-->
+                              <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
+                          <!--{/if}--></strong><em>(税抜)</em>
+                        <!--{else}-->
+                          <strong>￥<!--{if $price02_min == $price02_max}-->
+                              <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                          <!--{else}-->
+                              <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                          <!--{/if}--></strong><em>(税込)</em>
+                        <!--{/if}-->
+                        </p>
                     </div>
-                </div><!--{* /.item *}-->
-                <!--{if $smarty.foreach.arrRecommend.iteration % 2 === 0}-->
-                    <div class="clear"></div>
-                <!--{/if}-->
+                    <!--{else}-->
+                    <div class="btn_regist">
+                        <p>お得な価格は会員のみ公開</p>
+                        <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                    </div>
+                    <!--{/if}-->
+               </div>
+            </section>
+             <!--{if $right || $smarty.foreach.arrRecommend.last}--></div><!--{/if}-->
             <!--{/foreach}-->
-        </div>
+            </div></div><!--/scrollable-->
+          </div>
+        <div class="l-btn" id="arrLeft"><a class="scroll_prev">◀</a></div>
+        <div class="r-btn" id="arrRight"><a class="scroll_next">▶</a></div>
+      </div>
     <!--{/if}-->
     <!--▲関連商品-->
 
+</form>
 </div>

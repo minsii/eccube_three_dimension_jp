@@ -41,10 +41,12 @@
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/navi.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/win_op.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/site.js"></script>
-<script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/heightLine.js"></script>
 <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/jquery.lightbox-0.5.js"></script>
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/jquery.lightbox-0.5.css" type="text/css" media="all" />
+<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/jquery.tools.min.js"></script>
+<link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/scrollable-checkitem.css" type="text/css" media="all" />
 
 <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
 <!--{if $arrPageLayout.author|strlen >= 1}-->
@@ -64,6 +66,7 @@
     $(function() {
       $('a.lightbox').lightBox();  //(' ')内を変更することができます e.g.) a[@rel*=lightbox]、a.lightboxなど
       $('a.lightbox1').lightBox();
+      $(".scrollable").scrollable();  // initialize scrollable
     });
     <!--{$tpl_javascript}-->
     $(function(){
