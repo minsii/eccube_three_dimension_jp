@@ -298,11 +298,11 @@
               <!--{/if}-->
             <!--{/if}-->
             <!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
-                <a href="<!--{$smarty.const.TOP_URLPATH}-->contact/index.php?product_name=<!--{$arrProductOther.name|h}-->【<!--{$arrProduct.product_code_min|h}-->】">
+                <p><a href="<!--{$smarty.const.TOP_URLPATH}-->contact/index.php?product_name=<!--{$arrProductOther.name|h}-->【<!--{$arrProduct.product_code_min|h}-->】">
             <!--{else}-->
                 <a href="<!--{$smarty.const.TOP_URLPATH}-->contact/index.php?product_name=<!--{$arrProductOther.name|h}-->【<!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->】">
             <!--{/if}-->
-            この商品について問い合わせる</a>
+            <img src="<!--{$TPL_URLPATH}-->img/page/detail/btn_abouttheproduct.fw.png" alt="この商品について問い合わせる" /></a></p>
           </div>
         </div>
       </section>
