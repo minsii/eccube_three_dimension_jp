@@ -482,6 +482,8 @@ div#header_navi ul li.entry {
 	background-position:10px 0px;
 	border-radius:3px;
 	border:1px solid #ccc;
+	background-color:#F7F7F7;
+	color:#000;
 }
 .page_path span{
 	color:#4D97E2;

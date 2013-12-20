@@ -1,6 +1,6 @@
 
   <div class="page_path">
-  	<span>トップ</span> / 
+  	トップ / 
     <a href="#">ああ</a> / 
     <a href="#">ううう</a>
   </div>

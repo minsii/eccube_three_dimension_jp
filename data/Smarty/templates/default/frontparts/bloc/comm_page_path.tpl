@@ -5,16 +5,16 @@
     <!--{if $tpl_mainno == "products" }-->
       <!--{* 商品一覧・詳細画面のページパス *}-->
       <!--{section name=cnt loop=$tpl_navis }-->
-        /　<!--{if $tpl_navis[cnt].url}--><a href="<!--{$tpl_navis[cnt].url}-->"><!--{/if}--><!--{$tpl_navis[cnt].label}--><!--{if $tpl_navis[cnt].url}--></a><!--{/if}-->
+        　<!--{if $tpl_navis[cnt].url}--><span><a href="<!--{$tpl_navis[cnt].url}-->"><!--{/if}--><!--{$tpl_navis[cnt].label}--><!--{if $tpl_navis[cnt].url}--></a></span><!--{/if}-->
       <!--{/section}-->
     <!--{else}-->
       <!--{* その他画面のページパス *}-->
       <!--{if $tpl_title}-->
         <!--{if $tpl_subtitle && $tpl_subtitle != $tpl_title}-->
-        / <a href="<!--{$smarty.const.TOP_URLPATH}--><!--{$tpl_mainno}-->"><!--{$tpl_title}--></a> <!--{* 1階層目ページパス *}-->
-        / <!--{$tpl_subtitle}--> <!--{* 2階層目ページパス *}-->
+         <span><a href="<!--{$smarty.const.TOP_URLPATH}--><!--{$tpl_mainno}-->"><!--{$tpl_title}--></a></span> <!--{* 1階層目ページパス *}-->
+         <!--{$tpl_subtitle}--> <!--{* 2階層目ページパス *}-->
         <!--{else}-->
-        / <!--{$tpl_title}--> <!--{* 1階層目ページパス *}-->
+         <!--{$tpl_title}--> <!--{* 1階層目ページパス *}-->
         <!--{/if}-->
       <!--{/if}-->
     <!--{/if}-->
