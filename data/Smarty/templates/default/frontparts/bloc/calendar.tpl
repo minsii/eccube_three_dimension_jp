@@ -49,7 +49,7 @@
           <!--{if !$arrCal[cnt].in_month}-->
           <td><span>&nbsp;</span></td>
           <!--{elseif $arrCal[cnt].holiday}-->
-          <td class="off"><!--{$arrCal[cnt].day}--></td>
+          <td><span class="free"><!--{$arrCal[cnt].day}--></span></td>
           <!--{else}-->
           <td><span><!--{$arrCal[cnt].day}--></span></td>
           <!--{/if}-->

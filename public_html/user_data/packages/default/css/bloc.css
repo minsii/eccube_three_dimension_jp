@@ -579,13 +579,16 @@ div#search_area .block_body .btn {
 	border:1px solid #ccc;
 }
 .calender_box .box table th span{
-	background-color:#FAE7C6;
+	/*background-color:#FAE7C6;*/
 }
 .calender_box .box table span.saturday{
-	background-color:#D0EBFE;
+	/*background-color:#D0EBFE;*/
 }
 .calender_box .box table span.sunday{
-	background-color:#FFCCCB;
+	background-color:#FECCCB;
+}
+.calender_box .box table td span.free{
+	background-color:#FECCCB;
 }
 .calender_box h4{
 	padding:10px;
