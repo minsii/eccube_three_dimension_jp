@@ -45,4 +45,4 @@ if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
     }
 }
 
-define('SHOW_DEBUG_TOOL', true);
+define('SHOW_DEBUG_TOOL', false);

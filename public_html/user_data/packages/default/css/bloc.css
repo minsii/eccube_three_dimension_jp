@@ -1004,11 +1004,13 @@ div#search_area .block_body .btn {
 }
 .review_product_list .body section{
 	color:#000;
+	width: 12%;
+	display: inline-block;
 }
 .review_product_list .body section .warp{
 	background-color:#F7F7F7;
 	border:1px solid #ccc;
-	padding:8px;
+	padding:8px 5px;
 	margin:10px 2px;
 }
 .review_product_list .body section div.img{
@@ -1071,6 +1073,61 @@ div#search_area .block_body .btn {
 #scrollbox {overflow:hidden;width:719px;}
 #scrollbox section {FLOAT:left;width:170px;_width:170px;min-height:200px;_height:200px;vertical-align:top;min-height:18px;text-align:center;padding:0px;overflow:hidden;}
 .pointer {CURSOR: pointer}
+
+
+.review_product_list .scrollable {
+  position:relative;
+  overflow:hidden;
+  width: 100%;
+  height:460px;
+}
+ 
+.review_product_list .scrollable .items {
+  width:20000em;
+  position:absolute;
+}
+ 
+.review_product_list .items div {
+  float:left;
+  width:auto;
+}
+
+.review_product_list .scrollable {
+    float:left;
+}
+
+.review_product_list a.browse {
+    /*display:block;*/
+    width:30px;
+    height:30px;
+    float:left;
+    margin:40px 10px;
+    cursor:pointer;
+	position:absolute;
+	font-size: 200%;
+	background-color: #EFEFEF;
+	color: #fff;
+	line-height:30px;
+	text-align:center;
+	margin-top:30%;
+}
+
+/* right */
+.review_product_list a.right { clear:right; margin-right: 0px; right:0px;}
+.review_product_list a.right:hover { background-color: #666; }
+.review_product_list a.right:active { background-color: #999; }
+
+
+/* left */
+.review_product_list a.left { margin-left: 0px; }
+.review_product_list a.left:hover  { background-color: #666; }
+.review_product_list a.left:active { background-color: #999; }
+
+/* disabled navigational button */
+.review_product_list a.disabled {
+    visibility:hidden !important;
+}
+
 
 /*お問い合わせ画面*/
 

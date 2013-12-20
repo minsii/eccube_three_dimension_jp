@@ -1,4 +1,3 @@
-
       <!--インフォーメーション-->
       <div class="information_box pure-g">
       	<h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/information_box/title.png" width="742" height="34" alt="Information" /></h2>
