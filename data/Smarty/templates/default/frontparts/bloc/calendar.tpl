@@ -33,13 +33,13 @@
             </caption>
             <thead>
               <tr>
-                <th><span class="sunday">日</span></th>
                 <th><span>月</span></th>
                 <th><span>火</span></th>
                 <th><span>水</span></th>
                 <th><span>木</span></th>
                 <th><span>金</span></th>
                 <th><span class="saturday">土</span></th>
+                <th><span class="sunday">日</span></th>
               </tr>
             </thead>
           <!--{/if}-->

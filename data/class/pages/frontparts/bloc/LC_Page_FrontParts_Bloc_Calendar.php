@@ -69,7 +69,6 @@ class LC_Page_FrontParts_Bloc_Calendar extends LC_Page_FrontParts_Bloc_Ex {
         $this->arrRegularHoliday = $this->lfGetRegularHoliday();
         // カレンダーデータ取得
         $this->arrCalendar = $this->lfGetCalendar(2);
-var_dump($this->arrHoliday);
 
     }
 
