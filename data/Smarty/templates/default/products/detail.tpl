@@ -313,38 +313,41 @@
       <!--{$arrProductOther.comment5}--><!--{*詳細コメント2*}-->
       </section>
       
-    <!--▼関連商品-->
-    <!--{if $arrRecommend}-->
-      <div class="review_product_list">
-      	<h2>この商品を買った人は、こんな商品にも興味を持っています</h2>
-        <div class="body pure-g-r">
-          <div class="scrollable" id="scrollable"><div class="items">
-            <!--{foreach from=$arrRecommend item=arrItem name="arrRecommend"}-->
-            <!--{assign var=price01_min value=`$arrItem.price01_min`}-->
-            <!--{assign var=price01_max value=`$arrItem.price01_max`}-->
-            <!--{assign var=price02_min value=`$arrItem.price02_min`}-->
-            <!--{assign var=price02_max value=`$arrItem.price02_max`}-->
-            <!--{assign var=product_code_min value=`$arrItem.product_code_min`}-->
-            <!--{assign var=product_code_max value=`$arrItem.product_code_max`}-->
-            <!--{assign var=taxfree value=`$arrItem.taxfree`}-->
-            <!--{math equation="x % y == 0" x=$smarty.foreach.arrRecommend.iteration y=4 assign=right}-->
-            <!--{math equation="x % y == 1" x=$smarty.foreach.arrRecommend.iteration y=4 assign=left}-->
 
-            <!--{if $left}--><div id="<!--{$smarty.foreach.arrRecommend.iteration}-->"><!--{/if}-->
-            <section class="pure-u-1-4">
-                <div class="warp">
-                    <div class="heightLine">
+      <!--▼関連商品-->
+      <!--{if $arrRecommend}-->
+      <div class="review_product_list">
+        <h2>この商品を買った人は、こんな商品にも興味を持っています</h2>
+        <div style="margin:0 auto; position:relative;">
+            <!-- "previous page" action -->
+            <a class="prev browse left">◀</a>
+            <!-- root element for scrollable -->
+            <div class="scrollable body" id="scrollable">
+              <!-- root element for the items -->
+              <div class="items">
+                <!--{foreach from=$arrRecommend item=arrItem name="arrRecommend"}-->
+                <!--{assign var=price01_min value=`$arrItem.price01_min`}-->
+                <!--{assign var=price01_max value=`$arrItem.price01_max`}-->
+                <!--{assign var=price02_min value=`$arrItem.price02_min`}-->
+                <!--{assign var=price02_max value=`$arrItem.price02_max`}-->
+                <!--{assign var=product_code_min value=`$arrItem.product_code_min`}-->
+                <!--{assign var=product_code_max value=`$arrItem.product_code_max`}-->
+                <!--{assign var=taxfree value=`$arrItem.taxfree`}-->
+                <!--{math equation="x % y == 0" x=$smarty.foreach.arrRecommend.iteration y=4 assign=right}-->
+                <!--{math equation="x % y == 1" x=$smarty.foreach.arrRecommend.iteration y=4 assign=left}-->
+              
+                <!--{if $left}--><div id="<!--{$smarty.foreach.arrRecommend.iteration}-->"><!-- <!--{$smarty.foreach.arrRecommend.iteration}--> start --><!--{/if}-->
+                  <section class="">
+                    <div class="warp heightLine">
                       <h3><!--{if $product_code_min == $product_code_max}--><!--{$product_code_min|h}-->
-                          <!--{else}--><!--{$product_code_min|h}-->～<!--{$product_code_min|h}--><!--{/if}-->
-                      </h3>
+                          <!--{else}--><!--{$product_code_min|h}-->～<!--{$product_code_min|h}--><!--{/if}--></h3>
                       <div class="img">
                         <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->">
                           <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrItem.main_list_image|h}-->" width="165" alt="<!--{$arrItem.name|h}-->" />
                         </a>
                       </div>
-                      <p class="content" style="text-align:left"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->"><!--{$arrItem.name|h}--></a></p>
-                    </div>
-                    <p style="text-align:left">一般価格　
+                      <p class="content"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->"><!--{$arrItem.name|h}--></a></p>
+                      <p class="price">一般価格　
                         <!--{if $taxfree == 1}-->
                           ￥<!--{if $price01_min == $price01_max}-->
                               <!--{$price01_min|number_format}-->
@@ -358,43 +361,52 @@
                               <!--{$price01_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price01_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                           <!--{/if}-->(税込)
                         <!--{/if}-->
-                            </p>
-                    <!--{if $tpl_is_login}-->
-                    <div class="member_price" style="text-align:left">
-                        <p><em>会員価格</em></p>
-                        <p>
-                        <!--{if $taxfree == 1}-->
-                          <strong>￥<!--{if $price02_min == $price02_max}-->
-                              <!--{$price02_min|number_format}-->
+                      </p>
+                      <!--{if $tpl_is_login}-->
+                      <div class="member_price" style="text-align:left">
+                          <p><em>会員価格</em></p>
+                          <p>
+                          <!--{if $taxfree == 1}-->
+                            <strong>￥<!--{if $price02_min == $price02_max}-->
+                                <!--{$price02_min|number_format}-->
+                            <!--{else}-->
+                                <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
+                            <!--{/if}--></strong><em>(税抜)</em>
                           <!--{else}-->
-                              <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
-                          <!--{/if}--></strong><em>(税抜)</em>
-                        <!--{else}-->
-                          <strong>￥<!--{if $price02_min == $price02_max}-->
-                              <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                          <!--{else}-->
-                              <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                          <!--{/if}--></strong><em>(税込)</em>
-                        <!--{/if}-->
-                        </p>
+                            <strong>￥<!--{if $price02_min == $price02_max}-->
+                                <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                            <!--{else}-->
+                                <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
+                            <!--{/if}--></strong><em>(税込)</em>
+                          <!--{/if}-->
+                          </p>
+                      </div>
+                      <!--{else}-->
+                      <div class="btn_regist">
+                          <p>お得な価格は会員のみ公開</p>
+                          <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
+                      </div>
+                      <!--{/if}-->
                     </div>
-                    <!--{else}-->
-                    <div class="btn_regist">
-                        <p>お得な価格は会員のみ公開</p>
-                        <a href="<!--{$smarty.const.TOP_URLPATH}-->entry/kiyaku.php"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_regist.png" width="147" height="34" alt="会員登録" /></a>
-                    </div>
-                    <!--{/if}-->
-               </div>
-            </section>
-             <!--{if $right || $smarty.foreach.arrRecommend.last}--></div><!--{/if}-->
-            <!--{/foreach}-->
-            </div></div><!--/scrollable-->
-          </div>
-        <div class="l-btn" id="arrLeft"><a class="scroll_prev">◀</a></div>
-        <div class="r-btn" id="arrRight"><a class="scroll_next">▶</a></div>
+                  </section>
+                <!--{if $right || $smarty.foreach.arrRecommend.last}--></div><!--{/if}-->
+                
+                <!--{/foreach}-->
+              </div><!-- /items -->
+            </div><!-- /scrollable -->
+            <!-- "next page" action -->
+            <a class="next browse right">▶</a>
+        </div>
       </div>
-    <!--{/if}-->
-    <!--▲関連商品-->
+
+<SCRIPT language=javascript type=text/javascript>
+$(function() {
+  // initialize scrollable
+  $(".scrollable").scrollable();
+});
+</SCRIPT>
+  <!--{/if}-->
+  <!--▲関連商品-->
 
 </form>
 </div>
