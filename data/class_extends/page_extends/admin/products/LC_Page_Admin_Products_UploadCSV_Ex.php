@@ -193,4 +193,53 @@ class LC_Page_Admin_Products_UploadCSV_Ex extends LC_Page_Admin_Products_UploadC
         }
     }
     /*## 追加規格 ADD END ##*/
+    
+    /**
+     * 商品規格データ登録前に特殊な値の持ち方をする部分のデータ部分の初期値補正を行う
+     *
+     * @param array $sqlval 商品登録情報配列
+     * @param boolean $upload_flg 更新フラグ(更新の場合true)
+     * @return $sqlval 登録情報配列
+     */
+    function lfSetProductClassDefaultData(&$sqlval, $upload_flg=false) {
+      parent::lfSetProductClassDefaultData($sqlval, $upload_flg);
+    }
+
+
+    /**
+     * 商品規格登録を行う.
+     *
+     * FIXME: 商品規格登録の実処理自体は、LC_Page_Admin_Products_Productと共通化して欲しい。
+     *
+     * @param SC_Query $objQuery SC_Queryインスタンス
+     * @param array $arrList 商品規格情報配列
+     * @param integer $product_id 商品ID
+     * @param integer $product_class_id 商品規格ID
+     * @return void
+     */
+    function lfRegistProductClass($objQuery, $arrList, $product_id, $product_class_id) {
+        $objProduct = new SC_Product_Ex();
+        // 商品規格登録情報を生成する。
+        // 商品規格テーブルのカラムに存在しているもののうち、Form投入設定されていないデータは上書きしない。
+        $sqlval = SC_Utils_Ex::sfArrayIntersectKeys($arrList, $this->arrProductClassColumn);
+
+        if ($product_class_id == '') {
+            // 新規登録
+            // 必須入力では無い項目だが、空文字では問題のある特殊なカラム値の初期値設定
+            $sqlval_old = $sqlval;
+            $this->lfSetProductClassDefaultData($sqlval);
+            $sqlval['product_id'] = $product_id;
+            $sqlval['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
+            $sqlval['create_date'] = $arrList['update_date'];
+            // INSERTの実行
+            $objQuery->insert('dtb_products_class', $sqlval);
+            $product_class_id = $sqlval['product_class_id'];
+        } else {
+            // UPDATEの実行
+            // 必須入力では無い項目だが、空文字では問題のある特殊なカラム値の初期値設定
+            $this->lfSetProductClassDefaultData($sqlval, true);
+            $where = 'product_class_id = ?';
+            $objQuery->update('dtb_products_class', $sqlval, $where, array($product_class_id));
+        }
+    }
 }
