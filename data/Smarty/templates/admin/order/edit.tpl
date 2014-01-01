@@ -170,17 +170,6 @@
                 <!--{/if}-->
             </td>
         </tr>
-<!--{*## 顧客管理フォーム ADD BEGIN ##*}-->
-<!--{if $smarty.const.USE_CUSTOMER_ADMIN_FORM === true}-->
-        <tr>
-            <th>ヌボー管理ID</th>
-            <td>
-                <!--{$arrForm.nubow_customer_id.value|h}-->
-                <input type="hidden" name="nubow_customer_id" value="<!--{$arrForm.nubow_customer_id.value|h}-->" />
-            </td>
-        </tr>
-<!--{/if}-->
-<!--{*## 顧客管理フォーム ADD END ##*}-->
 
         <!--{*## 顧客法人管理 ADD BEGIN ##*}-->
         <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
@@ -212,6 +201,22 @@
         *}-->
         <!--{/if}-->
         <!--{*## 顧客法人管理 ADD END ##*}-->
+        <tr>
+            <th>事業所名</th>
+            <td>
+                <!--{assign var=key1 value="order_company"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+        </tr>
+        <tr>
+            <th>事業所番号</th>
+            <td>
+                <!--{assign var=key1 value="order_company_no"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+        </tr>
         <tr>
             <th>お名前</th>
             <td>

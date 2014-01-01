@@ -263,6 +263,9 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
 		}
 		/*## 顧客法人管理 ADD END ##*/
 
+		$objFormParam->addParam("注文者 事業所名", 'order_company', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
+		$objFormParam->addParam("注文者 事業所番号", 'order_company_no', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
+		
 		$objFormParam->addParam("注文者 お名前(姓)", "order_name01", STEXT_LEN, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));
 		$objFormParam->addParam("注文者 お名前(名)", "order_name02", STEXT_LEN, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));
 		$objFormParam->addParam("注文者 お名前(フリガナ・姓)", "order_kana01", STEXT_LEN, 'KVCa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));

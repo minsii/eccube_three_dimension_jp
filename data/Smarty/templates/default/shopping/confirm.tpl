@@ -211,6 +211,14 @@ $(document).ready(function() {
                 <!--{/if}-->
                 <!--{*## 顧客法人管理 ADD END ##*}-->
                 <tr>
+                    <th scope="row">事業所名</th>
+                    <td><!--{$arrForm.order_company|h}--></td>
+                </tr>
+                <tr>
+                    <th scope="row">事業所番号</th>
+                    <td><!--{$arrForm.order_company_no|h}--></td>
+                </tr>
+                <tr>
                     <th scope="row">お名前</th>
                     <td><!--{$arrForm.order_name01|h}--> <!--{$arrForm.order_name02|h}--></td>
                 </tr>

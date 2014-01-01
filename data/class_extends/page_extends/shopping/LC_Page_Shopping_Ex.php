@@ -80,6 +80,10 @@ class LC_Page_Shopping_Ex extends LC_Page_Shopping {
     		$objFormParam->addParam("部署名", 'order_company_department', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
     	}
     	/*## 顧客法人管理 ADD END ##*/
+    	
+    	$objFormParam->addParam("事業所名", 'order_company', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
+    	$objFormParam->addParam("事業所番号", 'order_company_no', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
+    	
         $objFormParam->addParam("お名前(姓)", "order_name01", STEXT_LEN, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));
         $objFormParam->addParam("お名前(名)", "order_name02", STEXT_LEN, 'KVa', array("EXIST_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));
         $objFormParam->addParam("お名前(フリガナ・姓)", "order_kana01", STEXT_LEN, 'KVCa', array("EXIST_CHECK", "KANA_CHECK", "SPTAB_CHECK", "MAX_LENGTH_CHECK"));

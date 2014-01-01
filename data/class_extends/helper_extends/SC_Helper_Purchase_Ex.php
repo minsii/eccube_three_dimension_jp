@@ -68,6 +68,9 @@ class SC_Helper_Purchase_Ex extends SC_Helper_Purchase {
 		}
 		/*## 顧客お届け先FAX ADD END ##*/	
 			
+		$keys[] = "company";
+		$keys[] = "company_no";
+		
         if ($objCustomer->isLoginSuccess(true)) {
 
             foreach ($keys as $key) {

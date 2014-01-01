@@ -85,6 +85,8 @@
 <!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
 　法人名　：<!--{$arrOrder.order_company}--><!--{$arrOrder.order_company_department}-->　様
 <!--{/if}-->
+　事業者名　：<!--{$arrOrder.order_company}-->
+　事業者番号　：<!--{$arrOrder.order_company_no}-->
 　お名前　：<!--{$arrOrder.order_name01}--> <!--{$arrOrder.order_name02}-->　様
 　郵便番号：〒<!--{$arrOrder.order_zip01}-->-<!--{$arrOrder.order_zip02}-->
 　住所　　：<!--{$arrPref[$arrOrder.order_pref]}--><!--{$arrOrder.order_addr01}--><!--{$arrOrder.order_addr02}-->
@@ -100,8 +102,10 @@
 
 <!--{foreach item=shipping name=shipping from=$arrShipping}-->
 ◎お届け先<!--{if count($arrShipping) > 1}--><!--{$smarty.foreach.shipping.iteration}--><!--{/if}-->
-
+<!--{if $smarty.const.USE_CUSTOMER_COMPANY === true}-->
 　法人名　：<!--{$shipping.shipping_company}-->　様
+<!--{/if}-->
+
 　お名前　：<!--{$shipping.shipping_name01}--> <!--{$shipping.shipping_name02}-->　様
 　郵便番号：〒<!--{$shipping.shipping_zip01}-->-<!--{$shipping.shipping_zip02}-->
 　住所　　：<!--{$arrPref[$shipping.shipping_pref]}--><!--{$shipping.shipping_addr01}--><!--{$shipping.shipping_addr02}-->
