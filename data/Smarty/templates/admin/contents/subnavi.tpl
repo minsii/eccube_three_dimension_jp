@@ -25,8 +25,11 @@
 <ul class="level1">
 <li<!--{if $tpl_subno == 'index'}--> class="on"<!--{/if}--> id="navi-contents-index"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/<!--{$smarty.const.DIR_INDEX_PATH}-->"><span>新着情報管理</span></a></li>
 <!--{*## 会員新着情報 ADD BEGIN ##*}-->
-<li<!--{if $tpl_subno == 'customer_news'}--> class="on"<!--{/if}--> id="navi-contents-index"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/customer_news.php"><span>会員新着情報管理</span></a></li>
+<li<!--{if $tpl_subno == 'customer_news'}--> class="on"<!--{/if}--> id="navi-contents-customer_news"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/customer_news.php"><span>会員新着情報管理</span></a></li>
 <!--{*## 会員新着情報 ADD END ##*}-->
+<!--{*## キャンペン管理 ADD BEGIN ##*}-->
+<li<!--{if $tpl_subno == 'campaign'}--> class="on"<!--{/if}--> id="navi-contents-campaign"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/campaign.php"><span>キャンペン管理</span></a></li>
+<!--{*## キャンペン管理 ADD END ##*}-->
 <li<!--{if $tpl_subno == 'recommend'}--> class="on"<!--{/if}--> id="navi-contents-recommend"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/recommend.php"><span>おすすめ商品管理</span></a></li>
 <li<!--{if $tpl_subno == 'file'}--> class="on"<!--{/if}--> id="navi-contents-file"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/file_manager.php"><span>ファイル管理</span></a></li>
 <li<!--{if $tpl_subno == 'csv'}--> class="on"<!--{/if}--> class="on_level2" id="navi-contents-csv"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->contents/csv.php"><span>CSV出力項目設定</span></a>

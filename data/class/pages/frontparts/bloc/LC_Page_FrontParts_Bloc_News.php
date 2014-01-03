@@ -43,6 +43,10 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex {
      */
     function init() {
         parent::init();
+        
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrCAMPAIGN = $masterData->getMasterData('mtb_campaign');
+        $this->arrCAMPAIGN_IMAGE = $masterData->getMasterData('mtb_campaign_image');
     }
 
     /**

@@ -367,3 +367,45 @@ INSERT INTO dtb_bloc VALUES (10, (SELECT MAX(bloc_id)+1 FROM dtb_bloc WHERE devi
 
 /*######## 購入履歴検索 ########*/
 INSERT INTO dtb_pagelayout VALUES (10, (SELECT MAX(page_id)+1 FROM dtb_pagelayout WHERE device_type_id=10), 'MYページ/購入履歴一覧', 'mypage/history_search.php', 'mypage/history_search', 1, 1, 2, NULL, NULL, NULL, NULL, 'now()', 'now()', NULL, NULL);
+
+/*######## キャンペン管理 ########*/
+CREATE TABLE mtb_campaign(
+  id integer NOT NULL,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_campaign_pkey PRIMARY KEY (id)
+);
+CREATE TABLE mtb_campaign_image(
+  id integer NOT NULL,
+  "name" text,
+  rank smallint NOT NULL DEFAULT 0,
+  CONSTRAINT mtb_campaign_image_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO mtb_campaign(id, name, rank) VALUES(1, 'SALE', 1);
+INSERT INTO mtb_campaign(id, name, rank) VALUES(2, '特集', 2);
+INSERT INTO mtb_campaign(id, name, rank) VALUES(3, '在庫市', 3);
+
+INSERT INTO mtb_campaign_image(id, name, rank) VALUES(1, 'img/page/bloc/campaign_box/icon_sale.png', 1);
+INSERT INTO mtb_campaign_image(id, name, rank) VALUES(2, 'img/page/bloc/campaign_box/icon_tokushu.png', 2);
+INSERT INTO mtb_campaign_image(id, name, rank) VALUES(3, 'img/page/bloc/campaign_box/icon_zaiko.png', 3);
+
+CREATE TABLE dtb_campaign(
+  campaign_id integer NOT NULL,
+  type integer NOT NULL,
+  content text,
+  url text,
+  link_method smallint DEFAULT 0,
+  rank integer,
+  creator_id integer,
+  create_date timestamp without time zone NOT NULL DEFAULT now(),
+  update_date timestamp without time zone NOT NULL,
+  del_flg smallint NOT NULL DEFAULT 0,
+  CONSTRAINT dtb_campaign_pkey PRIMARY KEY (campaign_id)
+);
+CREATE SEQUENCE dtb_campaign_campaign_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;

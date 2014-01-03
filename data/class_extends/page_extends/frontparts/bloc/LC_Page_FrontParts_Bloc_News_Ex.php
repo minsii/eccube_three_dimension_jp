@@ -64,4 +64,39 @@ class LC_Page_FrontParts_Bloc_News_Ex extends LC_Page_FrontParts_Bloc_News {
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+    	$this->arrCampaign = $this->lfGetCampaign();
+		parent::action();	
+    }
+    
+    /**
+     * キャンペン情報を取得する.
+     *
+     * @return array $arrCampaign キャンペン情報の配列を返す
+     */
+    function lfGetCampaign() {
+    	$objQuery = SC_Query_Ex::getSingletonInstance();
+        $objQuery->setOrder('rank DESC ');
+        $arrCampaign = $objQuery->select('*', 'dtb_campaign' ,'del_flg = 0');
+
+        // モバイルサイトのセッション保持 (#797)
+        if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
+            foreach ($arrCampaign as $key => $value) {
+                $arrRow =& $arrCampaign[$key];
+                if (SC_Utils_Ex::isAppInnerUrl($arrRow['url'])) {
+                    $netUrl = new Net_URL($arrRow['url']);
+                    $netUrl->addQueryString(session_name(), session_id());
+                    $arrRow['url'] = $netUrl->getURL();
+                }
+            }
+        }
+
+        return $arrCampaign;
+    }
 }

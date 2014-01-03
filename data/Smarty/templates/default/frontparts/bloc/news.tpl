@@ -44,13 +44,25 @@
           </ul>
           </section>
           <section class="campaign_box pure-u-1-2">
-               <h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/title.png" width="359" height="30" alt="開催中のキャンペーン" /></h2>
-               <ul>
-                   <li><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_sale.png" width="49" height="16" alt="SALE" /></span> ああああああああああ</li>
-                   <li class="row"><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_tokushu.png" width="49" height="16" alt="特集" /></span> ああああああああああ</li>
-                   <li><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_zaiko.png" width="49" height="16" alt="在庫市" /></span> ああああああああああ</li>
-                   <li class="row"><span><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/icon_sale.png" width="49" height="16" alt="SALE" /></span> ああああああああああ</li>
-               </ul>
+              <h2><img src="<!--{$TPL_URLPATH}-->img/page/bloc/campaign_box/title.png" width="359" height="30" alt="開催中のキャンペーン" /></h2>
+              <ul>
+              <!--{section name=data loop=$arrCampaign}-->
+                <!--{assign var=camp_no value="`$smarty.section.data.iteration`"}-->
+                <!--{assign var=type value="`$arrCampaign[data].type`"}-->
+                <li <!--{if $camp_no % 2 == 0}--> class="row" <!--{/if}-->>
+                    <span><img src="<!--{$TPL_URLPATH}--><!--{$arrCAMPAIGN_IMAGE[$type]}-->" width="49" height="16" alt="<!--{$arrCAMPAIGN[$type]}-->"/></span>
+                    <!--{if $arrCampaign[data].url}-->
+                    <a href="<!--{$arrCampaign[data].url}-->"
+                      <!--{if $arrCampaign[data].link_method eq "2"}-->
+                      target="_blank"
+                      <!--{/if}-->>
+                    <!--{/if}-->
+                    <!--{$arrCampaign[data].content|escape|nl2br}-->
+                      <!--{if $arrCampaign[data].url}-->
+                    </a>
+                    <!--{/if}-->
+                </li>
+              <!--{/section}-->
           </section>
       </div>
       <!-- ▲新着情報 --> 
