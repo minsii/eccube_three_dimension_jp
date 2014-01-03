@@ -201,7 +201,12 @@
                     <li>
                         <!--{if strlen($tpl_error) == 0}-->
                             <input type="hidden" name="cartKey" value="<!--{$key}-->" />
-                            <input type="image" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_buystep_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_buystep.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_buystep.jpg" alt="購入手続きへ" name="confirm" />
+                            <input type="image" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_buystep_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/button/btn_buystep.jpg',this)" src="<!--{$TPL_URLPATH}-->img/button/btn_buystep.jpg" alt="購入手続きへ" name="confirm" onclick="fnSetFormSubmit('form<!--{$key}-->', 'mode', 'confirm');return false;"/>
+                        <!--{/if}-->
+                    </li>
+                    <li>
+                        <!--{if strlen($tpl_error) == 0}-->
+                            <input type="button" name="pdf" value="見積表作成" onclick="fnSetFormSubmit('form<!--{$key}-->', 'mode', 'pdf');return false;"/>
                         <!--{/if}-->
                     </li>
                 </ul>

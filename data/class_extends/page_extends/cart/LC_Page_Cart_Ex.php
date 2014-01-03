@@ -64,4 +64,50 @@ class LC_Page_Cart_Ex extends LC_Page_Cart {
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+    	parent::action();
+    	
+    	/*# 見積表作成 ADD BEGIN #*/
+        $objCartSess = new SC_CartSession_Ex();
+
+        switch ($this->mode) {
+            case 'pdf':
+                // カート商品が1件以上存在する場合
+                if (count($this->cartItems) > 0) {
+                    $this->createPdf();
+                }
+                break;
+        }
+        /*# 見積表作成 ADD END #*/
+    }
+    
+    /*# 見積表作成 ADD BEGIN #*/
+    /**
+     *
+     * PDFの作成
+     */
+    function createPdf() {
+    	$objFpdf = new SC_Fpdf_Ex(1, "見積表");
+    	
+    	$arrPdfData = array();
+    	$arrPdfData["detail"] = $this->cartItems;
+    	$arrPdfData["calculate"]["data"] = $this->arrData;
+    	$arrPdfData["calculate"]["total_inctax"] = $this->tpl_total_inctax;
+    	$arrPdfData["calculate"]["total_tax"] = $this->tpl_total_tax;
+    	$arrPdfData["calculate"]["total_point"] = $this->tpl_total_point;
+    	$arrPdfData["calculate"]["deliv_free"] = $this->tpl_deliv_free;  
+    	$arrPdfData["calculate"]["all_total_inctax"] = $this->tpl_all_total_inctax;
+    	
+    	$objFpdf->setData($arrPdfData);
+    	$objFpdf->createPdf();
+    	return true;
+    }
+    /*# 見積表作成 ADD END #*/
+    
 }
