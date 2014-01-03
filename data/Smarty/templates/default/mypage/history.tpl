@@ -28,9 +28,10 @@
     <div id="mycontents_area">
         <h3><!--{$tpl_subtitle|h}--></h3>
 
-        <form action="order.php" method="post">
+        <form name="order_form<!--{$arrOrder[cnt].order_id}-->" action="order.php" method="post">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
         <input type="hidden" name="order_id" value="<!--{$tpl_arrOrderData.order_id|h}-->">
+        <input type="hidden" name="mode" value="" />
         <table>
                 <colgroup>
                 	<col width="20%" />
@@ -41,7 +42,9 @@
                 <th>購入日時</th>
                 <td><!--{$tpl_arrOrderData.create_date|date_format:"%Y/%m/%d"}--></td>
                 <td rowspan="5" class="alignC">
-                  <input type="image" src="<!--{$TPL_URLPATH}-->img/page/mypage/btn_copyorder.png" width="178" height="33" alt="この購入内容で再発注" />
+                  <input type="image" src="<!--{$TPL_URLPATH}-->img/page/mypage/btn_copyorder.png" width="178" height="33" alt="この購入内容で再発注" 
+                      onclick="fnFormModeSubmit('order_form<!--{$arrOrder[cnt].order_id}-->', 'addcart', '', '');return false;"/><br /><br />
+                  <a href="#" onclick="fnFormModeSubmit('order_form<!--{$arrOrder[cnt].order_id}-->', 'pdf', '', '');return false;">納品書を印刷</a>
                 </td>
             </tr>
             <tr>

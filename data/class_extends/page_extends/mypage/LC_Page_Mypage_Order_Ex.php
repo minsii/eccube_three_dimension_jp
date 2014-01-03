@@ -64,6 +64,33 @@ class LC_Page_Mypage_Order_Ex extends LC_Page_Mypage_Order {
     function destroy() {
         parent::destroy();
     }
+
+    /**
+     * Page のAction.
+     *
+     * @return void
+     */
+    function action() {
+
+        //受注詳細データの取得
+        $arrOrderDetail = $this->lfGetOrderDetail($_POST['order_id']);
+
+        //ログインしていない、またはDBに情報が無い場合
+        if (empty($arrOrderDetail)) {
+            SC_Utils_Ex::sfDispSiteError(CUSTOMER_ERROR);
+        }
+
+        switch($this->getMode()){
+        	case "pdf":
+        		$this->createPdf($arrOrderDetail, $_POST['order_id']);
+        		break;
+        	case "addcart":
+        	default:
+        		$this->lfAddCartProducts($arrOrderDetail);
+        		SC_Response_Ex::sendRedirect(CART_URLPATH);
+        		break;
+        }
+    }
     
    // 受注詳細データの取得
     function lfGetOrderDetail($order_id) {
@@ -105,6 +132,23 @@ class LC_Page_Mypage_Order_Ex extends LC_Page_Mypage_Order {
         	}
         	/*## 追加規格 ## MDF END*/
         }
-    }    
+    }
+
+    /**
+     *
+     * PDFの作成
+     * @param $arrOrderDetail
+     */
+    function createPdf($arrOrderDetail, $order_id="") {
+    	$objFpdf = new SC_Fpdf_Ex(1, "納品書");
+    	
+    	$arrPdfData = array();
+    	$arrPdfData["detail"] = $arrOrderDetail;
+    	$arrPdfData["order_id"] = $order_id;
+    	
+    	$objFpdf->setData($arrPdfData);
+    	$objFpdf->createPdf();
+    	return true;
+    }
 }
 ?>
