@@ -45,6 +45,11 @@ class LC_Page_Admin_Mail_Ex extends LC_Page_Admin_Mail {
      */
     function init() {
         parent::init();
+        
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrCAMPANY_TYPE = $masterData->getMasterData('mtb_company_type');
+        /*## 会員登録項目カスタマイズ ADD END ##*/
     }
 
     /**

@@ -190,5 +190,20 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
     	$ret = $objQuery->get('status','dtb_customer','customer_id=?', array($customer_id));
     	return $ret;
     }
+    
+    /**
+     * 会員検索パラメーター（管理画面用）
+     *
+     * @param SC_FormParam $objFormParam SC_FormParam インスタンス
+     * @access public
+     * @return void
+     */
+    function sfSetSearchParam(&$objFormParam) {
+    	parent::sfSetSearchParam($objFormParam);
+    	
+    	/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $objFormParam->addParam('事業者区分', 'search_company_type', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        /*## 会員登録項目カスタマイズ END BEGIN ##*/
+    }
 }
 ?>

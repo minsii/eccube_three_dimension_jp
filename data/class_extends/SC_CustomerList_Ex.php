@@ -24,4 +24,22 @@
 require_once CLASS_REALDIR . 'SC_CustomerList.php';
 
 class SC_CustomerList_Ex extends SC_CustomerList {
+	
+    function __construct($array, $mode = '') {
+        parent::__construct($array, $mode);
+
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        // 事業者区分
+        if (!isset($this->arrSql['search_company_type'])) $this->arrSql['search_company_type'] = '';
+        if (is_array($this->arrSql['search_company_type']) 
+        		&& count($this->arrSql['search_company_type']) > 0) {
+        	$where = join(array_fill(0, count($this->arrSql['search_company_type']), "?"), ", ");
+        	$this->setWhere("customer_id IN (SELECT customer_id FROM dtb_customer_company_type WHERE company_type_id IN ($where))");
+        	foreach ($this->arrSql['search_company_type'] as $data) {
+        		$this->arrVal[] = $data;
+        	}
+        }
+        /*## 会員登録項目カスタマイズ ADD END ##*/
+    }
+	
 }

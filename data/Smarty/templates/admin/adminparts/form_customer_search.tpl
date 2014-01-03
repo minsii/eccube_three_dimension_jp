@@ -104,12 +104,22 @@
         <!--{if $arrErr[$key]}--><span class="attention"><!--{$arrErr[$key]}--></span><br /><!--{/if}-->
         <input type="text" name="<!--{$key}-->" maxlength="<!--{$arrForm[$key].length}-->" value="<!--{$arrForm[$key].value|h}-->" size="60" class="box60" /></td>
 </tr>
+<!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+<!--{*
 <tr>
     <th>職業</th>
     <td colspan="3">
         <!--{assign var=key value="search_job"}-->
         <!--{html_checkboxes name=$key options=$arrJob separator="&nbsp;" selected=$arrForm[$key].value}--></td>
 </tr>
+*}-->
+<tr>
+    <th>事業者区分</th>
+    <td colspan="3">
+        <!--{assign var=key value="search_company_type"}-->
+        <!--{html_checkboxes name=$key options=$arrCAMPANY_TYPE separator="&nbsp;" selected=$arrForm[$key].value}--></td>
+</tr>
+<!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
 <tr>
     <th>購入金額</th>
     <td>
