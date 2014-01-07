@@ -38,8 +38,8 @@
       <th>個数</th>
       <th>購入</th>
 	  </tr>
-	  <tr id="clone" style="display: none;">
-      <!--{section name=cnt loop=$arrProductsClass}-->
+    <!--{section name=cnt loop=$arrProductsClass}-->
+	  <tr>
       <!--{assign var=row value=$smarty.section.cnt.iteration}-->
       <!--{assign var=key_quantity value="quantity_`$row`"}-->
       <!--{assign var=key_classcategory1 value="classcategory_id1_`$row`"}-->
