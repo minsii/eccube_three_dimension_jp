@@ -206,7 +206,7 @@
                     </li>
                     <li>
                         <!--{if strlen($tpl_error) == 0}-->
-                            <input type="button" name="pdf" value="見積表作成" onclick="fnSetFormSubmit('form<!--{$key}-->', 'mode', 'pdf');return false;"/>
+                            <input type="image" name="pdf" src="<!--{$TPL_URLPATH}-->img/cart/btn_mitsumori.jpg'" onmouseover="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/cart/btn_mitsumori_on.jpg',this)" onmouseout="chgImgImageSubmit('<!--{$TPL_URLPATH}-->img/cart/btn_mitsumori.jpg',this)" alt="見積表作成" onclick="fnSetFormSubmit('form<!--{$key}-->', 'mode', 'pdf');return false;"/>
                         <!--{/if}-->
                     </li>
                 </ul>
