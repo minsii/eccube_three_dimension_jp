@@ -282,6 +282,10 @@ __EOS__;
 		return $arrRet;
 	}
 	/*## 予算実績 ADD END ##*/
+	
+	function getLoginCustomerData(){
+		return isset($_SESSION['customer']) ? $_SESSION['customer'] : array();
+	}
 }
 
 ?>

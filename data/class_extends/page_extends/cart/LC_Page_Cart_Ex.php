@@ -23,6 +23,7 @@
 
 // {{{ requires
 require_once CLASS_REALDIR . 'pages/cart/LC_Page_Cart.php';
+require_once CLASS_EX_REALDIR . 'SC_Mitsumori_Fpdf_Ex.php';
 
 /**
  * カート のページクラス(拡張).
@@ -93,17 +94,30 @@ class LC_Page_Cart_Ex extends LC_Page_Cart {
      * PDFの作成
      */
     function createPdf() {
-    	$objFpdf = new SC_Fpdf_Ex(1, "見積表");
+    	$objCustomer = new SC_Customer_Ex();
+    	$objFpdf = new SC_Mitsumori_Fpdf_Ex(1, "見積表");
     	
     	$arrPdfData = array();
-    	$arrPdfData["detail"] = $this->cartItems;
-    	$arrPdfData["calculate"]["data"] = $this->arrData;
-    	$arrPdfData["calculate"]["total_inctax"] = $this->tpl_total_inctax;
-    	$arrPdfData["calculate"]["total_tax"] = $this->tpl_total_tax;
-    	$arrPdfData["calculate"]["total_point"] = $this->tpl_total_point;
-    	$arrPdfData["calculate"]["deliv_free"] = $this->tpl_deliv_free;  
-    	$arrPdfData["calculate"]["all_total_inctax"] = $this->tpl_all_total_inctax;
-    	
+    	foreach ($this->cartKeys as $key) {
+    		$arrPdfData["detail"] = array();
+    		if(is_array($this->cartItems[$key])){
+    			foreach($this->cartItems[$key] as $item){
+    				$arrPdfData["detail"][] = $item;
+    			}
+    		}
+    		
+    		// カート集計処理
+    		$arrPdfData["calculate"]["total_inctax"] += $this->tpl_total_inctax[$key];
+    		$arrPdfData["calculate"]["total_tax"] += $this->tpl_total_tax[$key];
+    		$arrPdfData["calculate"]["total_point"] += $this->tpl_total_point[$key];
+    		$arrPdfData["calculate"]["deliv_free"] += $this->tpl_deliv_free[$key];
+    	}
+        $arrPdfData["calculate"]["all_total_inctax"] += $this->tpl_all_total_inctax;
+
+        if($objCustomer->isLoginSuccess()){
+        	$arrPdfData["customer"] = $objCustomer->getLoginCustomerData();
+        }
+        
     	$objFpdf->setData($arrPdfData);
     	$objFpdf->createPdf();
     	return true;
