@@ -82,6 +82,7 @@ class LC_Page_Cart_Ex extends LC_Page_Cart {
                 // カート商品が1件以上存在する場合
                 if (count($this->cartItems) > 0) {
                     $this->createPdf();
+                    SC_Response_Ex::actionExit();
                 }
                 break;
         }

@@ -83,6 +83,7 @@ class LC_Page_Mypage_Order_Ex extends LC_Page_Mypage_Order {
         switch($this->getMode()){
         	case "pdf":
         		$this->createPdf($arrOrderDetail, $_POST['order_id']);
+        		SC_Response_Ex::actionExit();
         		break;
         	case "addcart":
         	default:
