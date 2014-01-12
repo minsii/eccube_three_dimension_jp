@@ -194,6 +194,14 @@
                     <!--{$arrForm.product_code|h}-->
                 </td>
             </tr>
+            <!--{*## その他商品項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>管理コード</th>
+                <td>
+                    <!--{$arrForm.manage_code|h}-->
+                </td>
+            </tr>
+            <!--{*## その他商品項目カスタマイズ ADD END ##*}-->
             <tr>
                 <th><!--{$smarty.const.NORMAL_PRICE_TITLE}--></th>
                 <td>
@@ -294,6 +302,12 @@
             <th>TAISコード</th>
             <td>
                 <!--{$arrForm.comment4|h}-->
+            </td>
+        </tr>
+        <tr>
+            <th>JISコード</th>
+            <td>
+                <!--{$arrForm.jis_code|h}-->
             </td>
         </tr>
         <!--{*## その他商品項目カスタマイズ MDF END ##*}-->

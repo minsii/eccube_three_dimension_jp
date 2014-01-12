@@ -370,6 +370,17 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
                 $arrValues[] = $date;
                 break;
             /*## 商品マスター一覧で登録日で検索 MDF END ##*/
+                
+            /*## 商品検索項目追加 ADD BEGIN ##*/
+            case 'search_manage_code':
+                $where.= ' AND product_id IN (SELECT product_id FROM dtb_products WHERE manage_code LIKE ? )';
+                $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
+                break;
+            case 'search_note':
+                $where.= ' AND product_id IN (SELECT product_id FROM dtb_products WHERE note LIKE ? )';
+                $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
+                break;
+            /*## 商品検索項目追加 ADD END ##*/
             // 商品ステータス
             case 'search_product_statuses':
                 $arrPartVal = $objFormParam->getValue($key);
@@ -385,5 +396,21 @@ class LC_Page_Admin_Products_Ex extends LC_Page_Admin_Products {
             default:
                 break;
         }
+    }
+    
+    
+    /**
+     * パラメーター情報の初期化を行う.
+     *
+     * @param SC_FormParam $objFormParam SC_FormParam インスタンス
+     * @return void
+     */
+    function lfInitParam(&$objFormParam) {
+    	parent::lfInitParam($objFormParam);
+    	
+    	/*## 商品検索項目追加 ADD BEGIN ##*/
+    	$objFormParam->addParam('管理コード', 'search_manage_code', STEXT_LEN, 'KVna', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+    	$objFormParam->addParam('SHOP備考欄', 'search_note', STEXT_LEN, 'KVna', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+    	/*## 商品検索項目追加 ADD END ##*/
     }
 }

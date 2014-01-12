@@ -156,6 +156,9 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         $objFormParam->addParam('メーカー', 'comment1', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('生産国', 'comment2', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('TAISコード', 'comment4', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        
+        $objFormParam->addParam('JISコード', 'jis_code', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('管理コード', 'manage_code', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         /*## その他商品項目カスタマイズ MDF END ##*/
 
         $objFormParam->addParam('検索ワード', 'comment3', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
@@ -269,6 +272,11 @@ class LC_Page_Admin_Products_Product_Ex extends LC_Page_Admin_Products_Product {
         	$sqlval['taxfree'] = $arrList['taxfree'];
         }
         /*## 商品非課税指定 ADD END ##*/
+        
+        /*## その他商品項目カスタマイズ ADD BEGIN ##*/
+        $sqlval['manage_code'] = $arrList['manage_code'];
+        $sqlval['jis_code'] = $arrList['jis_code'];
+        /*## その他商品項目カスタマイズ ADD BEGIN ##*/
         
         $arrRet = $objUpFile->getDBFileList();
         $sqlval = array_merge($sqlval, $arrRet);

@@ -91,6 +91,26 @@ function lfnDispChange(){
                 <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="30" class="box30" />
             </td>
         </tr>
+        <!--{*## 商品検索項目追加 ADD BEGIN ##*}-->
+        <tr>
+            <th>管理コード</th>
+            <td>
+                <!--{assign var=key value="search_manage_code"}-->
+                <!--{if $arrErr[$key]}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                <!--{/if}-->
+                <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+            <th>SHOP備考欄</th>
+            <td>
+                <!--{assign var=key value="search_note"}-->
+                <!--{if $arrErr[$key]}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                <!--{/if}-->
+                <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="30" class="box30" />
+            </td>
+        </tr>
+        <!--{*## 商品検索項目追加 ADD END ##*}-->
         <tr>
             <th>カテゴリ</th>
             <td>

@@ -242,6 +242,16 @@ function fckeditorCreate(){
                 <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
             </td>
         </tr>
+        <!--{*## その他商品項目カスタマイズ ADD BEGIN ##*}-->
+        <tr>
+            <th>管理コード</th>
+            <td>
+                <span class="attention"><!--{$arrErr.manage_code}--></span>
+                <input type="text" name="manage_code" value="<!--{$arrForm.manage_code|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.comment4|sfGetErrorColor}-->" />
+                <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <!--{*## その他商品項目カスタマイズ ADD END ##*}-->
         <tr>
             <th><!--{$smarty.const.NORMAL_PRICE_TITLE}--></th>
             <td>
@@ -371,6 +381,14 @@ function fckeditorCreate(){
             <td>
                 <span class="attention"><!--{$arrErr.comment4}--></span>
                 <input type="text" name="comment4" value="<!--{$arrForm.comment4|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.comment4|sfGetErrorColor}-->" />
+                <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
+            </td>
+        </tr>
+        <tr>
+            <th>JISコード</th>
+            <td>
+                <span class="attention"><!--{$arrErr.jis_code}--></span>
+                <input type="text" name="jis_code" value="<!--{$arrForm.jis_code|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="60" class="box60" style="<!--{$arrErr.comment4|sfGetErrorColor}-->" />
                 <span class="attention"> (上限<!--{$smarty.const.STEXT_LEN}-->文字)</span>
             </td>
         </tr>
