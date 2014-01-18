@@ -45,9 +45,8 @@
     function fnInCart(productForm_name) {
         var searchForm = $("#form1");
         var cartForm = $("form[name="+productForm_name+"]");
-        
         // 検索条件を引き継ぐ
-        var hiddenValues = ['mode','category_id','maker_id','name','orderby','disp_number','pageno','rnd'];
+        var hiddenValues = ['mode','category_id','maker','keyword', 'name','orderby','disp_number','pageno','rnd'];
         $.each(hiddenValues, function(){
             // 商品別のフォームに検索条件の値があれば上書き
             if (cartForm.has('input[name='+this+']').length != 0) {
@@ -59,7 +58,7 @@
             }
         });
         // 商品別のフォームを送信
-        cartForm.submit();
+        cartForm[0].submit();
     }
 //]]></script>
 
