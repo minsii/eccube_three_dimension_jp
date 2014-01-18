@@ -137,8 +137,13 @@ class SC_Mitsumori_Fpdf_Ex extends SC_Fpdf {
 		$text = $this->arrPref[$arrCustomer['pref']] . $arrCustomer['addr01'];
 		$this->lfText(27, 47, $text, 10); //購入者都道府県+住所1
 		$this->lfText(27, 51, $arrCustomer['addr02'], 10); //購入者住所2
+		
+		$text = $arrCustomer['company'];
+		$text .= "[".$arrCustomer['company_no']."]";
+		$this->lfText(27, 59, $text, 11); //事業所名、事業所番号
+		
 		$text = $arrCustomer['name01'].'　'.$arrCustomer['name02'].'　様';
-		$this->lfText(27, 59, $text, 11); //購入者氏名
+		$this->lfText(27, 68, $text, 11); //購入者氏名
 
 		// お届け先情報
 		$this->SetFont('SJIS', '', 10);
