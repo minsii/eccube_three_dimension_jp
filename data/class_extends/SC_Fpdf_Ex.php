@@ -42,7 +42,7 @@ class SC_Fpdf_Ex extends SC_Fpdf {
         $this->lfText(27, 59, $text, 11); //事業所名、事業所番号        
         
         $text = $this->arrDisp['order_name01'].'　'.$this->arrDisp['order_name02'].'　様';
-        $this->lfText(27, 68, $text, 11); //購入者氏名
+        $this->lfText(27, 64, $text, 11); //購入者氏名
 
         // お届け先情報
         $this->SetFont('SJIS', '', 10);
