@@ -42,7 +42,7 @@
                 <p>
                     〒612-8452<br /> 京都府京都市伏見区中島堀端町２４ エムワイ２F<br />
                     お問い合わせは、メール・電話・FAXにて承っております。<br /> TEL:０７５－６０３－６２７７
-                    FAX:０７５－６０３－６２７８<br /> 店舗連絡先:<strong>info@three-dimension.com</strong>
+                    FAX:０７５－６０３－６２７８<br /> 店舗連絡先:<strong>info@three-dimension.jp</strong>
                 </p>
             </section>
             <section>
@@ -54,7 +54,7 @@
             </section>
         </div>
         <div class="footer_law_information">
-            <p>古物営業法に基づく表示【名称】株式会社スリーディメンション【公安委員会】東京都公安委員会【許可番号】304390907222</p>
+            <p>古物営業法に基づく表記  【名称】 株式会社スリーディメンション　【公安委員会】 東京都公安委員会  【許可番号】 304390907222　【警察署受理番号】 43FL</p>
         </div>
         <div id="copyright">
             <ul>

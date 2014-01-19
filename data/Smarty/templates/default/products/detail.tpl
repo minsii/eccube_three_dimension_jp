@@ -67,11 +67,11 @@
       <!--{assign var=point_rate value=`$arrProduct.point_rate`}-->
       
       <h2 class="title_s2"><!--{$arrProduct.name|h}--></h2>
-      
+      <div>
       <section class="osusume_point_box">
         <!--{$arrProductOther.comment6}--><!--{*詳細コメント3*}-->
       </section>
-      
+      </div>
       <div class="product_detail_box pure-g">
         <div class="pure-u-1-2">
           <div class="main_img">
@@ -190,9 +190,10 @@
               </div>
               <!--{/if}-->
             	<li>
-                <h4>メーカー名：　<span style="font-weight:normal;"><!--{$arrProduct.comment1|h}--><span></h4>
-                <h4>生産国：　<span style="font-weight:normal;"><!--{$arrProduct.comment2|h}--><span></h4>
-                <h4>TAISコード：　<span style="font-weight:normal;"><!--{$arrProduct.comment4|h}--><span></h4>
+                <!--{if $arrProduct.comment1}--><h4>メーカー名：　<span style="font-weight:normal;"><!--{$arrProduct.comment1|h}--><span></h4><!--{/if}-->
+                <!--{if $arrProduct.comment2}--><h4>生産国：　<span style="font-weight:normal;"><!--{$arrProduct.comment2|h}--><span></h4><!--{/if}-->
+                <!--{if $arrProduct.comment4}--><h4>TAISコード：　<span style="font-weight:normal;"><!--{$arrProduct.comment4|h}--><span></h4><!--{/if}-->
+                <!--{if $arrProductOther.jis_code}--><h4>JISコード：　<span style="font-weight:normal;"><!--{$arrProductOther.jis_code|h}--><span></h4><!--{/if}-->
               </li>
             	<li>
                 <!--{$arrProductOther.main_comment}-->

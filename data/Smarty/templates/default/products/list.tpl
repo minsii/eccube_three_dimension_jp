@@ -45,9 +45,8 @@
     function fnInCart(productForm_name) {
         var searchForm = $("#form1");
         var cartForm = $("form[name="+productForm_name+"]");
-        
         // 検索条件を引き継ぐ
-        var hiddenValues = ['mode','category_id','maker_id','name','orderby','disp_number','pageno','rnd'];
+        var hiddenValues = ['mode','category_id','maker','keyword', 'name','orderby','disp_number','pageno','rnd'];
         $.each(hiddenValues, function(){
             // 商品別のフォームに検索条件の値があれば上書き
             if (cartForm.has('input[name='+this+']').length != 0) {
@@ -59,7 +58,7 @@
             }
         });
         // 商品別のフォームを送信
-        cartForm.submit();
+        cartForm[0].submit();
     }
 //]]></script>
 
@@ -250,8 +249,8 @@
           <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
           <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
           <input type="hidden" name="product_class_id" id="product_class_id<!--{$id|h}-->" value="<!--{$tpl_product_class_id[$id]}-->" />
-                <div class="warp">
-                    <div class="heightLine">
+                <div class="warp heightLine">
+                    <div class="">
                       <h3><!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
                                     <!--{$arrProduct.product_code_min|h}-->
                                 <!--{else}-->
@@ -323,7 +322,7 @@
                             <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->"><img src="img/page/list/productlist/btn_variation.png" width="161" height="23" /></a>
                           <!--{else}-->
                             <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
-                            <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">
+                            <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->');return false;">
                               <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="96" height="23" alt="カゴへ入れる" />
                             </a>
                           <!--{/if}-->

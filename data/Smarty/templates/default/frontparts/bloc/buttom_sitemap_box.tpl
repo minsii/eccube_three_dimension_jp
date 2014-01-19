@@ -1,4 +1,3 @@
-
   <!--サイトマップ-->
   <div class="bottom_sitemap_box">
   	<section>
@@ -29,7 +28,7 @@
         <ul>
             <li><a href="#">トップページ</a></li>
             <li><a href="/entry/kiyaku.php">初めての方へ</a></li>
-            <li><a href="/user_data/orderguide.php">お買い物ガイド</a></li>
+            <li><a href="/user_data/goliyouannai.php">お買い物ガイド</a></li>
             <li><a href="/abouts/index.php">会社概要</a></li>
             <li><a href="/contact/">お問い合わせ</a></li>
             <li><a href="/user_data/catalog.php">カタログお申込み</a></li>

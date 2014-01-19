@@ -176,7 +176,8 @@
             <!--{/if}-->
             <table summary="お支払方法選択" id="payment">
                 <col width="20%" />
-                <col width="80%" />
+                <col width="20%" />
+                <col width="60%" />
                 <thead>
                     <tr>
                         <th class="alignC">選択</th>
@@ -188,8 +189,9 @@
                         <tr>
                         <td class="alignC"><input type="radio" id="pay_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key}-->"  value="<!--{$arrPayment[cnt].payment_id}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{$arrPayment[cnt].payment_id|sfGetChecked:$arrForm[$key].value}--> /></td>
                         <td>
-                            <label for="pay_<!--{$smarty.section.cnt.iteration}-->"><!--{$arrPayment[cnt].payment_method|h}--><br /><!--{if $arrPayment[cnt].note != ""}--><!--{$arrPayment[cnt].note}--><!--{/if}--></label>
+                            <label for="pay_<!--{$smarty.section.cnt.iteration}-->"><!--{$arrPayment[cnt].payment_method|h}--></label>
                         </td>
+                        <td><!--{if $arrPayment[cnt].note != ""}--><!--{$arrPayment[cnt].note}--><!--{/if}--></td>
                         <!--{if $img_show}-->
                             <td>
                                 <!--{if $arrPayment[cnt].payment_image != ""}-->

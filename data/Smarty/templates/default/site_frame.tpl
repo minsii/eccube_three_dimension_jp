@@ -46,6 +46,8 @@
 <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/jquery.lightbox-0.5.js"></script>
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/jquery.lightbox-0.5.css" type="text/css" media="all" />
 <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/scrollsmooth.js"></script>
+<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/news.js"></script>
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/scrollable-checkitem.css" type="text/css" media="all" />
 
 <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
@@ -60,6 +62,15 @@
 <!--{/if}-->
 <link rel="shortcut icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
 <link rel="icon" type="image/vnd.microsoft.icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
+
+<script type="text/javascript">
+var elements=['abbr', 'article', 'aside,audio', 'bb', 'canvas', 'datagrid', 'datalist', 'details', 'dialog',
+ 'eventsource', 'figure', 'footer', 'header', 'hgroup', 'mark', 'menu', 'meter', 'nav', 'output', 'progress', 
+'section', 'time', 'video'];
+for ( var i=0; i<elements.length; i++){
+   document.createElement(elements[i]);	
+}
+</script>
 
 <script type="text/javascript">//<![CDATA[
     var lightbox_dir = "<!--{$TPL_URLPATH}-->";
