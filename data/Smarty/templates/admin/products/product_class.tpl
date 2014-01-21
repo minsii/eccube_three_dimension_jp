@@ -204,9 +204,14 @@
             <th>ダウンロード<br>ファイル名<span class="red"><br>上限<!--{$smarty.const.STEXT_LEN}-->文字</span></th>
             <th>ダウンロード商品用<br>ファイル</th>
         </tr>
-        <!--{section name=cnt loop=$arrForm.total.value}-->
+<!--{*# チェックされた規格を上に表示 MDF BEGIN #*}-->
+<!--{*      
+            <!--{section name=cnt loop=$arrForm.total.value}--> 
             <!--{assign var=index value=$smarty.section.cnt.index}-->
-
+*}-->
+            <!--{section name=cnt loop=$arrSort}--> 
+            <!--{assign var=index value=$arrSort[cnt]}-->
+<!--{*# チェックされた規格を上に表示 MDF END #*}-->
             <tr>
                 <td class="center">
                     <!--{assign var=key value="classcategory_id1"}-->

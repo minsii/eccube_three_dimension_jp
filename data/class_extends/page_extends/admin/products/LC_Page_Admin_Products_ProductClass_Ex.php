@@ -64,4 +64,37 @@ class LC_Page_Admin_Products_ProductClass_Ex extends LC_Page_Admin_Products_Prod
     function destroy() {
         parent::destroy();
     }
+    
+    /**
+     * Page のアクション.
+     *
+     * @return void
+     */
+    function action() {
+
+  		parent::action();
+  		
+  		/*## チェックされた規格を上に表示 ADD BEGIN ##*/
+  		$this->arrSort = $this->getResortList();
+  		/*## チェックされた規格を上に表示 ADD END ##*/
+    }
+    
+    /*## チェックされた規格を上に表示 ADD BEGIN ##*/
+    function getResortList(){
+    	$checkList = array();
+    	if(is_array($this->arrForm["check"]["value"]) && count($this->arrForm["check"]["value"]) > 0){
+    		$checkList = array_keys($this->arrForm["check"]["value"]);
+    	}
+    	$classList = $this->arrForm["classcategory_id1"]["value"];
+    	
+    	$arrSort = $checkList;
+    	
+    	foreach($classList as $no => $val){
+    		if(in_array($no, $checkList))
+    			continue;
+    		$arrSort[] = $no;
+    	}
+    	return $arrSort;
+    }
+    /*## チェックされた規格を上に表示 ADD END ##*/
 }
