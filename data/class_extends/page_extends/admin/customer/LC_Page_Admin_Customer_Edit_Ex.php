@@ -115,6 +115,10 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
                 }
                 /*## 顧客管理画面に予算実績表示 ADD END ##*/
                 
+                /*## 顧客管理画面にお届け先一覧表示 ADD BEGIN ##*/
+                $this->lfGetOtherDeliv($customer_id);
+                /*## 顧客管理画面にお届け先一覧表示 ADD END ##*/
+                
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 $this->arrPagenavi['mode'] = 'return';
                 $this->tpl_pageno = '0';
@@ -174,6 +178,10 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
                 }
                 /*## 顧客管理画面に予算実績表示 ADD END ##*/
                 
+                /*## 顧客管理画面にお届け先一覧表示 ADD BEGIN ##*/
+                $this->lfGetOtherDeliv($customer_id);
+                /*## 顧客管理画面にお届け先一覧表示 ADD END ##*/
+                                
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 $this->arrPagenavi['mode'] = 'return';
                 $this->tpl_pageno = $objFormParam->getValue('search_pageno');
@@ -321,4 +329,13 @@ class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit {
         $objMail->sendMail();
     }
     /*## 本会員承認 ADD END ##*/
+    
+    /*## 顧客管理画面にお届け先一覧表示 ADD BEGIN ##*/
+    function lfGetOtherDeliv($customer_id){
+    	$objAddress = new SC_Helper_Address_Ex();
+    	// 登録済み住所を取得
+    	$this->arrOtherDeliv = $objAddress->getList($customer_id);
+    	$this->tpl_multi_linemax["deliv"] = count($this->arrOtherDeliv);
+    }
+    /*## 顧客管理画面にお届け先一覧表示 ADD END ##*/
 }
