@@ -63,6 +63,9 @@
                         <td>
                             〒<!--{$arrOtherDeliv[cnt].zip01}-->-<!--{$arrOtherDeliv[cnt].zip02}--><br />
                             <!--{$arrPref[$OtherPref]|h}--><!--{$arrOtherDeliv[cnt].addr01|h}--><!--{$arrOtherDeliv[cnt].addr02|h}--><br />
+                            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+                            <!--{$arrOtherDeliv[cnt].company|h}--><br />
+                            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
                             <!--{$arrOtherDeliv[cnt].name01|h}-->&nbsp;<!--{$arrOtherDeliv[cnt].name02|h}-->
                         </td>
                         <td class="alignC">

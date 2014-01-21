@@ -43,6 +43,11 @@ class SC_Customer_Ex extends SC_Customer {
 		if(constant("USE_CUSTOMER_COMPANY") === true){
 			$cols .= ", company, company_kana, company_department";
 		}
+		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+		else{
+			$cols .=", company";
+		}
+		/*## 会員登録項目カスタマイズ ADD END ##*/
 		$from = <<< __EOS__
             (   SELECT NULL AS other_deliv_id,
             {$cols},

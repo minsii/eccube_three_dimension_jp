@@ -91,6 +91,9 @@
                     <td>
                         <!--{assign var=key value=$arrAddr[cnt].pref}-->
                         <!--{$arrPref[$key]}--><!--{$arrAddr[cnt].addr01|h}--><!--{$arrAddr[cnt].addr02|h}--><br />
+                        <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+                        <!--{$arrAddr[cnt].company|h}--> <br />
+                        <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
                         <!--{$arrAddr[cnt].name01|h}--> <!--{$arrAddr[cnt].name02|h}-->
                     </td>
                     <td class="alignC">

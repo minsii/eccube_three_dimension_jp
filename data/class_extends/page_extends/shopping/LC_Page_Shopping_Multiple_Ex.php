@@ -88,7 +88,11 @@ class LC_Page_Shopping_Multiple_Ex extends LC_Page_Shopping_Multiple {
                 $other_deliv_id = SC_Utils_Ex::isBlank($val['other_deliv_id']) ? 0 : $val['other_deliv_id'];
                 $arrResults[$other_deliv_id] = $val['name01'] . $val['name02']
                     . " " . $arrPref[$val['pref']] . $val['addr01'] . $val['addr02'];
-                
+
+                /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+                $arrResults[$other_deliv_id] .= " ". $val['company'];
+                /*## 会員登録項目カスタマイズ ADD END ##*/
+
                 /*## 顧客法人管理 ADD BEGIN ##*/
                 if(constant("USE_CUSTOMER_COMPANY") === true){
                 	$arrResults[$other_deliv_id] .= " ". $val['company'] ." ".  $val['company_department'];
@@ -103,6 +107,10 @@ class LC_Page_Shopping_Multiple_Ex extends LC_Page_Shopping_Multiple {
                 $arrResults[$shipping_id] = $val['shipping_name01'] . $val['shipping_name02']
                     . " " . $arrPref[$val['shipping_pref']]
                     . $val['shipping_addr01'] . $val['shipping_addr02'];
+                    
+                /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+                $arrResults[$shipping_id] .= " ". $val['company'];
+                /*## 会員登録項目カスタマイズ ADD END ##*/
                     
                 /*## 顧客法人管理 ADD BEGIN ##*/
                 if(constant("USE_CUSTOMER_COMPANY") === true){

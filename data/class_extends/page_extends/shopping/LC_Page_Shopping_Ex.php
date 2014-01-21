@@ -137,6 +137,10 @@ class LC_Page_Shopping_Ex extends LC_Page_Shopping {
         	$objFormParam->addParam("FAX番号3", "shipping_fax03", TEL_ITEM_LEN, 'n', array("MAX_LENGTH_CHECK" ,"NUM_CHECK"));
         }
         $objFormParam->addParam("メールマガジン", "mail_flag", INT_LEN, 'n', array("MAX_LENGTH_CHECK", "NUM_CHECK"), 1);
+        
+        /*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+        $objFormParam->addParam("事業所名", 'shipping_company', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
+        /*## 会員登録項目カスタマイズ ADD END ##*/
     }    
 }
 ?>

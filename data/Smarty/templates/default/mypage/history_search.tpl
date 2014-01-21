@@ -142,7 +142,10 @@ function clearSearchText(){
             <th>お届け先<!--{if $arrOrder[cnt].isMultiple}--><!--{$smarty.foreach.shippingItem.iteration}--><!--{/if}--></th>
             <td>
                 〒<!--{$shippingItem.shipping_zip01}-->-<!--{$shippingItem.shipping_zip02}-->&nbsp;&nbsp;
-                <!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01|h}--><!--{$shippingItem.shipping_addr02|h}--> &nbsp;&nbsp;
+                <!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01|h}--><!--{$shippingItem.shipping_addr02|h}--> <br />
+                <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+                <!--{if $shippingItem.shipping_company}--> <!--{$shippingItem.shipping_company|h}--> <br /><!--{/if}-->
+                <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
                 <!--{$shippingItem.shipping_name01|h}-->&nbsp;<!--{$shippingItem.shipping_name02|h}--> 様
             </td>
         </tr>

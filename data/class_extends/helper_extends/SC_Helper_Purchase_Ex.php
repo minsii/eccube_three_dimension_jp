@@ -128,7 +128,11 @@ class SC_Helper_Purchase_Ex extends SC_Helper_Purchase {
 			$keys[] = "fax03";
 		}
 		/*## 顧客お届け先FAX ADD END ##*/		
-				                           
+
+		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+		$keys[] = "company";
+		/*## 会員登録項目カスタマイズ ADD END ##*/
+		
         if (!SC_Utils_Ex::isBlank($prefix)) {
             $prefix = $prefix . '_';
         }

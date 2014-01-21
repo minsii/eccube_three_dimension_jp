@@ -40,6 +40,9 @@
         df['shipping_company_department[0]'].value = df.order_company_department.value;
 <!--{/if}-->
 <!--{*## 顧客法人管理 ADD END ##*}-->
+        <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+        df['shipping_company[0]'].value = df.order_company.value;
+        <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
         df['shipping_name01[0]'].value = df.order_name01.value;
         df['shipping_name02[0]'].value = df.order_name02.value;
         df['shipping_kana01[0]'].value = df.order_kana01.value;
@@ -594,6 +597,16 @@
             *}-->
             <!--{/if}-->
             <!--{*## 顧客法人管理 ADD END ##*}-->
+            <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+            <tr>
+                <th>事業所名</th>
+                <td>
+                    <!--{assign var=key value="shipping_company"}-->
+                    <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                    <input type="text" name="<!--{$key}-->[<!--{$shipping_index}-->]" value="<!--{$arrShipping[$key]|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->" />
+                </td>
+            </tr>
+            <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
             <tr>
                 <th>お名前</th>
                 <td>

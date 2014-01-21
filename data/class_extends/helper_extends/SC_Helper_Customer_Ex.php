@@ -51,6 +51,10 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
     	}
     	/*## 顧客法人管理 ADD END ##*/
     	
+		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+    	$objFormParam->addParam("介護保護サービス指定事業所名", 'company', STEXT_LEN, 'aKV', array('EXIST_CHECK', "MAX_LENGTH_CHECK"));
+    	/*## 会員登録項目カスタマイズ ADD END ##*/
+    	
     	/*## 会員登録項目カスタマイズ MDF BEGIN ##*/
         $objFormParam->addParam('ご担当者(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('ご担当者(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' , 'MAX_LENGTH_CHECK'));
@@ -103,7 +107,7 @@ class SC_Helper_Customer_Ex extends SC_Helper_Customer {
 		parent::sfCustomerRegisterParam($objFormParam, $isAdmin, $is_mypage);
 		
 		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
-    	$objFormParam->addParam("介護保護サービス指定事業所名", 'company', STEXT_LEN, 'aKV', array('EXIST_CHECK', "MAX_LENGTH_CHECK"));    	
+//    	$objFormParam->addParam("介護保護サービス指定事業所名", 'company', STEXT_LEN, 'aKV', array('EXIST_CHECK', "MAX_LENGTH_CHECK"));    	
     	$objFormParam->addParam("介護保護サービス指定事業所番号", 'company_no', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK'));
     	
         $objFormParam->addParam('事業者区分', 'company_type', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));

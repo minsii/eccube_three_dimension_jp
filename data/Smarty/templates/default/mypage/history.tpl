@@ -233,6 +233,12 @@
                     *}-->
 <!--{/if}-->
 <!--{*## 顧客法人管理 ADD END ##*}-->
+<!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+                    <tr>
+                        <th class="alignL">事業所名</th>
+                        <td><!--{$shippingItem.shipping_company|h}--></td>
+                    </tr>
+<!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
                     <tr>
                         <th class="alignL">お名前</th>
                         <td><!--{$shippingItem.shipping_name01|h}-->&nbsp;<!--{$shippingItem.shipping_name02|h}--></td>

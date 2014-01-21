@@ -428,6 +428,9 @@
                     <!--{if $smarty.const.USE_ADMIN_CUSTOMER_DELIV_LIST === true}-->
                     <th>法人名</th>
                     <!--{/if}-->
+                    <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+                    <th>事業所名</th>
+                    <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
                     <th>お名前</th>
                     <th>住所</th>
                 </tr>
@@ -437,6 +440,9 @@
                     <!--{if $smarty.const.USE_ADMIN_CUSTOMER_DELIV_LIST === true}-->
                         <td class="center"><!--{$arrOtherDeliv[cnt].company|h}--> <!--{$arrOtherDeliv[cnt].company_department|h}--></td>
                     <!--{/if}-->
+                        <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
+                        <td class="center"><!--{$arrOtherDeliv[cnt].company|h}--></td>
+                        <!--{*## 会員登録項目カスタマイズ ADD END ##*}-->
                         <td class="center"><!--{$arrOtherDeliv[cnt].name01|h}--> <!--{$arrOtherDeliv[cnt].name02|h}--></td>
                         <!--{assign var=pref_id value=$arrOtherDeliv[cnt].pref}-->
                         <td class="left">

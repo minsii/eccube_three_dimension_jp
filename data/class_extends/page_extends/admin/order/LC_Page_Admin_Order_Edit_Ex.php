@@ -53,6 +53,7 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
 			$this->arrShippingKeys[] = "shipping_company_department";
 		}
 		/*## 顧客法人管理 ADD END ##*/
+		$this->arrShippingKeys[] = "shipping_company";
 		
         /*## 追加規格 ADD BEGIN ##*/
         if(USE_EXTRA_CLASS === true){
@@ -380,6 +381,10 @@ class LC_Page_Admin_Order_Edit_Ex extends LC_Page_Admin_Order_Edit {
 		}
 		/*## 顧客お届け先FAX ADD END ##*/
 
+		/*## 会員登録項目カスタマイズ ADD BEGIN ##*/
+		$objFormParam->addParam("事業所名", 'shipping_company', STEXT_LEN, 'aKV', array("MAX_LENGTH_CHECK"));
+		/*## 会員登録項目カスタマイズ ADD END ##*/
+		
 		$objFormParam->addParam("お届け時間ID", "time_id", INT_LEN, 'n', array("MAX_LENGTH_CHECK", "NUM_CHECK"));
 		$objFormParam->addParam("お届け日(年)", "shipping_date_year", INT_LEN, 'n', array("MAX_LENGTH_CHECK", "NUM_CHECK"));
 		$objFormParam->addParam("お届け日(月)", "shipping_date_month", INT_LEN, 'n', array("MAX_LENGTH_CHECK", "NUM_CHECK"));

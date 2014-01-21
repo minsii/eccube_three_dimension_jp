@@ -106,6 +106,7 @@
 　法人名　：<!--{$shipping.shipping_company}-->　様
 <!--{/if}-->
 
+　事業者名　：<!--{$shipping.shipping_company}-->
 　お名前　：<!--{$shipping.shipping_name01}--> <!--{$shipping.shipping_name02}-->　様
 　郵便番号：〒<!--{$shipping.shipping_zip01}-->-<!--{$shipping.shipping_zip02}-->
 　住所　　：<!--{$arrPref[$shipping.shipping_pref]}--><!--{$shipping.shipping_addr01}--><!--{$shipping.shipping_addr02}-->

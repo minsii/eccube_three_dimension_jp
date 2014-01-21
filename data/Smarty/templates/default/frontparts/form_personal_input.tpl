@@ -61,7 +61,6 @@
 <!--{*## 顧客法人管理 ADD END ##*}-->
 
 <!--{*## 会員登録項目カスタマイズ ADD BEGIN ##*}-->
-<!--{if $flgFields > 1}-->
 <tr>
     <th nowrap>介護保護サービス指定事業所名<span class="attention">※</span></th>
     <td>
@@ -72,6 +71,7 @@
        <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key]|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: active;" class="box300" />
     </td>
 </tr>
+<!--{if $flgFields > 1}-->
 <tr>
     <th nowrap>介護保護サービス指定事業所番号<span class="attention">※</span></th>
     <td>
