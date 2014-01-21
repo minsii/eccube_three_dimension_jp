@@ -4,7 +4,7 @@
   <img src="<!--{$TPL_URLPATH}-->img/top/main_top_img.jpg" alt="ココショップ" width="953" height="373">
  </div>
 </div>
-  <div class="top_image">
+  <div class="top_image mb10">
   	<img src="<!--{$TPL_URLPATH}-->img/page/top/main_img.png" width="960" alt="メイン画像" />
   </div>
 <!--▲Top Image-->

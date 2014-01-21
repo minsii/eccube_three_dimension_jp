@@ -526,7 +526,7 @@ div#search_area .block_body .btn {
 /*カテゴリ*/
 .category_box{
 	background-color:#CCC;
-	padding:3px;
+	/**padding:3px;**/
 }
 .category_box h2{
 	text-align:center;
@@ -604,6 +604,7 @@ div#search_area .block_body .btn {
 	border:1px solid #B1D5F7;
 	margin-right:2.25%;
 	width:48.6%;
+
 }
 .news_box ul{
 	overflow-y:auto;
@@ -640,7 +641,22 @@ div#search_area .block_body .btn {
 .atukaishouhin_box {
 	
 }
+.atukaishouhin_box h2 {
+position: relative;
+margin: 5px 0px 10px 0px;
+}
+.atukaishouhin_box h2 span a {
+position: absolute;
+right: 0px;
+top: 0px;
+display: block;
+line-height: 140%;
+padding: 7px;
+width: 140px;
+text-indent: -9999px;
+}
 .atukaishouhin_box ul li{
+  margin-bottom : 6px;
 }
 
 /*お問い合わせ*/
@@ -669,32 +685,73 @@ div#search_area .block_body .btn {
 	margin-bottom:5px;
 }
 
+.fax-area {
+  width : 334px;
+  height : 32px;
+  margin : 0 auto 10px;
+  padding-top : 65px !important;
+  background: url("../img/page/bloc/otoiawase_box/fax_bg.png") no-repeat;
+}
+
+
 /*インフォーメーション*/
 .information_box{
 }
 .information_box .warp{
 	background-color:#DFEBF7;
 	padding:5px;
-	width:100%;
-	
+	/**width:100%;**/
 }
+/**
 .information_box .warp h2{
 	padding:10px 0px;
 }
+**/
 .information_box .warp .alignR .box_warp{
 	border-left:1px dotted #0066FF;
 	width:93%;
 	margin-left:25px;
-	padding:0px 0px 0px 15px;
+	padding:0px 0px 0px 10px;
 	text-align:left;
 }
-
+.text-bg01{
+  width : 115px;
+  height : 27px;
+  margin-top : 5px;
+  padding : 6px 0 0 183px;
+  background: url("../img/page/bloc/information_box/title_payment_bg.png.png") no-repeat;
+}
+.text-bg02{
+  width : 115px;
+  height : 27px;
+  margin-top : 5px;
+  padding : 6px 0 0 183px;
+  background: url("../img/page/bloc/information_box/title_henpin_bg.png.png") no-repeat;
+}
+.text-bg03{
+  width : 115px;
+  height : 27px;
+  margin-top : 5px;
+  padding : 6px 0 0 280px;
+  background: url("../img/page/bloc/information_box/title_haisou_bg.png.png") no-repeat;
+}
+.text-bg04{
+  width : 115px;
+  height : 27px;
+  margin-top : 5px;
+  padding : 6px 0 0 280px;
+  background: url("../img/page/bloc/information_box/title_souryou_bg.png.png") no-repeat;
+}
 /*オススメポイント*/
 .osusume_point_box{
-	border-radius:5px;
-	border:1px solid #6EACE7;
+	/**border-radius:5px;
+	border:1px solid #6EACE7;**/
 	background-color:#F7F7F7;
 	padding:15px;
+}
+.osusume_point_box p{
+  font-size : 1.5em;
+  font-weight : bold;
 }
 .osusume_point_box div.img{
 	float:left;
@@ -1264,7 +1321,7 @@ div#search_area .block_body .btn {
 }
 
 
-
+/**
 #categorytree > li {
   position: relative;
   float: left;
@@ -1272,6 +1329,16 @@ div#search_area .block_body .btn {
   width: 200px;
   height: 47px;
   border: solid 1px #ccc;
+  font-weight: bold;
+}**/
+#categorytree > li {
+  position: relative;
+  float: left;
+  margin: 0;
+  height: 48px;
+  border-bottom: solid 1px #fff;
+  border-left: solid 1px #ccc;
+  border-right: solid 1px #ccc;
   font-weight: bold;
 }
 #categorytree > li:hover {
@@ -1389,7 +1456,20 @@ div#search_area .block_body .btn {
 .new_product_box .body section div.count{
 	line-height:25px;
 }
-.new_product_box .body section div.count *{
+/**.new_product_box .body section div.count *{
+	display:inline-block;
+	vertical-align:middle;
+}**/
+.new_product_box .body section div.count span{
+	display:inline-block;
+	vertical-align:middle;
+}
+.new_product_box .body section div.count input{
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.new_product_box .body section div.count img{
 	display:inline-block;
 	vertical-align:middle;
 }
@@ -1412,7 +1492,7 @@ div#search_area .block_body .btn {
 
 /*top_bnr_box*/
 .top_bnr_box div{
-	padding:0px 0px 5px 0px;
+	padding:0px 0px 20px 0px;
 }
 
 
@@ -1451,4 +1531,75 @@ div#search_area .block_body .btn {
 	border-right:none;
 }
 .bottom_sitemap_box ul li a{
+}
+
+/* slide */
+/* -------------------------------------------------------- */
+#slide { padding-top:12px; }
+
+.bx-pager {
+	text-align:center;
+	padding-top:9px;
+}
+.bx-pager a {
+	background:url(../img/page/top/pager01.png) no-repeat;
+	display:inline-block;
+	text-indent:-9999px;
+	width:12px;
+	height:11px;
+	overflow:hidden;
+	padding:0 7px;
+}
+.bx-pager a.pager-active {
+	background:url(../img/page/top/pager02.png) no-repeat;
+	display:inline-block;
+	text-indent:-9999px;
+	width:12px;
+	height:11px;
+	overflow:hidden; 
+}
+
+
+/**
+.pure-u-2-5{
+  width : 290px !important;
+}
+.pure-u-3-5{
+  width : 439px !important;
+}
+
+
+.new_product_box .body section div.member_price strong {
+color: #A50000;
+*font-size: 160% !important;
+}
+**/
+
+/**トップのテキストスライド**/
+.top-area{
+	background:url(../img/page/banner/bnr_osusume.png) no-repeat;
+        width : 363px;
+        height : 39px;
+        padding : 231px 0 0 379px !important;
+}
+
+
+.ticker {
+        background-color: #FFF;
+	padding: 2px 0 2px 2px !important;
+	width: 341px;
+	text-align: left;
+	border: #ccc 1px solid;
+	position: relative;
+	overflow: hidden;
+}
+
+.ticker ul {
+	width: 100%;
+	position: relative;
+}
+
+.ticker ul li {
+	width: 100%;
+	display: none;
 }

@@ -86,7 +86,7 @@ select {
 
 /* 2カラム設定 (メイン部が右) */
 #two_maincolumn_right {
-    padding-right: 1.5%;
+    /**padding-right: 1.5%;**/
     width: 77%;
     float: right;
 }
@@ -711,4 +711,370 @@ div#complete_area .shop_information .name {
     left: 0;
     width: 5px;
     height: 9px;
+}
+
+
+/**ご利用案内**/
+
+a:hover {
+	text-decoration : underline;
+	opacity : 0.7;
+	filter : alpha(opacity=70);        /* ie lt 8 */
+	-ms-filter : "alpha(opacity=70)";  /* ie 8 */
+	-moz-opacity :0.7;                 /* FF lt 1.5, Netscape */
+	-khtml-opacity : 0.7;              /* Safari 1.x */
+	zoom : 1;
+}
+
+.goriyou-btn-area {
+  width : 960px;
+}
+.goriyou-btn {
+  overflow : hidden;
+  width : 957px;
+  margin : 0 auto;
+}
+.goriyou-btn-area li {
+  float : left;
+  width : 185px;
+}
+.mr8 {
+  margin-right : 8px;
+}
+.mb10 {
+  margin-bottom : 10px;
+}
+.mb20 {
+  margin-bottom : 20px;
+}
+.mt20 {
+  margin-top : 20px;
+}
+.content-area {
+  width : 960px;
+  overflow : hidden;
+  padding : 20px 0 100px;
+}
+.content-left {
+  float : left;
+  width : 480px;
+}
+.content-left02 {
+  float : left;
+  width : 394px;
+  padding-left : 86px;
+}
+.content-left p {
+  width : 410px;
+  padding : 0 50px 0 20px;
+}
+.order-btn {
+  width :960px;
+  height : 66px;
+  position : relative;
+  padding : 20px 0 30px;
+  border-bottom : 2px dotted #ccc;
+}
+.order-btn01 {
+  width : 166px;
+  position : absolute;
+  z-index: 6;
+}
+.order-btn02 {
+  width : 166px;
+  position : absolute;
+  left : 160px;
+  z-index: 5;
+}
+.order-btn03 {
+  width : 166px;
+  position : absolute;
+  left : 320px;
+  z-index: 4;
+}
+.order-btn04 {
+  width : 166px;
+  position : absolute;
+  left : 480px;
+  z-index: 3;
+}
+.order-btn05 {
+  width : 166px;
+  position : absolute;
+  left : 640px;
+  z-index: 2;
+}
+.order-btn06 {
+  width : 160px;
+  position : absolute;
+  left : 800px;
+  z-index: 1;
+}
+.content-area02 {
+  width : 940px;
+  overflow : hidden;
+  padding : 20px 10px 30px;
+  border-bottom : 2px dotted #ccc;
+}
+.content-left03 {
+  float : left;
+  width : 299px;
+  padding : 20px 30px 0 0;
+}
+.content-left04 {
+  float : left;
+  width : 611px;
+}
+.border0 {
+  border-style : none;
+}
+.mb70{
+  margin-bottom : 70px;
+}
+.step1-btn {
+  margin : 20px auto;
+  width : 275px;
+}
+.step2-btn {
+  margin : 20px auto;
+  width : 152px;
+}
+.step3-btn {
+  margin : 20px auto;
+  width : 207px;
+}
+.pb20 {
+  padding-bottom : 20px;
+}
+.border2 {
+  border-bottom : 2px dotted #ccc;
+}
+.mb30 {
+  margin-bottom : 30px;
+}
+.content-area03 {
+  width : 940px;
+  overflow : hidden;
+  padding : 20px 10px 30px;
+}
+.content-area03 ul li {
+  list-style-type: disc  !important;
+}
+
+.content-left05 {
+  float : left;
+  width : 412px;
+  padding-left : 15px;
+}
+.content-left06 {
+  float : left;
+  width : 513px;
+}
+.center01 {
+  width : 939px;
+  margin : 0 auto 100px;
+}
+.content-area04 {
+  width : 951px;
+  overflow : hidden;
+  margin : 0 auto 100px;
+}
+.content-left07 {
+  width : 297px;
+  float : left;
+}
+.mr30 {
+  margin-right : 30px;
+}
+.right {
+  text-align : right;
+}
+.content-area05 {
+  width : 940px;
+  overflow : hidden;
+  padding : 30px 0;
+}
+.content-area05 li {
+  width : 295px;
+  float : left;
+}
+.center-box {
+  width : 350px !important;
+}
+.center-btn {
+  margin : 0 auto;
+  width : 295px;
+}
+.payment-area,
+.after-area {
+  padding : 20px 10px 70px;
+  overflow : hidden;
+}
+.payment-area02,
+.after-area02 {
+  padding : 20px 0 70px;
+  overflow : hidden;
+}
+.mb70 {
+  margin-bottom : 70px;
+}
+.pl8 {
+  padding-left : 8px;
+}
+.pl10 {
+  padding-left : 10px;
+}
+.font-bold {
+  font-weight : bold;
+}
+.payment-left01 {
+  width : 179px;
+  float : left;
+}
+.payment-left02 {
+  width : 706px;
+  padding : 0 0 10px 31px;
+  float : left;
+  border-left : 2px dotted #ccc;
+}
+.content-area06{
+  width : 940px;
+  overflow : hidden;
+}
+.content-left08 {
+  width : 288px;
+  float : left;
+  padding-right : 20px;
+  border-right : 2px dotted #ccc;
+}
+.content-left09 {
+  width : 280px;
+  float : left;
+  padding : 0 20px;
+  border-right : 2px dotted #ccc;
+}
+.content-left10 {
+  width : 288px;
+  float : left;
+  padding-left : 20px;
+}
+.content-left11 {
+  float : left;
+  width : 449px;
+  padding-right : 20px;
+}
+.content-left12 {
+  float : left;
+  width : 449px;
+  padding : 0 10px 20px;
+  border-left : 2px dotted #ccc;
+}
+.otoiawase-area {
+  background: url(../img/goriyouannai/toiawase_bg.png) no-repeat;
+  width : 960px;
+  height : 201px;
+  position : relative;
+}
+.otoiawase-btn01 {
+  position : absolute;
+  top : 50px;
+  left : 650px;
+} 
+.otoiawase-btn02 {
+  position : absolute;
+  top : 113px;
+  left : 650px;
+} 
+.otoiawase-btn03 {
+  position : absolute;
+  top : 129px;
+  left : 525px;
+} 
+
+
+/**FAXでのご注文**/
+.fax-order-area{
+  width : 719px;
+  padding :20px  10px 70px;
+}
+.fax-bg-area{
+  width : 727px;
+  height : 137px;
+  position : relative;
+  background: url(../img/fax/fax_bg.png) no-repeat;
+}
+.fax-btn02{
+  position : absolute;
+  top : 70px;
+  left : 450px;
+}
+.reader-area{
+  width : 739px;
+  overflow : hidden;
+}
+.reader-left01{
+  float : left;
+  width : 112px;
+}
+.reader-left02{
+  float : left;
+  width : 605px;
+  padding-left : 10px;
+}
+h3.title02 {
+background-image: url(../img/page/common/h3_title.png);
+background-repeat: repeat-x;
+font-size: 120%;
+padding: 9px 25px;
+color: #000;
+position: relative;
+}
+span.font-n{
+  font-weight : normal !important;
+}
+.fax-order-area span{
+  color : red;
+}
+.pl20{
+  padding-left : 20px;
+}
+.lh2{
+  line-height : 2em !important;
+}
+.fax-order-area02{
+  width : 727px;
+  padding :20px  6px 70px;
+  overflow : hidden;
+}
+.fax-order-area02 li{
+  float : left;
+  width : 361px;
+}
+.mr5{
+  margin-right : 5px;
+}
+.fax-order-area03{
+  width : 719px;
+  padding :20px  10px 70px;
+  overflow : hidden;
+}
+.fax-left01{
+  width : 352px;
+  float : left;
+}
+.fax-left02{
+  width : 357px;
+  float : left;
+  padding : 10px 0 0 10px;
+}
+
+
+
+.warp{
+  padding : 10px !important;
+}
+.padding-box {
+  padding-left : 10px;
+  color : #000;
+  line-height : 1.8em;
 }

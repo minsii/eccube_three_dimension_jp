@@ -67,11 +67,11 @@
       <!--{assign var=point_rate value=`$arrProduct.point_rate`}-->
       
       <h2 class="title_s2"><!--{$arrProduct.name|h}--></h2>
-      
+      <div>
       <section class="osusume_point_box">
         <!--{$arrProductOther.comment6}--><!--{*詳細コメント3*}-->
       </section>
-      
+      </div>
       <div class="product_detail_box pure-g">
         <div class="pure-u-1-2">
           <div class="main_img">

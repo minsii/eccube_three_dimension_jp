@@ -63,7 +63,7 @@ FAX：<!--{if strlen($arrForm.fax01) > 0 && strlen($arrForm.fax02) > 0 && strlen
 <!--{else}-->
 女性
 <!--{/if}-->
-事業者区分：<!--{foreach key=key item=item from=$arrForm.company_type}--><!--{$arrCAMPANY_TYPE[$item]|h}-->  <!--{/foreach}-->
+事業者区分：<!--{foreach key=key item=item from=$arrForm.company_type}--><!--{$arrCAMPANY_TYPE[$item]|h}-->　 <!--{/foreach}-->
 
 パスワード：登録いただいたパスワード
 通信欄：<!--{$arrForm.message|h}-->

@@ -249,8 +249,8 @@
           <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
           <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
           <input type="hidden" name="product_class_id" id="product_class_id<!--{$id|h}-->" value="<!--{$tpl_product_class_id[$id]}-->" />
-                <div class="warp">
-                    <div class="heightLine">
+                <div class="warp heightLine">
+                    <div class="">
                       <h3><!--{if $arrProduct.product_code_min == $arrProduct.product_code_max}-->
                                     <!--{$arrProduct.product_code_min|h}-->
                                 <!--{else}-->
@@ -322,7 +322,7 @@
                             <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->"><img src="img/page/list/productlist/btn_variation.png" width="161" height="23" /></a>
                           <!--{else}-->
                             <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
-                            <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->'); return false;">
+                            <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->');return false;">
                               <img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_incart.png" width="96" height="23" alt="カゴへ入れる" />
                             </a>
                           <!--{/if}-->
