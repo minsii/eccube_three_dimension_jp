@@ -84,7 +84,7 @@
       <!-- ▼一覧画面 -->
       <h2 class="title"><!--{$arrCategory.category_name|h}--></h2>
       
-      <section class="sub_category">
+      <section class="sub_category mb20">
       	<h2><!--{$arrCategory.category_name|h}--> カテゴリー</h2>
         <!--{if is_array($arrChildCats) && count($arrChildCats) > 0}-->
         <ul>
@@ -98,18 +98,20 @@
         </ul>
         <!--{/if}-->
       </section>
-      
+
+      <div class="border-blue mb30">
       <section class="osusume_point_box">
+<div class="border-bottom">
       	<div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/img_01.png" width="111" height="111" /></div>
         <h3><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/title.png" width="293" height="19" alt="オススメポイント" /></h3>
         <p><!--{$arrCategory.category_info}--><!--{* カテゴリ説明1 *}--> </p>
-        <div class="clear"></div>
+        <div class="clear mb20"></div></div>
       </section>
 
       <!-- ▼お勧め商品 -->
       <!--{if count($arrRecommend)}-->
       <section class="osusume_shouhin_box pure-g">
-      	<h2><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/title.png" width="742" height="48" alt="コンシェルジュオオススメ商品" /></h2>
+      	<!--<h2><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumeshouhin/title.png" width="742" height="48" alt="コンシェルジュオオススメ商品" /></h2>-->
         <!--{section name=cnt loop=$arrRecommend}-->
         <!--{assign var=price01_min value=`$arrRecommend[cnt].price01_min`}-->
         <!--{assign var=price01_max value=`$arrRecommend[cnt].price01_max`}-->
@@ -117,6 +119,7 @@
         <!--{assign var=price02_max value=`$arrRecommend[cnt].price02_max`}-->
         <!--{assign var=point_rate value=`$arrRecommend[cnt].point_rate`}-->
         <div class="box">
+
        	  <div class="pure-u-1-2">
             <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrRecommend[cnt].product_id}-->"><img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrRecommend[cnt].main_image|h}-->" width="300" /></a><!--{* 商品画像 *}--> 
           </div>
@@ -129,7 +132,9 @@
             <!--{if $arrRecommend[cnt].recommend_comment}-->
             <h3><!--{$arrRecommend[cnt].recommend_comment|h}--><!--{* キャッチコピー *}--></h3>
             <!--{/if}-->
-            <p class="icon">
+
+ <p class="name-size mb20"><!--{$arrRecommend[cnt].name|h}--></p>
+            <p class="icon mb20">
               <!--▼商品ステータス-->
               <!--{assign var=ps value=$arrRecommend[cnt].product_status}-->
               <!--{foreach from=$ps item=status}-->
@@ -137,8 +142,8 @@
               <!--{/foreach}-->
               <!--▲商品ステータス-->
             </p>
-            <p><!--{$arrRecommend[cnt].name|h}--></p>
-            <p>一般価格 
+           
+            <p class="mb20">一般価格 
             <!--{if $arrRecommend[cnt].taxfree == 1}-->
             ￥<!--{if $price01_min == $price01_max}-->
                                   <!--{$price01_min|number_format}-->
@@ -155,29 +160,29 @@
             </p>
             <!--{if $tpl_is_login}-->
               <div class="member_price">
-                  <p><em>会員特別価格</em>
+                  <p class="price-size">会員特別価格
                       <!--{if $arrRecommend[cnt].taxfree == 1}-->
                       <strong>￥<!--{if $price02_min == $price02_max}-->
                                   <!--{$price02_min|number_format}-->
                               <!--{else}-->
                                   <!--{$price02_min|number_format}-->～<!--{$price02_max|number_format}-->
-                              <!--{/if}--></strong><em>(税抜)</em>
+                              <!--{/if}-->(税抜)</strong>
                       <!--{else}-->
                       <strong>￥<!--{if $price02_min == $price02_max}-->
                                   <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
                               <!--{else}-->
                                   <!--{$price02_min|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->～<!--{$price02_max|sfCalcIncTax:$arrSiteInfo.tax:$arrSiteInfo.tax_rule|number_format}-->
-                              <!--{/if}--></strong><em>(税込)</em>
+                              <!--{/if}-->(税込)</strong>
                       <!--{/if}-->
                   </p>
                   <!--{if $smarty.const.USE_POINT === true}-->
-                  <p>ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
+                  <p class="mb20">ポイント:<!--{if $price02_min|sfPrePoint:$point_rate == $price02_max|sfPrePoint:$point_rate}-->
                                 <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->
                             <!--{else}-->
                                 <!--{$price02_min|sfPrePoint:$point_rate|number_format}-->～<!--{$price02_max|sfPrePoint:$point_rate|number_format}-->
                             <!--{/if}-->pt</p>
                   <!--{/if}-->
-                  <p><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrRecommend[cnt].product_id}-->">詳細を見る</a></p>
+                  <p><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrRecommend[cnt].product_id}-->"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_shosai.png" width="132" height="33" alt="詳細を見る" /></a></p>
               </div>
             <!--{else}-->
               <div class="btn">
@@ -189,6 +194,7 @@
         <!--{/section}-->
       </section>
       <!--{/if}-->
+      </div>
       <!-- ▲お勧め商品 -->
       
       <div class="product_list_box pure-form pure-form-stacked">
@@ -244,7 +250,7 @@
           <!--{assign var=price02_max value=`$arrProduct.price02_max`}-->
           <!--{assign var=point_rate value=`$arrProduct.point_rate`}-->
         	<section class="pure-u-1-4">
-          <a name="product<!--{$id|h}-->">
+          <a name="product<!--{$id|h}-->"></a>
           <form name="product_form<!--{$id|h}-->" action="?" onsubmit="return false;">
           <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
           <input type="hidden" name="product_id" value="<!--{$id|h}-->" />
@@ -256,7 +262,7 @@
                                 <!--{else}-->
                                     <!--{$arrProduct.product_code_min|h}-->～<!--{$arrProduct.product_code_max|h}-->
                                 <!--{/if}--></h3>
-                      <p class="icon">
+                      <p class="icon02">
                         <!--▼商品ステータス-->
                         <!--{assign var=ps value=$productStatus[$id]}-->
                         <!--{foreach from=$ps item=status}-->
@@ -264,12 +270,13 @@
                         <!--{/foreach}-->
                         <!--▲商品ステータス-->
                       </p>
+                      <div><!--{$arrProduct.main_list_comment|h|nl2br}--></div>
                       <div class="img">
                         <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->">
-                          <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="165" />
+                          <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="155" />
                         </a><!--{* 商品画像 *}-->
                       </div>
-                      <p class="content"><!--{$arrProduct.name|h}--></p>
+                      <p class="content name-bold"><!--{$arrProduct.name|h}--></p>
                     </div>
                     <p class="price">一般価格　
                     <!--{if $arrProduct.taxfree == 1}-->
@@ -288,7 +295,7 @@
                     </p>
                     <!--{if $tpl_is_login}-->
                       <div class="member_price">
-                          <p><em>会員特別価格</em></p>
+                          <p class="price-size"><em>会員特別価格</em></p>
                           <p>
                           <!--{if $arrProduct.taxfree == 1}-->
                           <strong>￥<!--{if $price02_min == $price02_max}-->
