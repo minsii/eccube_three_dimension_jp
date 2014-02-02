@@ -46,6 +46,8 @@
 <!--{*## 事例問い合わせ ADD BEGIN ##*}--><!--{if $smarty.const.USE_PRODUCT_CONTACT === true && $arrForm.example_name.value}-->
 ■お問い合わせ対象事例名　：<!--{$arrForm.example_name.value|h}-->
 <!--{/if}--><!--{*## 事例問い合わせ ADD END ##*}-->
+■事業所名：<!--{$arrForm.company.value}-->
+■事業所番号：<!--{$arrForm.company_no.value}-->
 ■お名前　：<!--{$arrForm.name01.value}--> <!--{$arrForm.name02.value}--> (<!--{$arrForm.kana01.value}--> <!--{$arrForm.kana02.value}-->) 様
 ■郵便番号：<!--{if $arrForm.zip01.value && $arrForm.zip02.value}-->〒<!--{$arrForm.zip01.value}-->-<!--{$arrForm.zip02.value}--><!--{/if}-->
 
