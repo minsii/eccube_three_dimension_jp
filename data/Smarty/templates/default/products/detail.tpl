@@ -260,7 +260,7 @@
         <!--▲規格リスト-->
         
         <div class="pure-g-r">
-          <div class="pure-u-1-4"></div>
+          <div class="pure-u-1-4 allbuy"></div>
           <div class="pure-u-1-4"></div>
           <div class="pure-u-1-4"></div>
           <div class="pure-u-1-4 r-btn">

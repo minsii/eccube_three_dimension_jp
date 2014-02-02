@@ -21,7 +21,6 @@
 
 <!--{if $tpl_classcat_find1}-->
 <div class="classlist">
-	<p class="red">※おまとめご購入は「まとめ買い」ボタンをクリックして、規格選択後「購入」にチェックを入れてカゴに入れて下さい。</p>
 	<table id="classTable" class="product_style_tbl">
 	  <tr>
 		  <th>カタログ番号</th>

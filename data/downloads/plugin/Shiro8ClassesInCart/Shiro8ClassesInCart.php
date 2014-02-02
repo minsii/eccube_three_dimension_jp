@@ -182,6 +182,7 @@ class Shiro8ClassesInCart extends SC_Plugin_Base {
                     $objTransform->select('div.classlist', NULL, false)->replaceElement(file_get_contents($template_dir . 'shiro8_classesincart_products_detail_add.tpl'));
                     $objTransform->select('dl.quantity', NULL, false)->removeElement();
                     /*## まとめ買いカスタマイズ ## MDF BEGIN*/
+                    $objTransform->select('div.allbuy', NULL, false)->replaceElement(file_get_contents($template_dir . 'shiro8_classesincart_allbuybtn_replace.tpl'));
 //                    $objTransform->select('div#cartbtn_default', NULL, false)->replaceElement(file_get_contents($template_dir . 'shiro8_classesincart_cartbtn_replace.tpl'));
                     /*## まとめ買いカスタマイズ ## MDF END*/  
                 }
