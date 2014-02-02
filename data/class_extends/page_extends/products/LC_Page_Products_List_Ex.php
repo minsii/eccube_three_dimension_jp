@@ -479,7 +479,8 @@ class LC_Page_Products_List_Ex extends LC_Page_Products_List {
         
         /*## キーワードで商品検索 ADD BEGIN ##*/
         if ($arrSearchData['keyword']) {
-            $searchCondition['where']   .= " AND alldtl.comment3 ILIKE ? ";
+            $searchCondition['where']   .= " AND (alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ";
+            $searchCondition['arrval'][] = "%". $arrSearchData['keyword']. "%";
             $searchCondition['arrval'][] = "%". $arrSearchData['keyword']. "%";
         }
         /*## キーワードで商品検索 ADD END ##*/
