@@ -28,19 +28,50 @@
 	});
 
   });
-//]]></script>    <!--▼カテゴリここから-->
+//]]></script>
+<!--▼カテゴリここから-->
 <p><section class="category_box">
 <h2>カテゴリ</h2>
 <div id="categoryarea">
-<ul id="categorytree">    <!--{assign var=preLev value=1}-->    <!--{assign var=firstdone value=0}-->    <!--{section name=cnt loop=$arrTree}-->    <!--{* 表示フラグがTRUEなら表示 *}-->    <!--{if $arrTree[cnt].display == 1}-->    <!--{assign var=level value=`$arrTree[cnt].level`}-->    <!--{assign var=levdiff value=`$level-$preLev`}-->    <!--{if $levdiff > 0}-->
-    <ul>      <!--{elseif $levdiff == 0 && $firstdone == 1}-->            <!--{elseif $levdiff < 0}-->      <!--{section name=d loop=`$levdiff*-1`}-->           </ul>
-        <!--{/section}-->            <!--{/if}-->
-        <li class="level<!--{$level}--><!--{if in_array($arrTree[cnt].category_id, $tpl_category_id) }--> onmark<!--{/if}-->"><!--{if $level == 1}-->
-        <p><a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrTree[cnt].category_id}-->">             <img src="<!--{$TPL_URLPATH}-->img/page/bloc/category_box/bnr_category_<!--{$arrTree[cnt].category_id|string_format:'%02d'}-->.png" width="199" height="48" alt="<!--{$arrTree[cnt].category_name|escape}-->" />           </a></p>
-        <!--{else}-->
-        <p><span> &gt; </span><a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrTree[cnt].category_id}-->"><!--{$arrTree[cnt].category_name|escape}--></a></p>
-        <!--{/if}-->      <!--{if $firstdone == 0}--><!--{assign var=firstdone value=1}--><!--{/if}-->      <!--{assign var=preLev value=`$level`}-->      <!--{/if}-->      <!--{* セクションの最後に閉じタグを追加 *}-->      <!--{if $smarty.section.cnt.last}-->      <!--{if $preLev-1 > 0 }-->      <!--{section name=d loop=`$preLev-1`}--></li>
-    </ul>
-    <!--{/section}-->        <!--{else}-->        <!--{/if}-->    <!--{/if}-->    <!--{/section}--></div>
-    </section></p>
-    <!--▲カテゴリここまで-->
+<ul id="categorytree">
+<!--{assign var=preLev value=1}-->
+<!--{assign var=firstdone value=0}-->
+<!--{section name=cnt loop=$arrTree}-->
+
+    <!--{assign var=level value=`$arrTree[cnt].level`}-->
+    <!--{assign var=levdiff value=`$level-$preLev`}-->
+    <!--{if $levdiff > 0}-->
+        <ul>
+    <!--{elseif $levdiff == 0 && $firstdone == 1}-->
+    <!--{elseif $levdiff < 0}-->
+      <!--{section name=d loop=`$levdiff*-1`}-->
+      </ul>
+      <!--{/section}-->
+    <!--{/if}-->
+    <li class="level<!--{$level}--><!--{if in_array($arrTree[cnt].category_id, $tpl_category_id) }--> onmark<!--{/if}-->">
+    <!--{if $level == 1}-->
+      <p><a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrTree[cnt].category_id}-->">
+      <img src="<!--{$TPL_URLPATH}-->img/page/bloc/category_box/bnr_category_<!--{$arrTree[cnt].category_id|string_format:'%02d'}-->.png" width="199" height="48" alt="<!--{$arrTree[cnt].category_name|escape}-->" />
+      </a></p>
+    <!--{else}-->
+      <p><span> &gt; </span><a href="<!--{$smarty.const.P_LIST_URLPATH|sfGetFormattedUrl:$arrTree[cnt].category_id}-->"><!--{$arrTree[cnt].category_name|escape}--></a></p>
+    <!--{/if}-->
+    <!--{if $firstdone == 0}-->
+      <!--{assign var=firstdone value=1}-->
+    <!--{/if}-->
+    <!--{assign var=preLev value=`$level`}-->
+
+    <!--{* セクションの最後に閉じタグを追加 *}-->
+    <!--{if $smarty.section.cnt.last}-->
+      <!--{if $preLev-1 > 0 }-->
+        <!--{section name=d loop=`$preLev-1`}-->
+          </li>
+        </ul>
+        <!--{/section}-->
+      <!--{else}-->
+      <!--{/if}-->
+    <!--{/if}-->
+<!--{/section}-->
+</div>
+</section></p>
+<!--▲カテゴリここまで-->
