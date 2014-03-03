@@ -23,6 +23,7 @@
 
 // {{{ requires
 require_once CLASS_REALDIR . 'pages/admin/order/LC_Page_Admin_Order_Pdf.php';
+require_once CLASS_EX_REALDIR . 'SC_OrderDetail_Fpdf_Ex.php';
 
 /**
  * 帳票出力 のページクラス(拡張).
@@ -45,6 +46,8 @@ class LC_Page_Admin_Order_Pdf_Ex extends LC_Page_Admin_Order_Pdf {
      */
     function init() {
         parent::init();
+        
+        $this->arrType[1]  = '受注明細書';
     }
 
     /**
@@ -63,5 +66,45 @@ class LC_Page_Admin_Order_Pdf_Ex extends LC_Page_Admin_Order_Pdf {
      */
     function destroy() {
         parent::destroy();
+    }
+    
+    /**
+     *
+     * PDFの作成
+     * @param SC_FormParam $objFormParam
+     */
+    function createPdf(&$objFormParam) {
+
+        $arrErr = $this->lfCheckError($objFormParam);
+        $arrRet = $objFormParam->getHashArray();
+
+        $this->arrForm = $arrRet;
+        // エラー入力なし
+        if (count($arrErr) == 0) {
+        	switch($this->arrForm["type"]){
+        		case "0":
+        			$objFpdf = new SC_Fpdf_Ex($arrRet['download'], $arrRet['title']);
+        			foreach ($arrRet['order_id'] AS $key => $val) {
+        				$arrPdfData = $arrRet;
+        				$arrPdfData['order_id'] = $val;
+        				$objFpdf->setData($arrPdfData);
+        			}
+        			$objFpdf->createPdf();
+        			break;
+        		case "1":
+        			$objFpdf = new SC_OrderDetail_Fpdf_Ex($arrRet['download'], $arrRet['title']);
+        			foreach ($arrRet['order_id'] AS $key => $val) {
+        				$arrPdfData = $arrRet;
+        				$arrPdfData['order_id'] = $val;
+        				$objFpdf->setData($arrPdfData);
+        			}
+        			$objFpdf->createPdf();
+        			break;
+        	}
+            
+            return true;
+        } else {
+            return $arrErr;
+        }
     }
 }
