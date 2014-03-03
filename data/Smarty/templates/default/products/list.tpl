@@ -102,9 +102,9 @@
       <div class="border-blue mb30">
       <section class="osusume_point_box">
 <div class="border-bottom">
-      	<div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/img_01.png" width="111" height="111" /></div>
-        <h3><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/title.png" width="293" height="19" alt="オススメポイント" /></h3>
-        <p><!--{$arrCategory.category_info}--><!--{* カテゴリ説明1 *}--> </p>
+      	<!--<div class="img"><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/img_01.png" width="111" height="111" /></div>-->
+        <!--<h3><img src="<!--{$TPL_URLPATH}-->img/page/list/osusumepoint/title.png" width="293" height="19" alt="オススメポイント" /></h3>-->
+        <!--<p><!--{$arrCategory.category_info}--><!--{* カテゴリ説明1 *}--> </p>-->
         <div class="clear mb20"></div></div>
       </section>
 
@@ -276,7 +276,7 @@
                           <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="155" />
                         </a><!--{* 商品画像 *}-->
                       </div>
-                      <p class="content name-bold"><!--{$arrProduct.name|h}--></p>
+                      <p class="content name-bold"><!--{$arrProduct.name|mb_substr:0:24|h}--><!--{if $arrProduct.name|mb_strlen > 24}-->...<!--{/if}--></p>
                     </div>
                     <p class="price">一般価格　
                     <!--{if $arrProduct.taxfree == 1}-->
@@ -326,7 +326,7 @@
                           <span class="attention"><!--{$arrErr.quantity}--></span><br />
                           <!--{/if}-->
                           <!--{if $tpl_classcat_find1[$id]}--><!--{ *バリエーション一覧へ* }-->
-                            <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->"><img src="img/page/list/productlist/btn_variation.png" width="161" height="23" /></a>
+                            <a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrProduct.product_id}-->"><img src="<!--{$TPL_URLPATH}-->img/page/list/productlist/btn_variation.png" width="161" height="23" /></a>
                           <!--{else}-->
                             <span>数量:<input type="text"  name="quantity" class="box30" value="<!--{$arrProduct.quantity|default:1|h}-->" maxlength="<!--{$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->"/></span>
                             <a href="#" onclick="fnInCart('product_form<!--{$id|h}-->');return false;">

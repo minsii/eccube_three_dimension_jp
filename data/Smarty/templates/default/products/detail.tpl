@@ -68,13 +68,13 @@
       
       <h2 class="title_s2"><!--{$arrProduct.name|h}--></h2>
       <div>
-      <section class="osusume_point_box">
+      <section class="osusume_point_box mb10">
         <!--{$arrProductOther.comment6}--><!--{*詳細コメント3*}-->
       </section>
       </div>
       <div class="product_detail_box pure-g">
         <div class="pure-u-1-2">
-          <div class="main_img">
+          <div class="main_img mb10">
           <!--★画像★-->
           <!--{if $arrProduct.main_large_image|strlen >= 1}--><a href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_large_image|h}-->" class="lightbox" id="mainimage_a"><!--{/if}-->
             <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_large_image|h}-->" alt="<!--{$arrProduct.name|h}-->" width="360" name="mainimage" id="mainimage"/>
@@ -88,7 +88,7 @@
               <!--{assign var=key value="sub_image`$smarty.section.cnt.iteration`"}-->
               <!--{assign var=key1 value="sub_large_image`$smarty.section.cnt.iteration`"}-->
               <!--{if $arrProductOther[$key]|strlen >= 1}-->
-                <li class="pure-u-1-4"><div>
+                <li class="pure-u-1-4 img-hidden"><div>
                   <!--{if $arrProductOther[$key1]|strlen >= 1}--><a href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProductOther[$key1]|h}-->" class="lightbox"><!--{/if}-->
                   <img src="<!--{$arrFile[$key].filepath|h}-->" width="84" alt="<!--{$arrProductOther[$key_title]|h}-->"/>
                   <!--{if $arrProductOther[$key1]|strlen >= 1}--></a><!--{/if}-->
@@ -118,7 +118,10 @@
             	    <li class="icon">
                     <!--{foreach from=$ps item=status}-->
                     <div class="item l-box">
-                      <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE2[$status]}-->" width="34" height="34" alt="<!--{$arrSTATUS2[$status]}-->"/><span><!--{$arrSTATUS2[$status]}--></span>
+<!--{*
+                      <img src="<!--{$TPL_URLPATH}--><!--{$arrSTATUS_IMAGE2[$status]}-->" width="34" height="34" alt="<!--{$arrSTATUS2[$status]}-->"/>
+*}-->
+<span><!--{$arrSTATUS2[$status]}--></span>
                     </div>
                     <!--{/foreach}-->
                   </li>
@@ -311,7 +314,9 @@
       
       <section class="product_description">
       <h2>製品特徴</h2>
+<div class="description-box">
       <!--{$arrProductOther.comment5}--><!--{*詳細コメント2*}-->
+</div>
       </section>
       
 
