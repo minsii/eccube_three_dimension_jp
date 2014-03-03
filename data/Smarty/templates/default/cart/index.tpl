@@ -131,7 +131,7 @@
                                 <img src="<!--{$smarty.const.ROOT_URLPATH}-->resize_image.php?image=<!--{$item.productsClass.main_list_image|sfNoImageMainList|h}-->&amp;width=65&amp;height=65" alt="<!--{$item.productsClass.name|h}-->" />
                             </a>
                         </td>
-                        <td><!--{* 商品名 *}--><strong><!--{$item.productsClass.name|h}--></strong><br />
+                        <td><!--{* 商品名 *}--><strong><!--{$item.productsClass.name|h}--><!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $item.productsClass.taxfree == 1}-->【非課税】<!--{/if}--></strong><br />
                             <!--{if $item.productsClass.classcategory_name1 != ""}-->
                                 <!--{$item.productsClass.class_name1}-->：<!--{$item.productsClass.classcategory_name1}--><br />
                             <!--{/if}-->

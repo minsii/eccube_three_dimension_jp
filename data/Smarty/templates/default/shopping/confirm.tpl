@@ -97,7 +97,7 @@ $(document).ready(function() {
                     </td>
                     <td>
                         <ul>
-                            <li><strong><!--{$item.productsClass.name|h}--></strong></li>
+                            <li><strong><!--{$item.productsClass.name|h}--><!--{if $smarty.const.USE_TAXFREE_PRODUCT === true && $item.productsClass.taxfree == 1}-->【非課税】<!--{/if}--></strong></li>
                             <!--{if $item.productsClass.classcategory_name1 != ""}-->
                             <li><!--{$item.productsClass.class_name1}-->：<!--{$item.productsClass.classcategory_name1}--></li>
                             <!--{/if}-->

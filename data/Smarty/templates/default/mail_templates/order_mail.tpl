@@ -50,7 +50,8 @@
 
 <!--{section name=cnt loop=$arrOrderDetail}-->
 商品コード: <!--{$arrOrderDetail[cnt].product_code}-->
-商品名: <!--{$arrOrderDetail[cnt].product_name}--> <!--{$arrOrderDetail[cnt].classcategory_name1}--> <!--{$arrOrderDetail[cnt].classcategory_name2}-->
+商品名: <!--{$arrOrderDetail[cnt].product_name}--> <!--{$arrOrderDetail[cnt].classcategory_name1}--> <!--{$arrOrderDetail[cnt].classcategory_name2}--> <!--{if $arrOrderDetail[cnt].taxfree == 1}-->【非課税】<!--{/if}-->
+
 <!--{*## 追加規格 ADD BEGIN ##*}-->
 <!--{if $smarty.const.USE_EXTRA_CLASS === true}-->
     <!--{foreach key=extcls_id item=extclscat_id from=$arrOrderDetail[cnt].extra_info.extra_classcategory_id}-->

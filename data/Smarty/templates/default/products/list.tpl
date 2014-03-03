@@ -133,7 +133,7 @@
             <h3><!--{$arrRecommend[cnt].recommend_comment|h}--><!--{* キャッチコピー *}--></h3>
             <!--{/if}-->
 
- <p class="name-size mb20"><!--{$arrRecommend[cnt].name|h}--></p>
+ <p class="name-size mb20"><!--{$arrRecommend[cnt].name|h}--><!--{if $arrRecommend[cnt].taxfree == 1}-->【非課税】<!--{/if}--></p>
             <p class="icon mb20">
               <!--▼商品ステータス-->
               <!--{assign var=ps value=$arrRecommend[cnt].product_status}-->
@@ -276,7 +276,7 @@
                           <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH|sfTrimURL}-->/<!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" alt="<!--{$arrProduct.name|h}-->" width="155" />
                         </a><!--{* 商品画像 *}-->
                       </div>
-                      <p class="content name-bold"><!--{$arrProduct.name|mb_substr:0:24|h}--><!--{if $arrProduct.name|mb_strlen > 24}-->...<!--{/if}--></p>
+                      <p class="content name-bold"><!--{$arrProduct.name|mb_substr:0:24|h}--><!--{if $arrProduct.name|mb_strlen > 24}-->...<!--{/if}--><!--{if $arrProduct.taxfree == 1}-->【非課税】<!--{/if}--></p>
                     </div>
                     <p class="price">一般価格　
                     <!--{if $arrProduct.taxfree == 1}-->

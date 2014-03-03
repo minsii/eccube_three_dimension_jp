@@ -84,6 +84,9 @@ class SC_Fpdf_Ex extends SC_Fpdf {
                     $arrOrder[$i][0] .= ' * '.$this->arrDisp['classcategory_name2'][$i].' ]';
                 }
             }
+            if($this->arrDisp['taxfree'][$i]){
+            	$arrOrder[$i][0] .= '【非課税】';
+            }
             $arrOrder[$i][1]  = number_format($data[0]);
             $arrOrder[$i][2]  = number_format($data[1]).$monetary_unit;
             $arrOrder[$i][3]  = number_format($data[2]).$monetary_unit;
@@ -147,5 +150,15 @@ class SC_Fpdf_Ex extends SC_Fpdf {
         }
 
         $this->FancyTable($this->label_cell, $arrOrder, $this->width_cell);
+    }
+    
+    // 受注詳細データの取得
+    function lfGetOrderDetail($order_id) {
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $col = 'product_id, product_class_id, product_code, product_name, classcategory_name1, classcategory_name2, price, quantity, point_rate, taxfree';
+        $where = 'order_id = ?';
+        $objQuery->setOrder('order_detail_id');
+        $arrRet = $objQuery->select($col, 'dtb_order_detail', $where, array($order_id));
+        return $arrRet;
     }
 }

@@ -66,7 +66,7 @@
       <!--{assign var=price02_max value=`$arrProduct.price02_max`}-->
       <!--{assign var=point_rate value=`$arrProduct.point_rate`}-->
       
-      <h2 class="title_s2"><!--{$arrProduct.name|h}--></h2>
+      <h2 class="title_s2"><!--{$arrProduct.name|h}--><!--{if $arrProductOther.taxfree == 1}-->【非課税】<!--{/if}--></h2>
       <div>
       <section class="osusume_point_box mb10">
         <!--{$arrProductOther.comment6}--><!--{*詳細コメント3*}-->
@@ -110,7 +110,7 @@
               </p>
             <!--{/if}-->
             <!--▲商品ステータス-->
-            <h3><!--{$arrProduct.name|h}--></h3>
+            <h3><!--{$arrProduct.name|h}--><!--{if $arrProductOther.taxfree == 1}-->【非課税】<!--{/if}--></h3>
             <ul>
                 <!--▼商品ステータス2-->
                 <!--{assign var=ps value=$productStatus2[$tpl_product_id]}-->
@@ -352,7 +352,7 @@
                           <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrItem.main_list_image|h}-->" width="165" alt="<!--{$arrItem.name|h}-->" />
                         </a>
                       </div>
-                      <p class="content"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->"><!--{$arrItem.name|h}--></a></p>
+                      <p class="content"><a href="<!--{$smarty.const.P_DETAIL_URLPATH|sfGetFormattedUrl:$arrItem.product_id}-->"><!--{$arrItem.name|h}--><!--{if $taxfree == 1}-->【非課税】<!--{/if}--></a></p>
                       <p class="price">一般価格　
                         <!--{if $taxfree == 1}-->
                           ￥<!--{if $price01_min == $price01_max}-->
