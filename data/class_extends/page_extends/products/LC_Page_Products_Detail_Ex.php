@@ -333,7 +333,7 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
         
         /*## 商品ステータス2、ステータス3を追加 ## ADD BEGIN*/
         $this->productStatus2 = $objProduct->getProductStatus2($product_id);
-        $this->productStatus3 = $objProduct->getProductStatus2($product_id);
+        $this->productStatus3 = $objProduct->getProductStatus3($product_id);
         /*## 商品ステータス2、ステータス3を追加 ADD END ##*/
 
         // 画像ファイル指定がない場合の置換処理
@@ -368,7 +368,6 @@ class LC_Page_Products_Detail_Ex extends LC_Page_Products_Detail {
         /*## SEO管理 ## ADD BEGIN*/
         $this->lfSetPageInfo($product_id);
         /*## SEO管理 ## ADD END*/
-        
     }
         
     /*## 追加商品詳細情報 ADD BEGIN ##*/
