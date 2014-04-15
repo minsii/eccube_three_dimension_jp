@@ -37,7 +37,7 @@ class SC_PageNavi_Ex extends SC_PageNavi {
     	if($this->now_page == $this->max_page){
     		$this->end_row = $this->all_row;
     	}else{
-    		$this->end_row = $this->start_row + $page_row * $this->now_page;
+    		$this->end_row = $this->start_row + $page_row;
     	}
     	$this->arrPagenavi['start_row'] = $this->start_row + 1;
     	$this->arrPagenavi['end_row'] = $this->end_row;

@@ -16,7 +16,10 @@ function fnNaviPage1(pageno) {
   <!--{foreach item=pageno from=$arrPagenavi.arrPageno}-->
     <!--{assign var=fst value=""}-->
     <li>
-      <!--{if $pageno == $arrPagenavi.now_page}--><!--{$pageno}-->
+      <!--{if $pageno == $arrPagenavi.now_page}-->
+        <!--{if $pageno < $arrPagenavi.next}--><!--{*真ん中のページの場合*}-->
+          <span style="border-right:1px solid #ccc; padding:2px 6px;"><!--{$pageno}--></span>
+        <!--{else}--><!--{$pageno}--><!--{/if}-->
       <!--{else}-->
       <a href="#" onclick="fnNaviPage1('<!--{$pageno}-->');return false;"><!--{$pageno}--></a>
       <!--{/if}-->
